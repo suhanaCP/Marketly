@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketly — Find Any Business</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --blue: #075fc9;
+      --blue-dark: #034ea9;
+      --black: #02070f;
+      --ink: #050b16;
+      --muted: #536173;
+      --border: #dfe7f1;
+      --soft: #f6f9fc;
+      --ice: #e9f5ff;
+      --yellow: #f5c33b;
+      --white: #ffffff;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+      --shadow-strong: 0 24px 60px rgba(15, 23, 42, 0.15);
+      --container: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--white);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+    }
+
+    .navbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-icon {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 12px 28px rgba(7, 95, 201, 0.28);
+    }
+
+    .brand-icon svg {
+      width: 23px;
+      height: 23px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      color: #364354;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: transparent;
+      font-weight: 800;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 12px 24px rgba(7, 95, 201, 0.24);
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-dark);
+    }
+
+    .btn-light {
+      background: var(--white);
+      border-color: var(--border);
+      color: var(--ink);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: rgba(255, 255, 255, 0.2);
+      color: var(--white);
+    }
+
+    .btn-link {
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 640px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(2, 7, 15, 0.95) 0%, rgba(2, 7, 15, 0.8) 46%, rgba(7, 95, 201, 0.66) 100%),
+        url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2200&q=85") center / cover;
+      color: var(--white);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle at 84% 28%, rgba(255,255,255,0.15) 0 2px, transparent 3px),
+        radial-gradient(circle at 75% 48%, rgba(255,255,255,0.1) 0 2px, transparent 3px),
+        linear-gradient(120deg, transparent 0 63%, rgba(255,255,255,0.06) 63.1%, transparent 63.35% 100%),
+        linear-gradient(35deg, transparent 0 76%, rgba(255,255,255,0.05) 76.1%, transparent 76.35% 100%);
+      opacity: 0.65;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 138px 0 0;
+      max-width: 780px;
+    }
+
+    .trust-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 15px;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.92);
+      font-size: 15px;
+      font-weight: 800;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero h1 {
+      margin: 30px 0 20px;
+      color: var(--white);
+      font-size: clamp(40px, 7vw, 76px);
+      line-height: 1.05;
+      letter-spacing: -0.075em;
+      font-weight: 900;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 0;
+      color: rgba(255,255,255,0.86);
+      font-size: 22px;
+      line-height: 1.45;
+    }
+
+    .search-card {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.35fr 0.95fr 1fr 140px;
+      gap: 8px;
+      margin-top: 58px;
+      padding: 12px;
+      border: 3px solid var(--yellow);
+      border-radius: 24px;
+      background: var(--white);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .search-field {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid transparent;
+      border-radius: 16px;
+      background: var(--soft);
+      padding: 0 16px;
+      color: var(--muted);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .search-field svg {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+      color: #526171;
+    }
+
+    .search-field:focus-within {
+      border-color: rgba(7, 95, 201, 0.4);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(7, 95, 201, 0.12);
+    }
+
+    .search-field input,
+    .search-field select {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .hero-badges {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-top: 24px;
+      color: rgba(255,255,255,0.88);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .hero-badges span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section {
+      padding: 82px 0;
+    }
+
+    .section-soft {
+      background: var(--soft);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(34px, 4vw, 44px);
+      line-height: 1.1;
+      letter-spacing: -0.055em;
+      font-weight: 900;
+    }
+
+    .section-subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 19px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+    }
+
+    .category-card {
+      min-height: 150px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--white);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(7, 95, 201, 0.25);
+      box-shadow: var(--shadow);
+    }
+
+    .category-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      border-radius: 20px;
+      background: var(--ice);
+      color: var(--blue);
+    }
+
+    .category-icon svg {
+      width: 27px;
+      height: 27px;
+    }
+
+    .category-card h3 {
+      margin: 0 0 3px;
+      font-size: 21px;
+      line-height: 1.2;
+      letter-spacing: -0.04em;
+    }
+
+    .category-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .listing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .listing-card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .listing-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .listing-image {
+      position: relative;
+      height: 236px;
+      overflow: hidden;
+    }
+
+    .listing-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .listing-card:hover .listing-image img {
+      transform: scale(1.04);
+    }
+
+    .listing-tag {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+
+    .listing-body {
+      padding: 20px;
+    }
+
+    .listing-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .listing-top h3 {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.25;
+      letter-spacing: -0.035em;
+    }
+
+    .rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 10px;
+      border-radius: 12px;
+      background: var(--blue);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .location {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .listing-foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .price {
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .owner-section {
+      background: var(--black);
+      color: var(--white);
+      padding: 80px 0;
+    }
+
+    .owner-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .owner-label {
+      display: inline-flex;
+      padding: 7px 16px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 999px;
+      color: rgba(255,255,255,0.88);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .owner-copy {
+      margin: 36px 0 28px;
+      color: rgba(255,255,255,0.78);
+      font-size: 20px;
+      line-height: 1.45;
+    }
+
+    .owner-benefits {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .owner-benefit {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .owner-benefit .benefit-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 16px;
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    .owner-benefit strong {
+      display: block;
+      color: var(--white);
+      font-size: 21px;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .owner-benefit p {
+      margin: 3px 0 0;
+      color: rgba(255,255,255,0.72);
+      font-size: 17px;
+    }
+
+    .owner-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .stat-card {
+      min-height: 116px;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .stat-card strong {
+      display: block;
+      color: var(--white);
+      font-size: 26px;
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .stat-card span {
+      color: rgba(255,255,255,0.72);
+      font-size: 14px;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .review-card {
+      padding: 26px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .stars {
+      color: #e5a100;
+      font-size: 18px;
+      letter-spacing: 2px;
+    }
+
+    .review-card blockquote {
+      margin: 16px 0 22px;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .reviewer {
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .reviewer strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .reviewer span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .cta-box {
+      padding: 58px 28px;
+      border-radius: 28px;
+      background: var(--blue);
+      color: var(--white);
+      text-align: center;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .cta-box h2 {
+      margin: 0 0 12px;
+      color: var(--white);
+      font-size: clamp(34px, 5vw, 52px);
+      line-height: 1.08;
+      letter-spacing: -0.055em;
+    }
+
+    .cta-box p {
+      max-width: 650px;
+      margin: 0 auto 28px;
+      color: rgba(255,255,255,0.84);
+      font-size: 16px;
+    }
+
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .site-footer {
+      padding: 56px 0 28px;
+      background: var(--soft);
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 34px;
+    }
+
+    .footer-text {
+      margin: 18px 0 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+    }
+
+    .socials a {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--white);
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .footer-grid h4 {
+      margin: 0 0 14px;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .footer-grid a:not(.brand) {
+      display: block;
+      margin: 10px 0;
+      color: #435064;
+      font-size: 12px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 34px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 1120px) {
+      .category-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .search-card {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .search-card .btn {
+        grid-column: span 2;
+      }
+
+      .owner-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .listing-grid,
+      .review-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        width: min(100% - 28px, var(--container));
+      }
+
+      .navbar {
+        min-height: 68px;
+      }
+
+      .brand {
+        font-size: 16px;
+      }
+
+      .nav-actions .btn-light {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-content {
+        padding-top: 64px;
+      }
+
+      .hero h1 {
+        font-size: clamp(42px, 14vw, 64px);
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .search-card,
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .search-card .btn {
+        grid-column: auto;
+      }
+
+      .section,
+      .owner-section {
+        padding: 56px 0;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head .btn-link {
+        display: inline-block;
+        margin-top: 16px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .container {
+        width: min(100% - 20px, var(--container));
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .nav-actions {
+        gap: 8px;
+      }
+
+      .search-field {
+        min-height: 54px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="Marketly home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/><path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        Marketly
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="explore.html">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a href="add-business.html">List your business</a>
+        <a href="about.html">About</a>
+        <a href="support.html">Help</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-light">Sign in</a>
+        <a href="owner-login.html" class="btn btn-primary">For business</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <span class="trust-pill">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.7-2.9 8-7 10-4.1-2-7-5.3-7-10V6l7-3Z" stroke="currentColor" stroke-width="1.8"/><path d="m8.7 12 2.1 2.1 4.7-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Trusted by 80,000+ businesses
+          </span>
+          <h1>Find any business. Book anything. Anywhere.</h1>
+          <p>From boutique hotels and family restaurants to freelancers and global brands — all in one trusted marketplace.</p>
+        </div>
+
+        <form class="search-card" action="search.html">
+          <label class="search-field">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.2-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input type="search" name="q" placeholder="Business name or keyword" />
+          </label>
+          <label class="search-field">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg>
+            <input type="text" name="location" placeholder="Location" />
+          </label>
+          <label class="search-field">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 7.5 12 4l8 3.5-8 3.5-8-3.5Z" stroke="currentColor" stroke-width="1.8"/><path d="M4 12.5 12 16l8-3.5M4 17.5 12 21l8-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <select name="category">
+              <option value="">All categories</option>
+              <option>Hotels</option>
+              <option>Retail Stores</option>
+              <option>Restaurants</option>
+              <option>Services</option>
+              <option>Health & Beauty</option>
+              <option>Events</option>
+              <option>Real Estate</option>
+              <option>Freelancers</option>
+              <option>Local Businesses</option>
+            </select>
+          </label>
+          <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+
+        <div class="hero-badges">
+          <span>✓ Verified listings</span>
+          <span>☆ Real customer reviews</span>
+          <span>✓ Free to browse</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="categories">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Browse by category</h2>
+            <p class="section-subtitle">Explore listings across every kind of business.</p>
+          </div>
+          <a class="btn-link" href="categories.html">All categories →</a>
+        </div>
+
+        <div class="category-grid">
+          <a href="search.html?category=hotels" class="category-card">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 20V6h10a4 4 0 0 1 4 4v10" stroke="currentColor" stroke-width="1.8"/><path d="M8 10h3M8 14h3M5 17h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <h3>Hotels</h3><p>12,480 listings</p>
+          </a>
+          <a href="search.html?category=retail" class="category-card">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M6 8h12l-1 12H7L6 8Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 8a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <h3>Retail Stores</h3><p>8,210 listings</p>
+          </a>
+          <a href="search.html?category=restaurants" class="category-card">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3v18M4 3v5a3 3 0 0 0 6 0V3M16 3v18M16 3c2.2 1.2 3.5 3.4 3.5 6 0 2.3-1.3 4-3.5 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <h3>Restaurants</h3><p>15,330 listings</p>
+          </a>
+          <a href="search.html?category=services" class="category-card">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a4 4 0 0 0-5 5L4 17v3h3l5.7-5.7a4 4 0 0 0 5-5l-3 3-3-3 3-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+            <h3>Services</h3><p>9,870 listings</p>
+          </a>
+          <a href="search.html?category=health-beauty" class="category-card">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M17.7 6.3l-2.8 2.8M9.1 14.9l-2.8 2.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <h3>Health & Beauty</h3><p>5,420 listings</p>
+          </a>
+          <a href="search.html?category=events" class="category-card">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14v14H5V5Z" stroke="currentColor" stroke-width="1.8"/><path d="M8 3v4M16 3v4M5 10h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <h3>Events</h3><p>2,110 listings</p>
+          </a>
+          <a href="search.html?category=real-estate" class="category-card">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11 12 4l8 7v9H5v-9Z" stroke="currentColor" stroke-width="1.8"/><path d="M10 20v-6h4v6" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <h3>Real Estate</h3><p>3,640 listings</p>
+          </a>
+          <a href="search.html?category=freelancers" class="category-card">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M4 8h16v11H4V8Z" stroke="currentColor" stroke-width="1.8"/><path d="M4 13h16" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <h3>Freelancers</h3><p>7,180 listings</p>
+          </a>
+          <a href="search.html?category=local" class="category-card">
+            <span class="category-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 10h14l-1-5H6l-1 5Z" stroke="currentColor" stroke-width="1.8"/><path d="M6 10v10h12V10M9 20v-5h6v5" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <h3>Local Businesses</h3><p>11,250 listings</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Featured listings</h2>
+            <p class="section-subtitle">Hand-picked businesses our customers love.</p>
+          </div>
+          <a class="btn-link" href="search.html">View all →</a>
+        </div>
+
+        <div class="listing-grid">
+          <article class="listing-card">
+            <div class="listing-image">
+              <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=85" alt="Azure Bay Hotel & Spa" />
+              <span class="listing-tag">Hotels</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-top"><h3>Azure Bay Hotel & Spa</h3><span class="rating">★ 4.8</span></div>
+              <p class="location">📍 Lisbon, Portugal</p>
+              <div class="listing-foot"><span>87 reviews</span><span class="price">From $240</span></div>
+            </div>
+          </article>
+
+          <article class="listing-card">
+            <div class="listing-image">
+              <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=900&q=85" alt="North Loop Coffee Co." />
+              <span class="listing-tag">Restaurants</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-top"><h3>North Loop Coffee Co.</h3><span class="rating">★ 4.9</span></div>
+              <p class="location">📍 Minneapolis, USA</p>
+              <div class="listing-foot"><span>974 reviews</span><span class="price">From $45</span></div>
+            </div>
+          </article>
+
+          <article class="listing-card">
+            <div class="listing-image">
+              <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=900&q=85" alt="Atelier Marin" />
+              <span class="listing-tag">Retail Stores</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-top"><h3>Atelier Marin — Tailoring</h3><span class="rating">★ 4.7</span></div>
+              <p class="location">📍 Paris, France</p>
+              <div class="listing-foot"><span>156 reviews</span><span class="price">Custom quote</span></div>
+            </div>
+          </article>
+
+          <article class="listing-card">
+            <div class="listing-image">
+              <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=85" alt="Cedar & Co. Real Estate" />
+              <span class="listing-tag">Real Estate</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-top"><h3>Cedar & Co. Real Estate</h3><span class="rating">★ 4.6</span></div>
+              <p class="location">📍 Vancouver, Canada</p>
+              <div class="listing-foot"><span>412 reviews</span><span class="price">Free consult</span></div>
+            </div>
+          </article>
+
+          <article class="listing-card">
+            <div class="listing-image">
+              <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=85" alt="IronFix Plumbing & Heating" />
+              <span class="listing-tag">Services</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-top"><h3>IronFix Plumbing & Heating</h3><span class="rating">★ 4.7</span></div>
+              <p class="location">📍 Manchester, UK</p>
+              <div class="listing-foot"><span>802 reviews</span><span class="price">From £60</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Popular near you</h2>
+            <p class="section-subtitle">Trending businesses across services, retail, and dining.</p>
+          </div>
+        </div>
+
+        <div class="listing-grid">
+          <article class="listing-card">
+            <div class="listing-image">
+              <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85" alt="Lumen Studio" />
+              <span class="listing-tag">Freelancers</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-top"><h3>Lumen Studio — Branding</h3><span class="rating">★ 5</span></div>
+              <p class="location">📍 Remote · Berlin</p>
+              <div class="listing-foot"><span>63 reviews</span><span class="price">From €400</span></div>
+            </div>
+          </article>
+
+          <article class="listing-card">
+            <div class="listing-image">
+              <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=85" alt="Verde Wellness Spa" />
+              <span class="listing-tag">Health & Beauty</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-top"><h3>Verde Wellness Spa</h3><span class="rating">★ 4.9</span></div>
+              <p class="location">📍 Bali, Indonesia</p>
+              <div class="listing-foot"><span>321 reviews</span><span class="price">Book now</span></div>
+            </div>
+          </article>
+
+          <article class="listing-card">
+            <div class="listing-image">
+              <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=900&q=85" alt="Harbor Events Co." />
+              <span class="listing-tag">Events</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-top"><h3>Harbor Events Co.</h3><span class="rating">★ 4.8</span></div>
+              <p class="location">📍 Sydney, Australia</p>
+              <div class="listing-foot"><span>208 reviews</span><span class="price">Enquire</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="owner-section">
+      <div class="container owner-grid">
+        <div>
+          <span class="owner-label">For business owners</span>
+          <p class="owner-copy">Reach millions of customers, manage bookings, and showcase your work — whether you're a one-person studio or a global brand.</p>
+
+          <div class="owner-benefits">
+            <div class="owner-benefit">
+              <span class="benefit-icon">↥</span>
+              <div><strong>Create your listing</strong><p>Add photos, services, prices and opening hours in minutes.</p></div>
+            </div>
+            <div class="owner-benefit">
+              <span class="benefit-icon">✓</span>
+              <div><strong>Get verified</strong><p>Our trust team reviews and verifies your business profile.</p></div>
+            </div>
+            <div class="owner-benefit">
+              <span class="benefit-icon">⌁</span>
+              <div><strong>Receive customers</strong><p>Manage enquiries, bookings and orders from one dashboard.</p></div>
+            </div>
+          </div>
+
+          <div class="owner-actions">
+            <a class="btn btn-primary" href="add-business.html">List your business</a>
+            <a class="btn btn-outline" href="owner-login.html">Owner sign in</a>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card"><strong>80K+</strong><span>businesses listed</span></div>
+          <div class="stat-card"><strong>12M</strong><span>monthly searches</span></div>
+          <div class="stat-card"><strong>4.8★</strong><span>avg owner rating</span></div>
+          <div class="stat-card"><strong>190</strong><span>countries</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">What people say</h2>
+            <p class="section-subtitle">Reviews from customers and business owners.</p>
+          </div>
+        </div>
+
+        <div class="review-grid">
+          <article class="review-card">
+            <div class="stars">★★★★★</div>
+            <blockquote>“Booked our anniversary stay in two minutes. The listing photos and reviews matched exactly — no surprises.”</blockquote>
+            <div class="reviewer"><strong>Sofia M.</strong><span>Customer · Lisbon</span></div>
+          </article>
+          <article class="review-card">
+            <div class="stars">★★★★★</div>
+            <blockquote>“We tripled weekday reservations in the first month. The dashboard makes managing bookings effortless.”</blockquote>
+            <div class="reviewer"><strong>Daniel K.</strong><span>Owner · North Loop Coffee</span></div>
+          </article>
+          <article class="review-card">
+            <div class="stars">★★★★</div>
+            <blockquote>“Found a tailor, a plumber and a wedding venue all on one platform. Reviews are honest and detailed.”</blockquote>
+            <div class="reviewer"><strong>Priya R.</strong><span>Customer · London</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-box">
+          <h2>Ready to add your business?</h2>
+          <p>Join the marketplace trusted by independents and enterprises alike. Setup takes under 5 minutes.</p>
+          <div class="cta-actions">
+            <a class="btn btn-light" href="add-business.html">List your business</a>
+            <a class="btn btn-outline" href="about.html">Learn more</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="brand"><span class="brand-icon">M</span>Marketly</a>
+          <p class="footer-text">The trusted marketplace for businesses of every size — from local micro-brands to global enterprises.</p>
+          <div class="socials"><a href="#">𝕏</a><a href="#">f</a><a href="#">◎</a><a href="#">in</a></div>
+        </div>
+        <div>
+          <h4>Marketplace</h4>
+          <a href="search.html">Explore listings</a>
+          <a href="categories.html">Categories</a>
+          <a href="add-business.html">List your business</a>
+          <a href="dashboard.html">Owner dashboard</a>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="support.html">Help & support</a>
+        </div>
+        <div>
+          <h4>Account</h4>
+          <a href="login.html">Customer sign in</a>
+          <a href="signup.html">Create account</a>
+          <a href="owner-login.html">Business sign in</a>
+          <a href="add-business.html">Open a business account</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Marketly. All rights reserved.</span>
+        <span>✉ support@marketly.app &nbsp;&nbsp; ☎ +1 (555) 010-2200</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+
+
+git config --global user.name "Suhana Ninz"

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketly — List Your Business</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --blue: #075fc9;
+      --blue-dark: #034ea9;
+      --ink: #050b16;
+      --muted: #536173;
+      --border: #dfe7f1;
+      --soft: #f6f9fc;
+      --white: #ffffff;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+      --container: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+
+    .container {
+      width: min(var(--container), calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+    }
+
+    .navbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-icon {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 12px 28px rgba(7, 95, 201, 0.28);
+    }
+
+    .brand-icon svg { width: 23px; height: 23px; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      color: #364354;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover,
+    .nav-links .active { color: var(--blue); }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: transparent;
+      color: var(--ink);
+      font-weight: 800;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 12px 24px rgba(7, 95, 201, 0.24);
+    }
+
+    .btn-primary:hover { background: var(--blue-dark); }
+
+    .btn-light {
+      background: var(--white);
+      border-color: var(--border);
+      color: var(--ink);
+    }
+
+    .page {
+      padding: 22px 0 94px;
+    }
+
+    .page-header {
+      max-width: 920px;
+      margin: 0 auto 52px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--blue);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .page-header h1 {
+      margin: 0 0 8px;
+      color: var(--ink);
+      font-size: clamp(38px, 5vw, 50px);
+      line-height: 1.05;
+      letter-spacing: -0.06em;
+      font-weight: 700;
+    }
+
+    .page-header p {
+      margin: 0;
+      color: #3f4c5f;
+      font-size: 18px;
+    }
+
+    .form-shell {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 38px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--white);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03), 0 14px 36px rgba(15, 23, 42, 0.06);
+    }
+
+    .form-section {
+      margin-bottom: 42px;
+    }
+
+    .form-section:last-child { margin-bottom: 0; }
+
+    .form-section h2 {
+      margin: 0 0 24px;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: -0.045em;
+      font-weight: 700;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px 20px;
+    }
+
+    .form-row {
+      display: grid;
+      gap: 8px;
+    }
+
+    .form-row.full { grid-column: 1 / -1; }
+
+    label {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 52px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--white);
+      color: var(--ink);
+      padding: 0 16px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    textarea {
+      min-height: 126px;
+      padding: 15px 16px;
+      resize: vertical;
+    }
+
+    input::placeholder,
+    textarea::placeholder { color: #7b8796; }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(7, 95, 201, 0.65);
+      box-shadow: 0 0 0 4px rgba(7, 95, 201, 0.12);
+    }
+
+    .upload-box {
+      min-height: 118px;
+      display: grid;
+      place-items: center;
+      border: 2px dashed #cbd8e8;
+      border-radius: 18px;
+      background: var(--soft);
+      color: #3f4c5f;
+      text-align: center;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .upload-box:hover {
+      border-color: rgba(7, 95, 201, 0.5);
+      background: #eef7ff;
+    }
+
+    .upload-box a {
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .divider {
+      height: 1px;
+      margin: 36px 0 28px;
+      background: var(--border);
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .submit-row p {
+      margin: 0;
+      color: #3f4c5f;
+      font-size: 12px;
+    }
+
+    .submit-row a {
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .submit-row .btn {
+      min-width: 190px;
+    }
+
+    @media (max-width: 1040px) {
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 760px) {
+      .container { width: min(100% - 28px, var(--container)); }
+      .navbar { min-height: 68px; }
+      .brand { font-size: 17px; }
+      .nav-actions .btn-light { display: none; }
+      .page { padding: 28px 0 64px; }
+      .page-header { margin-bottom: 34px; }
+      .form-shell { padding: 24px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .submit-row { display: grid; }
+      .submit-row .btn { width: 100%; }
+    }
+
+    @media (max-width: 430px) {
+      .container { width: min(100% - 20px, var(--container)); }
+      .btn { width: 100%; padding-inline: 14px; }
+      .form-shell { padding: 20px; border-radius: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="Marketly home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </span>
+        Marketly
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="explore.html">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a href="list-business.html" class="active">List your business</a>
+        <a href="about.html">About</a>
+        <a href="support.html">Help</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-light">Sign in</a>
+        <a href="owner-login.html" class="btn btn-primary">For business</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="container">
+      <header class="page-header">
+        <p class="eyebrow">For business owners</p>
+        <h1>List your business</h1>
+        <p>Tell us about your business. You can edit everything later from your dashboard.</p>
+      </header>
+
+      <form class="form-shell" action="#" method="post">
+        <section class="form-section" aria-labelledby="business-basics-title">
+          <h2 id="business-basics-title">Business basics</h2>
+
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="business-name">Business name</label>
+              <input id="business-name" name="business-name" type="text" placeholder="Acme Co." />
+            </div>
+
+            <div class="form-row">
+              <label for="category">Category</label>
+              <select id="category" name="category">
+                <option value="">Choose a category</option>
+                <option>Hotels</option>
+                <option>Retail Stores</option>
+                <option>Restaurants</option>
+                <option>Services</option>
+                <option>Health & Beauty</option>
+                <option>Events</option>
+                <option>Real Estate</option>
+                <option>Freelancers</option>
+                <option>Local Businesses</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="business-size">Business size</label>
+              <select id="business-size" name="business-size">
+                <option>Micro (1–4)</option>
+                <option>Small (5–49)</option>
+                <option>Medium (50–249)</option>
+                <option>Enterprise (250+)</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="location">Location / address</label>
+              <input id="location" name="location" type="text" placeholder="123 Main St, City" />
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section" aria-labelledby="description-title">
+          <h2 id="description-title">Description & offerings</h2>
+
+          <div class="form-grid">
+            <div class="form-row full">
+              <label for="description">Short description</label>
+              <textarea id="description" name="description" placeholder="Tell customers what makes your business special."></textarea>
+            </div>
+
+            <div class="form-row full">
+              <label for="offerings">Services or products (comma separated)</label>
+              <input id="offerings" name="offerings" type="text" placeholder="Espresso, Pastries, Whole bean retail" />
+            </div>
+
+            <div class="form-row">
+              <label for="price">Starting price</label>
+              <input id="price" name="price" type="text" placeholder="$25 / From £60 / Free quote" />
+            </div>
+
+            <div class="form-row">
+              <label for="hours">Opening hours</label>
+              <input id="hours" name="hours" type="text" placeholder="Mon–Fri 9:00–18:00" />
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section" aria-labelledby="photos-title">
+          <h2 id="photos-title">Photos</h2>
+          <div class="form-row">
+            <label for="photos">Upload photos</label>
+            <label class="upload-box" for="photos">
+              <span>Drag & drop images here, or <a>browse</a></span>
+            </label>
+            <input id="photos" name="photos" type="file" accept="image/*" multiple hidden />
+          </div>
+        </section>
+
+        <section class="form-section" aria-labelledby="contact-title">
+          <h2 id="contact-title">Contact</h2>
+
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="hello@acme.com" />
+            </div>
+
+            <div class="form-row">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" placeholder="+1 555 010 2200" />
+            </div>
+
+            <div class="form-row full">
+              <label for="website">Website</label>
+              <input id="website" name="website" type="url" placeholder="https://" />
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <div class="submit-row">
+          <p>By submitting you agree to our <a href="terms.html">terms</a> & verification policy.</p>
+          <button class="btn btn-primary" type="submit">Submit listing</button>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
