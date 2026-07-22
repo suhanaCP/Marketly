@@ -729,5 +729,70 @@
       </div>
     </section>
   </main>
+<script>
+(function () {
+  const businesses = JSON.parse(localStorage.getItem('marketly_all_businesses') || '[]');
+  if (!businesses.length) return;
+
+  const allListings = JSON.parse(localStorage.getItem('marketly_all_listings') || '[]');
+
+  const SECTOR_LABELS = {
+    hotel:'Hotel / Accommodation', restaurant:'Restaurant / Cafe', retail:'Retail / Clothing',
+    beauty:'Health & Beauty', services:'Services', freelancer:'Freelancer',
+    'real-estate':'Real Estate', events:'Events', education:'Education',
+    technology:'Technology', other:'Business',
+  };
+  const SECTOR_IMGS = {
+    hotel:        'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=80',
+    restaurant:   'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=900&q=80',
+    retail:       'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=900&q=80',
+    beauty:       'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=80',
+    services:     'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80',
+    freelancer:   'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80',
+    'real-estate':'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=80',
+    events:       'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=900&q=80',
+    education:    'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=900&q=80',
+    technology:   'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80',
+    other:        'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80',
+  };
+
+  function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  const grid = document.querySelector('.results-grid');
+  if (!grid) return;
+
+  businesses.forEach(biz => {
+    const count = allListings.filter(l => String(l.business_id) === String(biz.id)).length;
+    const img   = SECTOR_IMGS[biz.sector] || SECTOR_IMGS.other;
+    const label = SECTOR_LABELS[biz.sector] || 'Business';
+    const card  = document.createElement('article');
+    card.className = 'listing-card';
+    card.innerHTML = `
+      <a href="business-listing-page.html?id=${esc(biz.id)}" class="listing-image">
+        <img src="${img}" alt="${esc(biz.company_name)}"/>
+        <span class="listing-tag">${esc(label)}</span>
+      </a>
+      <div class="listing-body">
+        <div class="listing-head"><h2>${esc(biz.company_name)}</h2><span class="rating">★ New</span></div>
+        <p class="location">
+          <svg viewBox="0 0 24 24" fill="none" width="17" height="17"><path d="M12 21s7-5.1 7-11a7 7 0 10-14 0c0 5.9 7 11 7 11z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg>
+          ${esc(biz.location || 'Location not set')}
+        </p>
+        <div class="listing-foot">
+          <span>${count} listing${count !== 1 ? 's' : ''}</span>
+          <span class="price"><a href="business-listing-page.html?id=${esc(biz.id)}" style="color:var(--blue);font-weight:700">View →</a></span>
+        </div>
+      </div>`;
+    grid.insertBefore(card, grid.firstChild);
+  });
+
+  // Update result count
+  const countEl = document.querySelector('.results-top p');
+  if (countEl) {
+    const total = grid.querySelectorAll('.listing-card').length;
+    countEl.textContent = total + ' results';
+  }
+})();
+</script>
 </body>
 </html>

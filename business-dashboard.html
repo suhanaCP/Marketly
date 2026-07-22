@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Dashboard — Marketly</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --blue: #075fc9;
+      --blue-dark: #034ea9;
+      --ink: #050b16;
+      --muted: #536173;
+      --border: #dfe7f1;
+      --soft: #f6f9fc;
+      --ice: #e9f5ff;
+      --white: #ffffff;
+      --shadow: 0 14px 30px rgba(15,23,42,0.08);
+      --sidebar-w: 256px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 75%; }
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--soft);
+      color: var(--ink);
+      line-height: 1.5;
+      display: flex;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 40;
+      overflow-y: auto;
+    }
+
+    .sidebar-brand {
+      padding: 20px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+    }
+
+    .brand-icon {
+      width: 34px; height: 34px;
+      display: grid; place-items: center;
+      border-radius: 10px;
+      background: var(--blue);
+      color: var(--white);
+      flex-shrink: 0;
+    }
+
+    .sidebar-biz {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .biz-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .biz-sector {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 10px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-section-label {
+      padding: 10px 8px 4px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #364354;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-item:hover { background: var(--soft); color: var(--ink); }
+    .nav-item.active { background: var(--ice); color: var(--blue); font-weight: 700; }
+    .nav-item svg { width: 17px; height: 17px; flex-shrink: 0; }
+
+    .sidebar-footer {
+      padding: 12px 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Main ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0; z-index: 30;
+      background: rgba(255,255,255,0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      padding: 0 28px;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .topbar-actions { display: flex; align-items: center; gap: 10px; }
+
+    .btn {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 0 15px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: transparent;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 6px 18px rgba(7,95,201,0.22);
+    }
+    .btn-primary:hover { background: var(--blue-dark); }
+
+    .btn-light {
+      background: var(--white);
+      border-color: var(--border);
+    }
+    .btn-light:hover { background: var(--soft); }
+
+    .btn-ghost { color: var(--muted); }
+    .btn-ghost:hover { color: #c0392b; background: #fef2f2; }
+
+    .btn-sm { min-height: 32px; padding: 0 11px; font-size: 12px; border-radius: 8px; }
+
+    .content { padding: 28px; flex: 1; }
+
+    /* ── Panels ── */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ── Stats ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 22px;
+    }
+
+    .stat-label { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+    .stat-value { font-size: 28px; font-weight: 900; letter-spacing: -0.04em; color: var(--ink); }
+    .stat-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    /* ── Section header ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .section-title { font-size: 18px; font-weight: 800; letter-spacing: -0.03em; }
+
+    /* ── Listing cards ── */
+    .listings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 14px;
+    }
+
+    .listing-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .listing-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .listing-name { font-size: 15px; font-weight: 700; line-height: 1.3; }
+
+    .listing-badge {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: var(--ice);
+      color: var(--blue);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .listing-meta {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .listing-meta span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .listing-actions { display: flex; gap: 8px; margin-top: 4px; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: 56px 20px;
+      color: var(--muted);
+      background: var(--white);
+      border: 1.5px dashed var(--border);
+      border-radius: 18px;
+      grid-column: 1 / -1;
+    }
+
+    .empty-icon {
+      width: 52px; height: 52px;
+      background: var(--soft);
+      border-radius: 16px;
+      display: grid; place-items: center;
+      margin: 0 auto 16px;
+    }
+
+    .empty-state h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+    .empty-state p { font-size: 14px; margin-bottom: 20px; }
+
+    /* ── Add form ── */
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      max-width: 780px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px 18px;
+    }
+
+    .form-row { display: grid; gap: 6px; }
+    .form-row.full { grid-column: 1 / -1; }
+
+    label { font-size: 13px; font-weight: 700; color: var(--ink); }
+
+    input, select, textarea {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--white);
+      color: var(--ink);
+      padding: 0 13px;
+      outline: none;
+      font-size: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    textarea { min-height: 96px; padding: 11px 13px; resize: vertical; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(7,95,201,0.55);
+      box-shadow: 0 0 0 4px rgba(7,95,201,0.1);
+    }
+
+    input::placeholder, textarea::placeholder { color: #8b96a2; }
+
+    .chips-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 2px;
+    }
+
+    .chip-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      user-select: none;
+      color: #364354;
+    }
+
+    .chip-label input[type="checkbox"] { display: none; }
+
+    .chip-label.checked {
+      background: var(--ice);
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .form-actions { display: flex; gap: 10px; margin-top: 22px; }
+
+    /* ── Profile ── */
+    .profile-section { margin-bottom: 28px; }
+    .profile-section h3 { font-size: 15px; font-weight: 800; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px 18px;
+      max-width: 700px;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 22px; right: 22px;
+      background: var(--ink);
+      color: var(--white);
+      padding: 13px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .form-grid, .profile-grid { grid-template-columns: 1fr; }
+      .form-row.full { grid-column: auto; }
+    }
+
+    @media (max-width: 520px) {
+      .content { padding: 18px; }
+      .topbar { padding: 0 18px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar">
+  <a href="index.html" class="sidebar-brand">
+    <span class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="none" width="19" height="19">
+        <path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </span>
+    Marketly
+  </a>
+
+  <div class="sidebar-biz">
+    <div class="biz-name" id="sidebar-biz-name">Your Business</div>
+    <div class="biz-sector" id="sidebar-biz-sector">—</div>
+  </div>
+
+  <nav class="sidebar-nav" id="sidebar-nav"></nav>
+
+  <div class="sidebar-footer">
+    <button class="nav-item" onclick="logout()">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Log out
+    </button>
+  </div>
+</aside>
+
+<!-- ── Main ── -->
+<div class="main">
+  <div class="topbar">
+    <span class="topbar-title" id="topbar-title">Dashboard</span>
+    <div class="topbar-actions">
+      <button class="btn btn-primary" onclick="showPanel('add')">
+        <svg viewBox="0 0 24 24" fill="none" width="15" height="15"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <span id="add-btn-label">Add listing</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- Overview -->
+    <div class="panel active" id="panel-overview">
+      <div class="stats-grid" id="stats-grid"></div>
+      <div class="section-header">
+        <span class="section-title">Recent listings</span>
+        <button class="btn btn-light btn-sm" onclick="showPanel('listings')">View all →</button>
+      </div>
+      <div id="overview-listings"></div>
+    </div>
+
+    <!-- Listings -->
+    <div class="panel" id="panel-listings">
+      <div class="section-header">
+        <span class="section-title" id="listings-title">My Listings</span>
+        <button class="btn btn-primary btn-sm" onclick="showPanel('add')">+ Add new</button>
+      </div>
+      <div class="listings-grid" id="listings-grid"></div>
+    </div>
+
+    <!-- Add listing -->
+    <div class="panel" id="panel-add">
+      <div class="section-header">
+        <span class="section-title" id="add-title">Add listing</span>
+        <button class="btn btn-light btn-sm" onclick="showPanel('listings')">← Back</button>
+      </div>
+      <div class="form-card">
+        <div class="form-grid" id="add-form-fields"></div>
+        <div class="form-actions">
+          <button class="btn btn-primary" onclick="saveListing()">Save listing</button>
+          <button class="btn btn-light" onclick="showPanel('listings')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile -->
+    <div class="panel" id="panel-profile">
+      <div class="section-header">
+        <span class="section-title">Business profile</span>
+        <button class="btn btn-primary btn-sm" onclick="saveProfile()">Save changes</button>
+      </div>
+      <div class="form-card">
+        <div class="profile-section">
+          <h3>Owner details</h3>
+          <div class="profile-grid" id="profile-owner"></div>
+        </div>
+        <div class="profile-section">
+          <h3>Business details</h3>
+          <div class="profile-grid" id="profile-biz"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── Sector configuration ────────────────────────────────────────────────────
+
+const SECTORS = {
+  hotel: {
+    label: 'Hotel / Accommodation',
+    noun: 'Room',
+    nav: ['overview','listings','calendar','bookings','profile'],
+    stats: [['Total rooms','listings'],['Active bookings','0'],['Views this week','0'],['Avg. rating','—']],
+    fields: [
+      { id:'room_type', label:'Room type', type:'select', opts:['Standard Single','Standard Double','Deluxe Double','Twin Room','Suite','Family Room','Studio Apartment'] },
+      { id:'price_per_night', label:'Price per night (₹)', type:'number', ph:'e.g. 2500' },
+      { id:'rooms_available', label:'Rooms available', type:'number', ph:'e.g. 5' },
+      { id:'max_guests', label:'Max guests', type:'number', ph:'e.g. 2' },
+      { id:'bed_type', label:'Bed type', type:'select', opts:['Single bed','Double bed','Twin beds','King bed','Queen bed'] },
+      { id:'floor', label:'Floor / Wing', type:'text', ph:'e.g. Ground floor, Sea-facing wing' },
+      { id:'checkin', label:'Check-in time', type:'time' },
+      { id:'checkout', label:'Check-out time', type:'time' },
+      { id:'cancellation', label:'Cancellation policy', type:'select', opts:['Free cancellation (24 h)','Free cancellation (48 h)','Non-refundable','Flexible'] },
+      { id:'description', label:'Room description', type:'textarea', full:true, ph:'Describe the room — size, view, features…' },
+      { id:'amenities', label:'Amenities', type:'chips', full:true, opts:['Free WiFi','AC','Breakfast included','TV','Mini fridge','Safe','Balcony','Sea view','Pool access','Gym access','Parking','Room service'] },
+    ]
+  },
+
+  restaurant: {
+    label: 'Restaurant / Cafe',
+    noun: 'Menu item',
+    nav: ['overview','listings','tables','orders','profile'],
+    stats: [['Menu items','listings'],['Orders today','0'],['Views this week','0'],['Avg. rating','—']],
+    fields: [
+      { id:'item_name', label:'Item name', type:'text', ph:'e.g. Paneer Butter Masala' },
+      { id:'category', label:'Category', type:'select', opts:['Starter','Main course','Bread / Rice','Dessert','Beverage','Combo / Thali','Kids menu','Breakfast'] },
+      { id:'price', label:'Price (₹)', type:'number', ph:'e.g. 280' },
+      { id:'dietary', label:'Dietary', type:'select', opts:['Veg','Non-veg','Vegan','Gluten-free','Jain'] },
+      { id:'spice_level', label:'Spice level', type:'select', opts:['Mild','Medium','Hot','Extra hot'] },
+      { id:'prep_time', label:'Prep time (mins)', type:'number', ph:'e.g. 20' },
+      { id:'description', label:'Description', type:'textarea', full:true, ph:'Ingredients, taste, what makes it special…' },
+      { id:'tags', label:'Tags', type:'chips', full:true, opts:['Best seller','Chef special','New','Seasonal','Spicy','Healthy','Street food style','Must try'] },
+    ]
+  },
+
+  retail: {
+    label: 'Retail / Clothing',
+    noun: 'Product',
+    nav: ['overview','listings','orders','inventory','profile'],
+    stats: [['Products listed','listings'],['Orders this week','0'],['Views','0'],['Out of stock','0']],
+    fields: [
+      { id:'product_name', label:'Product name', type:'text', ph:'e.g. Classic Cotton Kurta' },
+      { id:'category', label:'Category', type:'select', opts:['Clothing','Footwear','Accessories','Bags','Jewellery','Home & Living','Electronics','Books','Stationery','Other'] },
+      { id:'price', label:'Price (₹)', type:'number', ph:'e.g. 999' },
+      { id:'mrp', label:'MRP (₹)', type:'number', ph:'e.g. 1299' },
+      { id:'stock_qty', label:'Stock quantity', type:'number', ph:'e.g. 50' },
+      { id:'sku', label:'SKU / Product code', type:'text', ph:'e.g. KRT-001' },
+      { id:'colours', label:'Available colours', type:'text', ph:'e.g. Red, White, Black' },
+      { id:'description', label:'Description', type:'textarea', full:true, ph:'Material, fit, care instructions…' },
+      { id:'sizes', label:'Available sizes', type:'chips', full:true, opts:['XS','S','M','L','XL','XXL','Free size','Custom'] },
+      { id:'tags', label:'Tags', type:'chips', full:true, opts:['New arrival','Best seller','Sale','Trending','Handmade','Sustainable','Ethnic','Western'] },
+    ]
+  },
+
+  beauty: {
+    label: 'Health & Beauty',
+    noun: 'Service',
+    nav: ['overview','listings','appointments','staff','profile'],
+    stats: [['Services listed','listings'],['Appointments today','0'],['Views this week','0'],['Avg. rating','—']],
+    fields: [
+      { id:'service_name', label:'Service name', type:'text', ph:'e.g. Full body massage' },
+      { id:'category', label:'Category', type:'select', opts:['Hair','Skin & Facial','Nails','Makeup','Massage & Spa','Waxing & Threading','Body treatment','Dental','Fitness & Yoga'] },
+      { id:'price', label:'Price (₹)', type:'number', ph:'e.g. 1500' },
+      { id:'duration', label:'Duration (mins)', type:'number', ph:'e.g. 60' },
+      { id:'gender', label:'For', type:'select', opts:['All','Women','Men','Kids'] },
+      { id:'specialist', label:'Staff / Specialist', type:'text', ph:'e.g. Senior therapist' },
+      { id:'description', label:'Description', type:'textarea', full:true, ph:'Benefits, process, what's included…' },
+      { id:'tags', label:'Tags', type:'chips', full:true, opts:['Bestseller','Relaxing','Bridal','Premium','Herbal','Organic','At-home available','Appointment only'] },
+    ]
+  },
+
+  services: {
+    label: 'Services',
+    noun: 'Service',
+    nav: ['overview','listings','enquiries','portfolio','profile'],
+    stats: [['Services listed','listings'],['Enquiries this week','0'],['Views','0'],['Avg. rating','—']],
+    fields: [
+      { id:'service_name', label:'Service name', type:'text', ph:'e.g. Home deep cleaning' },
+      { id:'category', label:'Category', type:'select', opts:['Cleaning','Plumbing','Electrician','Carpentry','Painting','Pest control','Laundry','Moving & packing','Security','AC repair','Other'] },
+      { id:'pricing_type', label:'Pricing type', type:'select', opts:['Fixed price','Per hour','Per visit','Custom quote'] },
+      { id:'price', label:'Starting price (₹)', type:'number', ph:'e.g. 499' },
+      { id:'duration', label:'Typical duration', type:'text', ph:'e.g. 2–3 hours' },
+      { id:'availability', label:'Availability', type:'text', ph:'e.g. Mon–Sat, 9 am – 6 pm' },
+      { id:'description', label:'Description', type:'textarea', full:true, ph:'What's included, what to expect…' },
+      { id:'tags', label:'Tags', type:'chips', full:true, opts:['Same day','Weekend available','On-site','Doorstep','Verified professional','Insured','GST invoice'] },
+    ]
+  },
+
+  freelancer: {
+    label: 'Freelancer',
+    noun: 'Portfolio item',
+    nav: ['overview','listings','proposals','skills','profile'],
+    stats: [['Projects listed','listings'],['Active proposals','0'],['Profile views','0'],['Avg. rating','—']],
+    fields: [
+      { id:'project_title', label:'Project / Work title', type:'text', ph:'e.g. E-commerce website redesign' },
+      { id:'category', label:'Category', type:'select', opts:['Web design','Web development','Graphic design','Content writing','Video editing','Photography','Digital marketing','SEO','App development','Data analysis','Other'] },
+      { id:'budget_range', label:'Budget range', type:'select', opts:['Under ₹5,000','₹5,000 – ₹15,000','₹15,000 – ₹50,000','₹50,000 – ₹1,00,000','₹1,00,000+','Negotiable'] },
+      { id:'timeline', label:'Typical timeline', type:'text', ph:'e.g. 2–4 weeks' },
+      { id:'skills_used', label:'Skills used', type:'text', ph:'e.g. Figma, React, Tailwind CSS' },
+      { id:'project_link', label:'Project link (optional)', type:'url', ph:'https://...' },
+      { id:'description', label:'Project description', type:'textarea', full:true, ph:'Goals, your role, outcome, impact…' },
+      { id:'tags', label:'Tags', type:'chips', full:true, opts:['Featured','Case study','Client work','Open source','Award winning','Personal project'] },
+    ]
+  },
+
+  'real-estate': {
+    label: 'Real Estate',
+    noun: 'Property',
+    nav: ['overview','listings','enquiries','tours','profile'],
+    stats: [['Properties listed','listings'],['Enquiries this week','0'],['Views','0'],['Saved by users','0']],
+    fields: [
+      { id:'property_name', label:'Property title', type:'text', ph:'e.g. 3 BHK Flat in Koramangala' },
+      { id:'property_type', label:'Property type', type:'select', opts:['Apartment / Flat','Independent house','Villa','Plot / Land','Office space','Shop / Commercial','Warehouse','PG / Hostel'] },
+      { id:'listing_for', label:'Listing for', type:'select', opts:['Sale','Rent','Lease','PG / Co-living'] },
+      { id:'price', label:'Price / Rent (₹)', type:'number', ph:'e.g. 4500000' },
+      { id:'area_sqft', label:'Area (sq. ft.)', type:'number', ph:'e.g. 1200' },
+      { id:'bhk', label:'BHK', type:'select', opts:['Studio','1 BHK','2 BHK','3 BHK','4 BHK','4+ BHK','Commercial / Other'] },
+      { id:'furnishing', label:'Furnishing', type:'select', opts:['Unfurnished','Semi-furnished','Fully furnished'] },
+      { id:'possession', label:'Possession', type:'select', opts:['Ready to move','Under construction','Within 6 months','1–2 years'] },
+      { id:'location', label:'Location / Address', type:'text', ph:'e.g. Indiranagar, Bengaluru', full:true },
+      { id:'description', label:'Description', type:'textarea', full:true, ph:'Layout, surroundings, nearby landmarks, why it stands out…' },
+      { id:'amenities', label:'Amenities', type:'chips', full:true, opts:['Lift','Parking','Security','Swimming pool','Gym','Power backup','Garden','CCTV','Club house','Children\'s play area','Water 24/7'] },
+    ]
+  },
+
+  events: {
+    label: 'Events',
+    noun: 'Event',
+    nav: ['overview','listings','tickets','attendees','profile'],
+    stats: [['Events listed','listings'],['Tickets sold','0'],['Views this week','0'],['Upcoming events','0']],
+    fields: [
+      { id:'event_name', label:'Event name', type:'text', ph:'e.g. Startup Networking Night' },
+      { id:'event_type', label:'Event type', type:'select', opts:['Conference','Workshop','Music / Concert','Festival','Exhibition','Webinar','Networking','Food & Drink','Sports','Wellness','Other'] },
+      { id:'event_date', label:'Date', type:'date' },
+      { id:'event_time', label:'Time', type:'time' },
+      { id:'ticket_price', label:'Ticket price (₹)', type:'number', ph:'0 for free' },
+      { id:'capacity', label:'Capacity (seats)', type:'number', ph:'e.g. 200' },
+      { id:'venue', label:'Venue / Location', type:'text', ph:'e.g. ITC Grand Chola, Chennai', full:true },
+      { id:'description', label:'Description', type:'textarea', full:true, ph:'Agenda, speakers, what attendees can expect…' },
+      { id:'tags', label:'Tags', type:'chips', full:true, opts:['Free','Paid','Online','In-person','Hybrid','Family friendly','18+','For professionals','Networking'] },
+    ]
+  },
+
+  education: {
+    label: 'Education / Training',
+    noun: 'Course',
+    nav: ['overview','listings','students','schedule','profile'],
+    stats: [['Courses listed','listings'],['Students enrolled','0'],['Views this week','0'],['Avg. rating','—']],
+    fields: [
+      { id:'course_name', label:'Course name', type:'text', ph:'e.g. Advanced Python for Data Science' },
+      { id:'subject', label:'Subject / Domain', type:'select', opts:['Technology & IT','Design','Business & Management','Language','Science & Maths','Arts & Humanities','Health & Wellness','Vocational & Skill','School tuition','Other'] },
+      { id:'level', label:'Level', type:'select', opts:['Beginner','Intermediate','Advanced','All levels'] },
+      { id:'mode', label:'Mode', type:'select', opts:['Online – live','Online – recorded','Offline – classroom','Hybrid'] },
+      { id:'price', label:'Price (₹)', type:'number', ph:'0 for free' },
+      { id:'duration', label:'Duration', type:'text', ph:'e.g. 8 weeks, 3 months' },
+      { id:'batch_size', label:'Batch size', type:'number', ph:'e.g. 20' },
+      { id:'start_date', label:'Next batch start', type:'date' },
+      { id:'description', label:'Description', type:'textarea', full:true, ph:'Syllabus, outcomes, prerequisites, what you will learn…' },
+      { id:'tags', label:'Tags', type:'chips', full:true, opts:['Certificate','Job-ready','Placement support','Govt. recognised','Weekend batch','Fast track','Hindi medium','Live doubt sessions'] },
+    ]
+  },
+
+  technology: {
+    label: 'Technology',
+    noun: 'Product',
+    nav: ['overview','listings','leads','integrations','profile'],
+    stats: [['Products listed','listings'],['Leads this week','0'],['Demo requests','0'],['Avg. rating','—']],
+    fields: [
+      { id:'product_name', label:'Product / Service name', type:'text', ph:'e.g. HR Management SaaS' },
+      { id:'category', label:'Category', type:'select', opts:['SaaS','Mobile app','Web app','API / Platform','Hardware','IT services','Consulting','Cybersecurity','AI / ML','Cloud','Other'] },
+      { id:'pricing_model', label:'Pricing model', type:'select', opts:['Free','Freemium','Monthly subscription','Annual subscription','One-time purchase','Pay per use','Custom / Enterprise','Open source'] },
+      { id:'price', label:'Starting price (₹ / month)', type:'number', ph:'0 for free' },
+      { id:'target_audience', label:'Target audience', type:'text', ph:'e.g. SMEs, HR teams, startups' },
+      { id:'tech_stack', label:'Tech stack', type:'text', ph:'e.g. React, Node.js, AWS' },
+      { id:'demo_link', label:'Demo / Trial link', type:'url', ph:'https://...' },
+      { id:'description', label:'Description', type:'textarea', full:true, ph:'Features, use cases, key benefits, integrations…' },
+      { id:'tags', label:'Tags', type:'chips', full:true, opts:['Free trial','No credit card','GST compliant','Made in India','SOC 2','ISO 27001','Open source','AI-powered','Mobile app'] },
+    ]
+  },
+
+  other: {
+    label: 'Other',
+    noun: 'Listing',
+    nav: ['overview','listings','enquiries','profile'],
+    stats: [['Total listings','listings'],['Enquiries this week','0'],['Views this week','0'],['Saved by users','0']],
+    fields: [
+      { id:'listing_name', label:'Listing name', type:'text', ph:'Enter a name for this listing' },
+      { id:'category', label:'Category', type:'text', ph:'e.g. Handicrafts, Photography, Consulting' },
+      { id:'price', label:'Price (₹)', type:'number', ph:'0 if not applicable' },
+      { id:'location', label:'Location', type:'text', ph:'City or online' },
+      { id:'description', label:'Description', type:'textarea', full:true, ph:'Describe what you're offering…' },
+      { id:'tags', label:'Tags', type:'chips', full:true, opts:['New','Popular','Limited','Handmade','Local','Delivery available'] },
+    ]
+  }
+};
+
+// Nav items
+const NAV_ITEMS = {
+  overview:     { label:'Overview',       icon:'<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  listings:     { label:'My listings',    icon:'<rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/>' },
+  calendar:     { label:'Availability',   icon:'<rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>' },
+  bookings:     { label:'Bookings',       icon:'<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  tables:       { label:'Tables',         icon:'<path d="M4 6h16M4 12h16M4 18h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>' },
+  orders:       { label:'Orders',         icon:'<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  inventory:    { label:'Inventory',      icon:'<path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  appointments: { label:'Appointments',   icon:'<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  staff:        { label:'Staff',          icon:'<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  enquiries:    { label:'Enquiries',      icon:'<path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  portfolio:    { label:'Portfolio',      icon:'<path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  proposals:    { label:'Proposals',      icon:'<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  skills:       { label:'Skills',         icon:'<path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  tours:        { label:'Virtual tours',  icon:'<path d="M15 10l4.553-2.069A1 1 0 0121 8.82V15.18a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  tickets:      { label:'Tickets',        icon:'<path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  attendees:    { label:'Attendees',      icon:'<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  students:     { label:'Students',       icon:'<path d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  schedule:     { label:'Schedule',       icon:'<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  leads:        { label:'Leads',          icon:'<path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  integrations: { label:'Integrations',   icon:'<path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+  profile:      { label:'Profile',        icon:'<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' },
+};
+
+// Nav items that map to the "listings" panel
+const LISTINGS_PANEL_NAV = new Set(['calendar','bookings','tables','orders','inventory','appointments','staff','enquiries','portfolio','proposals','skills','tours','tickets','attendees','students','schedule','leads','integrations']);
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let business = {};
+let listings = [];
+let cfg = {};
+
+function init() {
+  business = JSON.parse(localStorage.getItem('marketly_business') || '{}');
+  listings  = JSON.parse(localStorage.getItem('marketly_listings')  || '[]');
+
+  // Ensure old registrations (before id was added) get an id
+  if (!business.id) {
+    business.id = Date.now().toString();
+    localStorage.setItem('marketly_business', JSON.stringify(business));
+  }
+
+  const sector = business.sector || 'other';
+  cfg = SECTORS[sector] || SECTORS.other;
+
+  document.getElementById('sidebar-biz-name').textContent  = business.company_name || 'Your Business';
+  document.getElementById('sidebar-biz-sector').textContent = cfg.label;
+  document.getElementById('listings-title').textContent    = 'My ' + cfg.noun + 's';
+  document.getElementById('add-title').textContent         = 'Add ' + cfg.noun;
+  document.getElementById('add-btn-label').textContent     = 'Add ' + cfg.noun.toLowerCase();
+
+  buildNav();
+  buildStats();
+  buildAddForm();
+  buildProfile();
+  renderListings();
+  renderOverview();
+}
+
+function buildNav() {
+  const nav = document.getElementById('sidebar-nav');
+  nav.innerHTML = cfg.nav.map(key => {
+    const item = NAV_ITEMS[key];
+    return `<button class="nav-item ${key === 'overview' ? 'active' : ''}" data-nav="${key}" onclick="showPanel('${key}')">
+      <svg viewBox="0 0 24 24" fill="none">${item.icon}</svg>
+      ${item.label}
+    </button>`;
+  }).join('');
+}
+
+function buildStats() {
+  const grid = document.getElementById('stats-grid');
+  grid.innerHTML = cfg.stats.map(([label, src]) => {
+    const val = src === 'listings' ? listings.length : src;
+    return `<div class="stat-card">
+      <div class="stat-label">${label}</div>
+      <div class="stat-value">${val}</div>
+      <div class="stat-sub">Updated just now</div>
+    </div>`;
+  }).join('');
+}
+
+function buildAddForm() {
+  const container = document.getElementById('add-form-fields');
+  container.innerHTML = cfg.fields.map(f => {
+    let input = '';
+    if (f.type === 'select') {
+      input = `<select id="f-${f.id}">
+        <option value="">Choose…</option>
+        ${f.opts.map(o => `<option>${o}</option>`).join('')}
+      </select>`;
+    } else if (f.type === 'textarea') {
+      input = `<textarea id="f-${f.id}" placeholder="${f.ph || ''}"></textarea>`;
+    } else if (f.type === 'chips') {
+      input = `<div class="chips-group" id="chips-${f.id}">
+        ${f.opts.map(o => `<label class="chip-label">
+          <input type="checkbox" value="${o}" onchange="toggleChip(this)"> ${o}
+        </label>`).join('')}
+      </div>`;
+    } else {
+      input = `<input id="f-${f.id}" type="${f.type}" placeholder="${f.ph || ''}">`;
+    }
+    const labelEl = f.type !== 'chips'
+      ? `<label for="f-${f.id}">${f.label}</label>`
+      : `<label>${f.label}</label>`;
+    return `<div class="form-row${f.full ? ' full' : ''}">${labelEl}${input}</div>`;
+  }).join('');
+}
+
+function toggleChip(el) {
+  el.parentElement.classList.toggle('checked', el.checked);
+}
+
+function buildProfile() {
+  const ownerFields = [
+    { id:'first_name', label:'First name', type:'text' },
+    { id:'last_name',  label:'Last name',  type:'text' },
+    { id:'email',      label:'Email address', type:'email' },
+  ];
+  const bizFields = [
+    { id:'company_name',    label:'Company name',     type:'text' },
+    { id:'location',        label:'Location',          type:'text' },
+    { id:'website',         label:'Website',           type:'url'  },
+    { id:'mode_service',    label:'Mode of service',   type:'text' },
+    { id:'payment_method',  label:'Payment method',    type:'text' },
+    { id:'upi_id',          label:'UPI ID',            type:'text' },
+    { id:'account_number',  label:'Account number',    type:'text' },
+    { id:'ifsc_code',       label:'IFSC code',         type:'text' },
+  ];
+
+  document.getElementById('profile-owner').innerHTML = ownerFields.map(f =>
+    `<div class="form-row">
+      <label for="p-${f.id}">${f.label}</label>
+      <input id="p-${f.id}" type="${f.type}" value="${escHtml(business[f.id] || '')}">
+    </div>`
+  ).join('');
+
+  document.getElementById('profile-biz').innerHTML = bizFields.map(f =>
+    `<div class="form-row">
+      <label for="p-${f.id}">${f.label}</label>
+      <input id="p-${f.id}" type="${f.type}" value="${escHtml(business[f.id] || '')}">
+    </div>`
+  ).join('');
+}
+
+function saveProfile() {
+  const ids = ['first_name','last_name','email','company_name','location','website','mode_service','payment_method','upi_id','account_number','ifsc_code'];
+  ids.forEach(id => {
+    const el = document.getElementById('p-' + id);
+    if (el) business[id] = el.value;
+  });
+  localStorage.setItem('marketly_business', JSON.stringify(business));
+  document.getElementById('sidebar-biz-name').textContent = business.company_name || 'Your Business';
+  showToast('Profile saved!');
+}
+
+function saveListing() {
+  const listing = { id: Date.now() };
+
+  cfg.fields.forEach(f => {
+    if (f.type === 'chips') {
+      const group = document.getElementById('chips-' + f.id);
+      listing[f.id] = group
+        ? Array.from(group.querySelectorAll('input:checked')).map(c => c.value).join(', ')
+        : '';
+    } else {
+      const el = document.getElementById('f-' + f.id);
+      listing[f.id] = el ? el.value : '';
+    }
+  });
+
+  // Derive display name and price for card rendering
+  const firstTextField = cfg.fields.find(f => ['text','select'].includes(f.type));
+  listing._name = firstTextField ? (listing[firstTextField.id] || 'Untitled') : 'Untitled';
+
+  const priceField = cfg.fields.find(f => ['price','price_per_night','ticket_price'].includes(f.id));
+  listing._price = priceField ? listing[priceField.id] : '';
+
+  // Pick 2–3 meaningful meta values for the card
+  const metaFields = cfg.fields.filter(f => !['textarea','chips'].includes(f.type) && f.id !== firstTextField?.id && f.id !== priceField?.id).slice(0, 3);
+  listing._meta = metaFields.map(f => listing[f.id]).filter(Boolean);
+
+  listings.push(listing);
+  localStorage.setItem('marketly_listings', JSON.stringify(listings));
+
+  // Sync to public store so marketplace pages can read it
+  listing.business_id   = business.id;
+  listing.business_name = business.company_name;
+  const pubListings = JSON.parse(localStorage.getItem('marketly_all_listings') || '[]');
+  pubListings.push(listing);
+  localStorage.setItem('marketly_all_listings', JSON.stringify(pubListings));
+
+  buildStats();
+  renderListings();
+  renderOverview();
+  showPanel('listings');
+  buildAddForm(); // reset form
+  showToast(cfg.noun + ' added!');
+}
+
+function deleteListing(id) {
+  listings = listings.filter(l => l.id !== id);
+  localStorage.setItem('marketly_listings', JSON.stringify(listings));
+
+  // Remove from public store too
+  const pubListings = JSON.parse(localStorage.getItem('marketly_all_listings') || '[]');
+  localStorage.setItem('marketly_all_listings', JSON.stringify(pubListings.filter(l => l.id !== id)));
+  buildStats();
+  renderListings();
+  renderOverview();
+  showToast('Listing removed');
+}
+
+function renderListings() {
+  const grid = document.getElementById('listings-grid');
+  if (!listings.length) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 5v14M5 12h14" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <h3>No ${cfg.noun.toLowerCase()}s yet</h3>
+      <p>Add your first ${cfg.noun.toLowerCase()} to get discovered on Marketly.</p>
+      <button class="btn btn-primary" onclick="showPanel('add')">+ Add ${cfg.noun.toLowerCase()}</button>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = listings.map(l => cardHTML(l)).join('');
+}
+
+function renderOverview() {
+  const el = document.getElementById('overview-listings');
+  if (!listings.length) {
+    el.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24" fill="none" width="24" height="24"><path d="M12 5v14M5 12h14" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <h3>No ${cfg.noun.toLowerCase()}s yet</h3>
+      <p>Start by adding your first ${cfg.noun.toLowerCase()}.</p>
+      <button class="btn btn-primary" onclick="showPanel('add')">+ Add ${cfg.noun.toLowerCase()}</button>
+    </div>`;
+    return;
+  }
+  const recent = [...listings].reverse().slice(0, 4);
+  el.innerHTML = `<div class="listings-grid">${recent.map(l => cardHTML(l, false)).join('')}</div>`;
+}
+
+function cardHTML(l, showActions = true) {
+  const price = l._price ? `₹${Number(l._price).toLocaleString('en-IN')}` : '';
+  const meta  = (l._meta || []).map(v => `<span>${escHtml(v)}</span>`).join('');
+  const actions = showActions ? `<div class="listing-actions">
+    <button class="btn btn-light btn-sm" onclick="editListing(${l.id})">Edit</button>
+    <button class="btn btn-ghost btn-sm" onclick="deleteListing(${l.id})">Remove</button>
+  </div>` : '';
+  return `<div class="listing-card">
+    <div class="listing-card-top">
+      <span class="listing-name">${escHtml(l._name)}</span>
+      ${price ? `<span class="listing-badge">${price}</span>` : ''}
+    </div>
+    ${meta ? `<div class="listing-meta">${meta}</div>` : ''}
+    ${actions}
+  </div>`;
+}
+
+function editListing(id) {
+  // Prefill form with existing data and switch to add panel
+  const l = listings.find(x => x.id === id);
+  if (!l) return;
+  showPanel('add');
+  cfg.fields.forEach(f => {
+    if (f.type === 'chips') {
+      const group = document.getElementById('chips-' + f.id);
+      if (!group) return;
+      const vals = (l[f.id] || '').split(', ');
+      group.querySelectorAll('input').forEach(cb => {
+        cb.checked = vals.includes(cb.value);
+        cb.parentElement.classList.toggle('checked', cb.checked);
+      });
+    } else {
+      const el = document.getElementById('f-' + f.id);
+      if (el) el.value = l[f.id] || '';
+    }
+  });
+  // Remove old entry and save on next submit
+  listings = listings.filter(x => x.id !== id);
+  localStorage.setItem('marketly_listings', JSON.stringify(listings));
+  buildStats();
+}
+
+function showPanel(name) {
+  const isPanelName = ['overview','listings','add','profile'].includes(name);
+  const target = isPanelName ? name : LISTINGS_PANEL_NAV.has(name) ? 'listings' : 'overview';
+
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + target).classList.add('active');
+
+  document.querySelectorAll('[data-nav]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.nav === name);
+  });
+
+  const titleMap = {
+    overview: 'Dashboard',
+    listings: 'My ' + cfg.noun + 's',
+    add:      'Add ' + cfg.noun,
+    profile:  'Business profile',
+  };
+  document.getElementById('topbar-title').textContent = titleMap[target] || (NAV_ITEMS[name]?.label || 'Dashboard');
+}
+
+function logout() {
+  localStorage.removeItem('marketly_logged_in');
+  window.location.href = 'owner-login.html';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+init();
+</script>
+</body>
+</html>

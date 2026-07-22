@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marketly — List Your Business</title>
+  <title>Marketly — Business Registration</title>
+
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
@@ -14,23 +15,40 @@
       --muted: #536173;
       --border: #dfe7f1;
       --soft: #f6f9fc;
+      --ice: #e9f5ff;
       --white: #ffffff;
       --shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
       --container: 1180px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 75%;
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
-      background: #ffffff;
+      background: var(--white);
       color: var(--ink);
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.5;
     }
 
-    a { color: inherit; text-decoration: none; }
-    button, input, select, textarea { font: inherit; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
 
     .container {
       width: min(var(--container), calc(100% - 48px));
@@ -74,7 +92,10 @@
       box-shadow: 0 12px 28px rgba(7, 95, 201, 0.28);
     }
 
-    .brand-icon svg { width: 23px; height: 23px; }
+    .brand-icon svg {
+      width: 23px;
+      height: 23px;
+    }
 
     .nav-links {
       display: flex;
@@ -86,7 +107,9 @@
     }
 
     .nav-links a:hover,
-    .nav-links .active { color: var(--blue); }
+    .nav-links .active {
+      color: var(--blue);
+    }
 
     .nav-actions {
       display: flex;
@@ -112,7 +135,9 @@
       transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
     }
 
-    .btn:hover { transform: translateY(-2px); }
+    .btn:hover {
+      transform: translateY(-2px);
+    }
 
     .btn-primary {
       background: var(--blue);
@@ -120,7 +145,9 @@
       box-shadow: 0 12px 24px rgba(7, 95, 201, 0.24);
     }
 
-    .btn-primary:hover { background: var(--blue-dark); }
+    .btn-primary:hover {
+      background: var(--blue-dark);
+    }
 
     .btn-light {
       background: var(--white);
@@ -129,61 +156,65 @@
     }
 
     .page {
-      padding: 22px 0 94px;
+      padding: 42px 0 90px;
     }
 
     .page-header {
-      max-width: 920px;
-      margin: 0 auto 52px;
+      max-width: 900px;
+      margin: 0 auto 44px;
+      text-align: center;
     }
 
     .eyebrow {
       margin: 0 0 12px;
       color: var(--blue);
       font-size: 15px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: 0.09em;
       text-transform: uppercase;
     }
 
     .page-header h1 {
-      margin: 0 0 8px;
+      margin: 0 0 10px;
       color: var(--ink);
-      font-size: clamp(38px, 5vw, 50px);
+      font-size: clamp(38px, 5vw, 52px);
       line-height: 1.05;
       letter-spacing: -0.06em;
-      font-weight: 700;
+      font-weight: 900;
     }
 
     .page-header p {
-      margin: 0;
+      max-width: 720px;
+      margin: 0 auto;
       color: #3f4c5f;
-      font-size: 18px;
+      font-size: 20px;
     }
 
-    .form-shell {
-      max-width: 900px;
+    .form-card {
+      max-width: 920px;
       margin: 0 auto;
       padding: 38px;
       border: 1px solid var(--border);
-      border-radius: 22px;
+      border-radius: 24px;
       background: var(--white);
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03), 0 14px 36px rgba(15, 23, 42, 0.06);
+      box-shadow: var(--shadow);
     }
 
     .form-section {
       margin-bottom: 42px;
     }
 
-    .form-section:last-child { margin-bottom: 0; }
+    .form-section:last-of-type {
+      margin-bottom: 0;
+    }
 
     .form-section h2 {
       margin: 0 0 24px;
       color: var(--ink);
-      font-size: 18px;
+      font-size: 24px;
       line-height: 1.2;
       letter-spacing: -0.045em;
-      font-weight: 700;
+      font-weight: 900;
     }
 
     .form-grid {
@@ -197,12 +228,14 @@
       gap: 8px;
     }
 
-    .form-row.full { grid-column: 1 / -1; }
+    .form-row.full {
+      grid-column: 1 / -1;
+    }
 
     label {
       color: var(--ink);
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 16px;
+      font-weight: 800;
     }
 
     input,
@@ -220,13 +253,15 @@
     }
 
     textarea {
-      min-height: 126px;
+      min-height: 120px;
       padding: 15px 16px;
       resize: vertical;
     }
 
     input::placeholder,
-    textarea::placeholder { color: #7b8796; }
+    textarea::placeholder {
+      color: #7b8796;
+    }
 
     input:focus,
     select:focus,
@@ -235,81 +270,126 @@
       box-shadow: 0 0 0 4px rgba(7, 95, 201, 0.12);
     }
 
-    .upload-box {
-      min-height: 118px;
-      display: grid;
-      place-items: center;
-      border: 2px dashed #cbd8e8;
+    .help-text {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .info-box {
+      margin-bottom: 32px;
+      padding: 20px 22px;
+      border: 1px solid rgba(7, 95, 201, 0.18);
       border-radius: 18px;
-      background: var(--soft);
-      color: #3f4c5f;
-      text-align: center;
-      transition: border-color 0.2s ease, background 0.2s ease;
+      background: var(--ice);
+      color: #16345f;
+      font-size: 16px;
     }
 
-    .upload-box:hover {
-      border-color: rgba(7, 95, 201, 0.5);
-      background: #eef7ff;
+    .terms-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
     }
 
-    .upload-box a {
+    .terms-check input {
+      width: 18px;
+      height: 18px;
+      min-height: 18px;
+      margin-top: 3px;
+      accent-color: var(--blue);
+    }
+
+    .terms-check a {
       color: var(--blue);
       font-weight: 800;
     }
 
-    .divider {
-      height: 1px;
-      margin: 36px 0 28px;
-      background: var(--border);
-    }
-
     .submit-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .submit-row p {
-      margin: 0;
-      color: #3f4c5f;
-      font-size: 12px;
-    }
-
-    .submit-row a {
-      color: var(--ink);
-      text-decoration: underline;
-      text-underline-offset: 3px;
+      display: grid;
+      gap: 14px;
+      margin-top: 34px;
     }
 
     .submit-row .btn {
-      min-width: 190px;
+      width: 100%;
+      min-height: 54px;
+      font-size: 16px;
+    }
+
+    .secure-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
     }
 
     @media (max-width: 1040px) {
-      .nav-links { display: none; }
+      .nav-links {
+        display: none;
+      }
     }
 
     @media (max-width: 760px) {
-      .container { width: min(100% - 28px, var(--container)); }
-      .navbar { min-height: 68px; }
-      .brand { font-size: 17px; }
-      .nav-actions .btn-light { display: none; }
-      .page { padding: 28px 0 64px; }
-      .page-header { margin-bottom: 34px; }
-      .form-shell { padding: 24px; }
-      .form-grid { grid-template-columns: 1fr; }
-      .submit-row { display: grid; }
-      .submit-row .btn { width: 100%; }
+      .container {
+        width: min(100% - 28px, var(--container));
+      }
+
+      .navbar {
+        min-height: 68px;
+      }
+
+      .brand {
+        font-size: 21px;
+      }
+
+      .nav-actions .btn-light {
+        display: none;
+      }
+
+      .page {
+        padding: 34px 0 64px;
+      }
+
+      .page-header {
+        margin-bottom: 32px;
+      }
+
+      .form-card {
+        padding: 24px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row.full {
+        grid-column: auto;
+      }
     }
 
     @media (max-width: 430px) {
-      .container { width: min(100% - 20px, var(--container)); }
-      .btn { width: 100%; padding-inline: 14px; }
-      .form-shell { padding: 20px; border-radius: 20px; }
+      .container {
+        width: min(100% - 20px, var(--container));
+      }
+
+      .btn {
+        width: 100%;
+        padding-inline: 14px;
+      }
+
+      .form-card {
+        padding: 20px;
+        border-radius: 20px;
+      }
     }
   </style>
 </head>
+
 <body>
   <header class="site-header">
     <div class="container navbar">
@@ -333,7 +413,7 @@
 
       <div class="nav-actions">
         <a href="login.html" class="btn btn-light">Sign in</a>
-        <a href="owner-login.html" class="btn btn-primary">For business</a>
+        <a href="bus-sign.html" class="btn btn-primary">Business sign in</a>
       </div>
     </div>
   </header>
@@ -341,120 +421,218 @@
   <main class="page">
     <div class="container">
       <header class="page-header">
-        <p class="eyebrow">For business owners</p>
-        <h1>List your business</h1>
-        <p>Tell us about your business. You can edit everything later from your dashboard.</p>
+        <p class="eyebrow">Business registration</p>
+        <h1>Create your business account</h1>
+        <p>Register your company with Marketly. After approval, you can manage your profile, upload links, and choose services based on your business sector.</p>
       </header>
 
-      <form class="form-shell" action="#" method="post">
-        <section class="form-section" aria-labelledby="business-basics-title">
-          <h2 id="business-basics-title">Business basics</h2>
+      <form class="form-card" action="business-dashboard.html" method="post">
+        <div class="info-box">
+          Please make sure all information is accurate. Your business profile may be reviewed before it appears on Marketly.
+        </div>
+
+        <section class="form-section">
+          <h2>Owner details</h2>
 
           <div class="form-grid">
             <div class="form-row">
-              <label for="business-name">Business name</label>
-              <input id="business-name" name="business-name" type="text" placeholder="Acme Co." />
+              <label for="first-name">Firstname</label>
+              <input id="first-name" name="first_name" type="text" placeholder="Enter firstname" required />
             </div>
 
             <div class="form-row">
-              <label for="category">Category</label>
-              <select id="category" name="category">
-                <option value="">Choose a category</option>
-                <option>Hotels</option>
-                <option>Retail Stores</option>
-                <option>Restaurants</option>
-                <option>Services</option>
-                <option>Health & Beauty</option>
-                <option>Events</option>
-                <option>Real Estate</option>
-                <option>Freelancers</option>
-                <option>Local Businesses</option>
-              </select>
+              <label for="last-name">Lastname</label>
+              <input id="last-name" name="last_name" type="text" placeholder="Enter lastname" required />
+            </div>
+
+            <div class="form-row full">
+              <label for="email">Email address</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required />
             </div>
 
             <div class="form-row">
-              <label for="business-size">Business size</label>
-              <select id="business-size" name="business-size">
-                <option>Micro (1–4)</option>
-                <option>Small (5–49)</option>
-                <option>Medium (50–249)</option>
-                <option>Enterprise (250+)</option>
-              </select>
+              <label for="password">Password</label>
+              <input id="password" name="password" type="password" placeholder="Create a password" required minlength="8" />
+              <p class="help-text">Minimum 8 characters.</p>
             </div>
 
             <div class="form-row">
-              <label for="location">Location / address</label>
-              <input id="location" name="location" type="text" placeholder="123 Main St, City" />
+              <label for="confirm-password">Confirm password</label>
+              <input id="confirm-password" name="confirm_password" type="password" placeholder="Repeat your password" required />
             </div>
           </div>
         </section>
 
-        <section class="form-section" aria-labelledby="description-title">
-          <h2 id="description-title">Description & offerings</h2>
+        <section class="form-section">
+          <h2>Business details</h2>
 
           <div class="form-grid">
-            <div class="form-row full">
-              <label for="description">Short description</label>
-              <textarea id="description" name="description" placeholder="Tell customers what makes your business special."></textarea>
-            </div>
-
-            <div class="form-row full">
-              <label for="offerings">Services or products (comma separated)</label>
-              <input id="offerings" name="offerings" type="text" placeholder="Espresso, Pastries, Whole bean retail" />
+            <div class="form-row">
+              <label for="company-name">Name of the company</label>
+              <input id="company-name" name="company_name" type="text" placeholder="Enter company name" required />
             </div>
 
             <div class="form-row">
-              <label for="price">Starting price</label>
-              <input id="price" name="price" type="text" placeholder="$25 / From £60 / Free quote" />
+              <label for="business-type">Business type</label>
+              <select id="business-type" name="business_type" required>
+                <option value="">Choose business type</option>
+                <option value="micro-business">Micro business</option>
+                <option value="sme">SME</option>
+                <option value="large-company">Large company</option>
+                <option value="freelancer">Freelancer / Sole trader</option>
+              </select>
             </div>
 
             <div class="form-row">
-              <label for="hours">Opening hours</label>
-              <input id="hours" name="hours" type="text" placeholder="Mon–Fri 9:00–18:00" />
+              <label for="location">Location</label>
+              <input id="location" name="location" type="text" placeholder="City, country or full address" required />
+            </div>
+
+            <div class="form-row">
+              <label for="mode-service">Mode of service</label>
+              <select id="mode-service" name="mode_service" required>
+                <option value="">Choose mode of service</option>
+                <option value="offline">Offline</option>
+                <option value="online">Online</option>
+                <option value="both">Both online and offline</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="sector">Sector</label>
+              <select id="sector" name="sector" required>
+                <option value="">Choose sector</option>
+                <option value="hotel">Hotel / Accommodation</option>
+                <option value="restaurant">Restaurant / Cafe</option>
+                <option value="retail">Retail / Clothing</option>
+                <option value="beauty">Health & Beauty / Nail Art</option>
+                <option value="services">Services</option>
+                <option value="freelancer">Freelancer</option>
+                <option value="real-estate">Real Estate</option>
+                <option value="events">Events</option>
+                <option value="education">Education / Training</option>
+                <option value="technology">Technology</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="website">Link to the website</label>
+              <input id="website" name="website" type="url" placeholder="https://yourbusiness.com" />
             </div>
           </div>
         </section>
 
-        <section class="form-section" aria-labelledby="photos-title">
-          <h2 id="photos-title">Photos</h2>
-          <div class="form-row">
-            <label for="photos">Upload photos</label>
-            <label class="upload-box" for="photos">
-              <span>Drag & drop images here, or <a>browse</a></span>
+        <section class="form-section">
+          <h2>Payment method</h2>
+
+          <div class="form-grid">
+            <div class="form-row full">
+              <label for="payment-method">Preferred payment method</label>
+              <select id="payment-method" name="payment_method" required>
+                <option value="">Choose payment method</option>
+                <option value="card">Card payment (Credit / Debit)</option>
+                <option value="upi">UPI (Google Pay, PhonePe, Paytm)</option>
+                <option value="netbanking">Net banking</option>
+                <option value="emi">EMI</option>
+                <option value="cash">Cash on delivery</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="upi-id">UPI ID <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+              <input id="upi-id" name="upi_id" type="text" placeholder="yourname@upi" />
+            </div>
+
+            <div class="form-row">
+              <label for="account-name">Account holder name</label>
+              <input id="account-name" name="account_name" type="text" placeholder="As per bank records" required />
+            </div>
+
+            <div class="form-row">
+              <label for="account-number">Bank account number</label>
+              <input id="account-number" name="account_number" type="text" placeholder="Enter account number" required />
+            </div>
+
+            <div class="form-row">
+              <label for="ifsc">IFSC code</label>
+              <input id="ifsc" name="ifsc_code" type="text" placeholder="e.g. SBIN0001234" required />
+            </div>
+          </div>
+
+          <p class="help-text">
+            Payment details are used for receiving payouts. For a live product, these should be handled via a verified Indian payment gateway (e.g. Razorpay, Cashfree).
+          </p>
+        </section>
+
+        <section class="form-section">
+          <h2>Terms and condition</h2>
+
+          <div class="form-row full">
+            <label class="terms-check">
+              <input type="checkbox" name="terms" required />
+              <span>
+                I confirm that the information provided is correct and I agree to Marketly’s
+                <a href="terms.html">terms and conditions</a> and verification policy.
+              </span>
             </label>
-            <input id="photos" name="photos" type="file" accept="image/*" multiple hidden />
           </div>
         </section>
-
-        <section class="form-section" aria-labelledby="contact-title">
-          <h2 id="contact-title">Contact</h2>
-
-          <div class="form-grid">
-            <div class="form-row">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" placeholder="hello@acme.com" />
-            </div>
-
-            <div class="form-row">
-              <label for="phone">Phone</label>
-              <input id="phone" name="phone" type="tel" placeholder="+1 555 010 2200" />
-            </div>
-
-            <div class="form-row full">
-              <label for="website">Website</label>
-              <input id="website" name="website" type="url" placeholder="https://" />
-            </div>
-          </div>
-        </section>
-
-        <div class="divider"></div>
 
         <div class="submit-row">
-          <p>By submitting you agree to our <a href="terms.html">terms</a> & verification policy.</p>
-          <button class="btn btn-primary" type="submit">Submit listing</button>
+          <button class="btn btn-primary" type="submit">
+            Create business account
+          </button>
+          <p class="secure-note">
+            Your registration will be reviewed before your business profile is published.
+          </p>
         </div>
       </form>
     </div>
   </main>
+  <script>
+    document.querySelector('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const pw = document.getElementById('password');
+      const cpw = document.getElementById('confirm-password');
+
+      if (pw.value !== cpw.value) {
+        cpw.setCustomValidity('Passwords do not match.');
+        cpw.reportValidity();
+        return;
+      }
+      cpw.setCustomValidity('');
+
+      const data = {};
+      new FormData(this).forEach((val, key) => { data[key] = val; });
+
+      // Assign a unique id to this business
+      data.id = Date.now().toString();
+
+      localStorage.setItem('marketly_business', JSON.stringify(data));
+      localStorage.setItem('marketly_logged_in', 'true');
+
+      // Push to the public business directory (used by index & explore pages)
+      const allBiz = JSON.parse(localStorage.getItem('marketly_all_businesses') || '[]');
+      const others = allBiz.filter(b => b.email !== data.email); // replace on re-register
+      others.push({
+        id: data.id,
+        company_name: data.company_name,
+        sector: data.sector,
+        location: data.location,
+        mode_service: data.mode_service,
+        website: data.website,
+        email: data.email,
+      });
+      localStorage.setItem('marketly_all_businesses', JSON.stringify(others));
+
+      window.location.href = 'business-dashboard.html';
+    });
+
+    document.getElementById('confirm-password').addEventListener('input', function () {
+      this.setCustomValidity('');
+    });
+  </script>
 </body>
 </html>

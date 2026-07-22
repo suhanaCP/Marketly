@@ -1198,4 +1198,71 @@
 </html>
 
 
-git config --global user.name "Suhana Ninz"
+<script>
+(function () {
+  const businesses = JSON.parse(localStorage.getItem('marketly_all_businesses') || '[]');
+  if (!businesses.length) return;
+
+  const allListings = JSON.parse(localStorage.getItem('marketly_all_listings') || '[]');
+
+  const SECTOR_LABELS = {
+    hotel:'Hotel / Accommodation', restaurant:'Restaurant / Cafe', retail:'Retail / Clothing',
+    beauty:'Health & Beauty', services:'Services', freelancer:'Freelancer',
+    'real-estate':'Real Estate', events:'Events', education:'Education',
+    technology:'Technology', other:'Business',
+  };
+  const SECTOR_IMGS = {
+    hotel:        'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=80',
+    restaurant:   'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=900&q=80',
+    retail:       'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=900&q=80',
+    beauty:       'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=80',
+    services:     'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80',
+    freelancer:   'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80',
+    'real-estate':'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=80',
+    events:       'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=900&q=80',
+    education:    'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=900&q=80',
+    technology:   'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80',
+    other:        'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80',
+  };
+
+  function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  const cards = businesses.slice(0, 6).map(biz => {
+    const count = allListings.filter(l => String(l.business_id) === String(biz.id)).length;
+    const img   = SECTOR_IMGS[biz.sector] || SECTOR_IMGS.other;
+    const label = SECTOR_LABELS[biz.sector] || 'Business';
+    return `
+      <article class="listing-card">
+        <a href="business-listing-page.html?id=${esc(biz.id)}" class="listing-image" style="display:block;position:relative;height:236px;overflow:hidden">
+          <img src="${img}" alt="${esc(biz.company_name)}" style="width:100%;height:100%;object-fit:cover"/>
+          <span class="listing-tag">${esc(label)}</span>
+        </a>
+        <div class="listing-body">
+          <div class="listing-top"><h3>${esc(biz.company_name)}</h3><span class="rating">★ New</span></div>
+          <p class="location">📍 ${esc(biz.location || 'Location not set')}</p>
+          <div class="listing-foot">
+            <span>${count} listing${count !== 1 ? 's' : ''}</span>
+            <span class="price"><a href="business-listing-page.html?id=${esc(biz.id)}" style="color:var(--blue);font-weight:800">View →</a></span>
+          </div>
+        </div>
+      </article>`;
+  }).join('');
+
+  const section = `
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">New on Marketly</h2>
+            <p class="section-subtitle">Businesses that recently joined our marketplace.</p>
+          </div>
+          <a class="btn-link" href="explore.html">View all →</a>
+        </div>
+        <div class="listing-grid">${cards}</div>
+      </div>
+    </section>`;
+
+  const anchor = document.querySelector('.section-soft');
+  if (anchor) anchor.insertAdjacentHTML('beforebegin', section);
+})();
+</script>

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="page-title">Business — Marketly</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --blue: #075fc9;
+      --blue-dark: #034ea9;
+      --ink: #050b16;
+      --muted: #536173;
+      --border: #dfe7f1;
+      --soft: #f6f9fc;
+      --ice: #e9f5ff;
+      --white: #ffffff;
+      --shadow: 0 14px 30px rgba(15,23,42,0.08);
+      --shadow-strong: 0 24px 60px rgba(15,23,42,0.15);
+      --container: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--white); color: var(--ink); font-family: Inter, system-ui, sans-serif; line-height: 1.5; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button, input, select, textarea { font: inherit; }
+
+    .container { width: min(var(--container), calc(100% - 48px)); margin: 0 auto; }
+
+    /* ── Header ── */
+    .site-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--border); backdrop-filter: blur(18px); }
+    .navbar { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-size: 25px; font-weight: 900; letter-spacing: -0.04em; }
+    .brand-icon { width: 43px; height: 43px; display: grid; place-items: center; border-radius: 14px; background: var(--blue); color: var(--white); box-shadow: 0 12px 28px rgba(7,95,201,0.28); }
+    .nav-links { display: flex; align-items: center; gap: 30px; color: #364354; font-size: 16px; font-weight: 600; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+    .btn {
+      min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 0 20px; border: 1px solid transparent; border-radius: 14px; background: transparent;
+      font-weight: 800; line-height: 1; white-space: nowrap; cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--blue); color: var(--white); box-shadow: 0 12px 24px rgba(7,95,201,0.24); }
+    .btn-primary:hover { background: var(--blue-dark); }
+    .btn-light { background: var(--white); border-color: var(--border); color: var(--ink); }
+    .btn-sm { min-height: 40px; padding: 0 16px; font-size: 14px; border-radius: 11px; }
+
+    /* ── Business hero ── */
+    .biz-hero {
+      position: relative; overflow: hidden; min-height: 300px; padding: 64px 0;
+      background: linear-gradient(90deg, rgba(2,7,15,0.93) 0%, rgba(2,7,15,0.78) 52%, rgba(7,95,201,0.62) 100%) center/cover;
+      color: var(--white);
+    }
+    .biz-hero-inner { max-width: 740px; }
+    .sector-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border: 1px solid rgba(255,255,255,0.22); border-radius: 999px;
+      background: rgba(255,255,255,0.12); font-size: 13px; font-weight: 700;
+      backdrop-filter: blur(8px); margin-bottom: 14px;
+    }
+    .biz-hero h1 { margin: 0 0 10px; font-size: clamp(30px, 5vw, 50px); font-weight: 900; letter-spacing: -0.055em; line-height: 1.05; }
+    .biz-meta { display: flex; flex-wrap: wrap; gap: 16px; color: rgba(255,255,255,0.82); font-size: 15px; font-weight: 600; margin-bottom: 22px; }
+    .biz-meta span { display: inline-flex; align-items: center; gap: 5px; }
+    .biz-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* ── Listings ── */
+    .listings-section { padding: 52px 0 80px; }
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+    .section-head h2 { margin: 0; font-size: clamp(24px, 3vw, 32px); font-weight: 900; letter-spacing: -0.05em; }
+    .section-count { font-size: 15px; color: var(--muted); }
+
+    /* Group label (restaurant categories) */
+    .group-label { font-size: 19px; font-weight: 800; letter-spacing: -0.035em; margin: 32px 0 14px; padding-bottom: 10px; border-bottom: 2px solid var(--border); }
+    .group-label:first-child { margin-top: 0; }
+
+    /* Card grid */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(278px, 1fr)); gap: 18px; }
+
+    .card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 20px;
+      padding: 20px; display: flex; flex-direction: column; gap: 11px;
+      box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-strong); }
+
+    .card-name { font-size: 17px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.25; }
+
+    .badges { display: flex; flex-wrap: wrap; gap: 6px; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 700; background: var(--soft); color: var(--muted); border: 1px solid var(--border); }
+    .badge-blue  { background: var(--ice);   color: var(--blue);  border-color: rgba(7,95,201,0.15); }
+    .badge-green { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+    .badge-red   { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+    .badge-amber { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+
+    .card-details { display: flex; flex-direction: column; gap: 5px; font-size: 13px; color: var(--muted); }
+    .card-detail { display: flex; align-items: flex-start; gap: 6px; }
+    .card-detail svg { width: 13px; height: 13px; flex-shrink: 0; margin-top: 2px; opacity: 0.65; }
+
+    .card-desc { font-size: 13px; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+    .card-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); }
+    .card-price { font-size: 19px; font-weight: 900; letter-spacing: -0.04em; }
+    .price-unit { font-size: 12px; font-weight: 600; color: var(--muted); }
+    .price-strike { font-size: 13px; color: var(--muted); text-decoration: line-through; margin-left: 4px; }
+
+    /* Restaurant menu */
+    .menu-list { display: flex; flex-direction: column; gap: 10px; }
+    .menu-row {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+      background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px;
+      transition: box-shadow 0.2s;
+    }
+    .menu-row:hover { box-shadow: var(--shadow); }
+    .menu-left { flex: 1; }
+    .menu-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .menu-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .menu-desc { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .menu-right { text-align: right; flex-shrink: 0; }
+    .menu-price { font-size: 18px; font-weight: 900; letter-spacing: -0.03em; white-space: nowrap; }
+    .menu-sub { font-size: 12px; color: var(--muted); }
+
+    /* Reserve banner (restaurant) */
+    .reserve-banner {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 18px 22px; background: var(--ice);
+      border: 1px solid rgba(7,95,201,0.18); border-radius: 18px; margin-bottom: 28px;
+    }
+    .reserve-banner p { margin: 0; font-size: 15px; font-weight: 600; color: #16345f; }
+
+    /* Empty / not-found */
+    .empty-state { text-align: center; padding: 80px 20px; color: var(--muted); }
+    .empty-state h2 { font-size: 22px; font-weight: 800; color: var(--ink); margin: 0 0 8px; }
+    .empty-state p { font-size: 16px; margin: 0; }
+    .not-found { text-align: center; padding: 120px 20px; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(5,11,22,0.52); backdrop-filter: blur(5px);
+      z-index: 100; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 24px; padding: 30px;
+      width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto;
+      box-shadow: var(--shadow-strong); animation: slideUp 0.22s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .modal-title { font-size: 19px; font-weight: 900; letter-spacing: -0.04em; }
+    .modal-close { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 9px; background: var(--soft); cursor: pointer; font-size: 16px; color: var(--muted); }
+    .modal-close:hover { color: var(--ink); }
+    .modal-item { padding: 9px 13px; background: var(--soft); border-radius: 11px; font-size: 13px; font-weight: 700; margin-bottom: 18px; }
+
+    .modal-fields { display: flex; flex-direction: column; gap: 13px; }
+    .field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field-row { display: flex; flex-direction: column; gap: 5px; }
+    .field-row label { font-size: 13px; font-weight: 700; }
+    .field-row input, .field-row select, .field-row textarea {
+      width: 100%; min-height: 44px; border: 1px solid var(--border); border-radius: 10px;
+      padding: 0 12px; outline: none; font-size: 14px; background: var(--white); color: var(--ink);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field-row textarea { min-height: 82px; padding: 10px 12px; resize: vertical; }
+    .field-row input:focus, .field-row select:focus, .field-row textarea:focus {
+      border-color: rgba(7,95,201,0.55); box-shadow: 0 0 0 4px rgba(7,95,201,0.1);
+    }
+
+    .modal-foot { margin-top: 20px; display: flex; gap: 10px; }
+    .modal-foot .btn { flex: 1; }
+
+    .modal-success { text-align: center; padding: 16px; }
+    .success-icon { width: 58px; height: 58px; background: #dcfce7; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 14px; font-size: 24px; }
+    .modal-success h3 { font-size: 19px; font-weight: 800; margin: 0 0 8px; }
+    .modal-success p { font-size: 14px; color: var(--muted); margin: 0 0 18px; }
+
+    @media (max-width: 1040px) { .nav-links { display: none; } }
+    @media (max-width: 760px) {
+      .container { width: min(100% - 28px, var(--container)); }
+      .navbar { min-height: 68px; }
+      .nav-actions .btn-light { display: none; }
+      .biz-hero { min-height: auto; padding: 40px 0; }
+      .reserve-banner { flex-direction: column; align-items: flex-start; }
+      .menu-row { flex-direction: column; }
+      .menu-right { text-align: left; }
+      .field-pair { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container navbar">
+    <a href="index.html" class="brand">
+      <span class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" width="23" height="23">
+          <path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      Marketly
+    </a>
+    <nav class="nav-links">
+      <a href="explore.html">Explore</a>
+      <a href="categories.html">Categories</a>
+      <a href="add-business.html">List your business</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-light">Sign in</a>
+      <a href="owner-login.html" class="btn btn-primary">For business</a>
+    </div>
+  </div>
+</header>
+
+<main id="main"></main>
+
+<!-- Booking modal -->
+<div class="modal-overlay" id="overlay" onclick="overlayClick(event)">
+  <div class="modal"><div id="modal-body"></div></div>
+</div>
+
+<script>
+// ─── Config ───────────────────────────────────────────────────────────────────
+
+const SECTOR_LABELS = {
+  hotel:'Hotel / Accommodation', restaurant:'Restaurant / Cafe', retail:'Retail / Clothing',
+  beauty:'Health & Beauty', services:'Services', freelancer:'Freelancer',
+  'real-estate':'Real Estate', events:'Events', education:'Education / Training',
+  technology:'Technology', other:'Business',
+};
+
+const SECTOR_NOUN_PL = {
+  hotel:'Rooms', restaurant:'Menu', retail:'Products', beauty:'Services',
+  services:'Services', freelancer:'Portfolio', 'real-estate':'Properties',
+  events:'Events', education:'Courses', technology:'Products', other:'Listings',
+};
+
+const SECTOR_IMGS = {
+  hotel:        'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1400&q=80',
+  restaurant:   'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1400&q=80',
+  retail:       'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=1400&q=80',
+  beauty:       'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1400&q=80',
+  services:     'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1400&q=80',
+  freelancer:   'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1400&q=80',
+  'real-estate':'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1400&q=80',
+  events:       'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1400&q=80',
+  education:    'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1400&q=80',
+  technology:   'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80',
+  other:        'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80',
+};
+
+// Modal configs — pairs marked half:true are placed side-by-side
+const MODAL_CFG = {
+  hotel: { title:'Check room availability', submit:'Request booking', fields:[
+    {id:'checkin',  label:'Check-in date',   type:'date',   half:true},
+    {id:'checkout', label:'Check-out date',  type:'date',   half:true},
+    {id:'guests',   label:'Guests',          type:'number', half:true},
+    {id:'name',     label:'Your name',       type:'text'},
+    {id:'email',    label:'Email',           type:'email',  half:true},
+    {id:'phone',    label:'Phone',           type:'tel',    half:true},
+  ]},
+  restaurant: { title:'Reserve a table', submit:'Reserve table', fields:[
+    {id:'date',   label:'Date',             type:'date',   half:true},
+    {id:'time',   label:'Time',             type:'time',   half:true},
+    {id:'guests', label:'No. of guests',    type:'number', half:true},
+    {id:'name',   label:'Your name',        type:'text'},
+    {id:'email',  label:'Email',            type:'email',  half:true},
+    {id:'phone',  label:'Phone',            type:'tel',    half:true},
+  ]},
+  beauty: { title:'Book appointment', submit:'Confirm appointment', fields:[
+    {id:'date',  label:'Preferred date', type:'date',     half:true},
+    {id:'time',  label:'Preferred time', type:'time',     half:true},
+    {id:'name',  label:'Your name',      type:'text'},
+    {id:'email', label:'Email',          type:'email',    half:true},
+    {id:'phone', label:'Phone',          type:'tel',      half:true},
+    {id:'notes', label:'Special requests (optional)', type:'textarea'},
+  ]},
+  services: { title:'Request a quote', submit:'Send request', fields:[
+    {id:'name',        label:'Your name',                  type:'text'},
+    {id:'email',       label:'Email',                      type:'email', half:true},
+    {id:'phone',       label:'Phone',                      type:'tel',   half:true},
+    {id:'description', label:'Describe your requirement',  type:'textarea'},
+  ]},
+  freelancer: { title:'Send a proposal', submit:'Send proposal', fields:[
+    {id:'name',    label:'Your name',                  type:'text'},
+    {id:'email',   label:'Email',                      type:'email', half:true},
+    {id:'phone',   label:'Phone',                      type:'tel',   half:true},
+    {id:'project', label:'Tell us about your project', type:'textarea'},
+  ]},
+  'real-estate': { title:'Schedule a viewing', submit:'Request viewing', fields:[
+    {id:'date',  label:'Preferred date', type:'date',  half:true},
+    {id:'time',  label:'Preferred time', type:'time',  half:true},
+    {id:'name',  label:'Your name',      type:'text'},
+    {id:'email', label:'Email',          type:'email', half:true},
+    {id:'phone', label:'Phone',          type:'tel',   half:true},
+  ]},
+  events: { title:'Get tickets', submit:'Purchase tickets', fields:[
+    {id:'qty',   label:'Number of tickets', type:'number', half:true},
+    {id:'name',  label:'Your name',         type:'text'},
+    {id:'email', label:'Email',             type:'email',  half:true},
+    {id:'phone', label:'Phone',             type:'tel',    half:true},
+  ]},
+  education: { title:'Enroll in this course', submit:'Enroll now', fields:[
+    {id:'name',       label:'Your name',                        type:'text'},
+    {id:'email',      label:'Email',                            type:'email', half:true},
+    {id:'phone',      label:'Phone',                            type:'tel',   half:true},
+    {id:'experience', label:'Your background / experience level',type:'textarea'},
+  ]},
+  technology: { title:'Request a demo', submit:'Request demo', fields:[
+    {id:'name',     label:'Your name', type:'text',  half:true},
+    {id:'company',  label:'Company',   type:'text',  half:true},
+    {id:'email',    label:'Work email',type:'email'},
+    {id:'use_case', label:"What are you looking to solve?", type:'textarea'},
+  ]},
+  retail: { title:'Contact to purchase', submit:'Send enquiry', fields:[
+    {id:'name',  label:'Your name',                           type:'text'},
+    {id:'email', label:'Email',                               type:'email', half:true},
+    {id:'phone', label:'Phone',                               type:'tel',   half:true},
+    {id:'notes', label:'Size, colour, quantity or preferences',type:'textarea'},
+  ]},
+  other: { title:'Get in touch', submit:'Send message', fields:[
+    {id:'name',    label:'Your name', type:'text'},
+    {id:'email',   label:'Email',     type:'email', half:true},
+    {id:'phone',   label:'Phone',     type:'tel',   half:true},
+    {id:'message', label:'Message',   type:'textarea'},
+  ]},
+};
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let biz = null;
+let items = [];
+let activeName = '';
+
+// ─── Boot ─────────────────────────────────────────────────────────────────────
+function init() {
+  const id = new URLSearchParams(location.search).get('id');
+  const allBiz  = JSON.parse(localStorage.getItem('marketly_all_businesses') || '[]');
+  const allItems = JSON.parse(localStorage.getItem('marketly_all_listings')   || '[]');
+
+  if (!id) { renderNotFound('No business specified.'); return; }
+
+  biz = allBiz.find(b => String(b.id) === id);
+  if (!biz) { renderNotFound('This business was not found or may have been removed.'); return; }
+
+  items = allItems.filter(l => String(l.business_id) === id);
+  document.getElementById('page-title').textContent = biz.company_name + ' — Marketly';
+  renderPage();
+}
+
+// ─── Page render ──────────────────────────────────────────────────────────────
+function renderPage() {
+  const sector = biz.sector || 'other';
+  const img    = SECTOR_IMGS[sector] || SECTOR_IMGS.other;
+  const label  = SECTOR_LABELS[sector] || 'Business';
+  const noun   = SECTOR_NOUN_PL[sector] || 'Listings';
+  const mode   = biz.mode_service ? cap(biz.mode_service) : '';
+  const isRestaurant = sector === 'restaurant';
+  const isHotel      = sector === 'hotel';
+
+  document.getElementById('main').innerHTML = `
+    <section class="biz-hero" style="background-image:linear-gradient(90deg,rgba(2,7,15,.93) 0%,rgba(2,7,15,.78) 52%,rgba(7,95,201,.62) 100%),url('${img}');background-size:cover;background-position:center">
+      <div class="container">
+        <div class="biz-hero-inner">
+          <span class="sector-pill">${x(label)}</span>
+          <h1>${x(biz.company_name)}</h1>
+          <div class="biz-meta">
+            ${biz.location ? `<span>📍 ${x(biz.location)}</span>` : ''}
+            ${mode         ? `<span>🔗 ${x(mode)}</span>`          : ''}
+            <span>✓ Verified listing</span>
+          </div>
+          <div class="biz-actions">
+            ${biz.website   ? `<a href="${x(biz.website)}" target="_blank" rel="noopener" class="btn btn-light btn-sm">Visit website ↗</a>` : ''}
+            ${isRestaurant  ? `<button class="btn btn-primary btn-sm" onclick="openModal('restaurant','Reserve a table')">Reserve a table</button>` : ''}
+            ${isHotel       ? `<button class="btn btn-primary btn-sm" onclick="openModal('hotel','Room booking')">Check availability</button>` : ''}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="listings-section">
+      <div class="container">
+        <div class="section-head">
+          <h2>${noun}</h2>
+          <span class="section-count">${items.length} listed</span>
+        </div>
+        <div id="listings-wrap">${renderListings(sector)}</div>
+      </div>
+    </section>`;
+}
+
+function renderListings(sector) {
+  if (!items.length) return `<div class="empty-state"><h2>Nothing listed yet</h2><p>This business hasn't added any ${SECTOR_NOUN_PL[sector]?.toLowerCase() || 'listings'} yet. Check back soon.</p></div>`;
+  return sector === 'restaurant' ? renderMenu() : `<div class="cards-grid">${items.map((l,i) => card(l, sector, i)).join('')}</div>`;
+}
+
+// ── Restaurant: menu grouped by category ─────────────────────────────────────
+function renderMenu() {
+  const groups = {};
+  items.forEach(l => { const c = l.category || 'Other'; (groups[c] = groups[c] || []).push(l); });
+  return `
+    <div class="reserve-banner">
+      <p>Want to dine in? Reserve your table in seconds.</p>
+      <button class="btn btn-primary btn-sm" onclick="openModal('restaurant','Reserve a table')">Reserve a table</button>
+    </div>
+    ${Object.entries(groups).map(([cat, list]) => `
+      <div class="group-label">${x(cat)}</div>
+      <div class="menu-list">
+        ${list.map(item => `
+          <div class="menu-row">
+            <div class="menu-left">
+              <div class="menu-name">${x(item.item_name || 'Item')}</div>
+              <div class="menu-tags">
+                ${item.dietary === 'Veg'     ? '<span class="badge badge-green">● Veg</span>'     : ''}
+                ${item.dietary === 'Non-veg' ? '<span class="badge badge-red">● Non-veg</span>'   : ''}
+                ${item.dietary && item.dietary !== 'Veg' && item.dietary !== 'Non-veg' ? `<span class="badge">${x(item.dietary)}</span>` : ''}
+                ${item.spice_level ? `<span class="badge badge-amber">${x(item.spice_level)}</span>` : ''}
+                ${tags(item.tags)}
+              </div>
+              ${item.description ? `<div class="menu-desc">${x(item.description)}</div>` : ''}
+            </div>
+            <div class="menu-right">
+              <div class="menu-price">${item.price ? '₹'+fmt(item.price) : ''}</div>
+              ${item.prep_time ? `<div class="menu-sub">${x(item.prep_time)} mins</div>` : ''}
+            </div>
+          </div>`).join('')}
+      </div>`).join('')}`;
+}
+
+// ── Card renderers ────────────────────────────────────────────────────────────
+function card(l, sector, idx) {
+  switch (sector) {
+    case 'hotel':        return hotelCard(l, idx);
+    case 'retail':       return retailCard(l, idx);
+    case 'beauty':       return beautyCard(l, idx);
+    case 'services':     return servicesCard(l, idx);
+    case 'freelancer':   return freelancerCard(l, idx);
+    case 'real-estate':  return realEstateCard(l, idx);
+    case 'events':       return eventsCard(l, idx);
+    case 'education':    return educationCard(l, idx);
+    case 'technology':   return techCard(l, idx);
+    default:             return genericCard(l, idx);
+  }
+}
+
+function hotelCard(l, idx) {
+  return `<div class="card">
+    <div class="card-name">${x(l.room_type || 'Room')}</div>
+    <div class="badges">
+      ${l.bed_type       ? `<span class="badge">${x(l.bed_type)}</span>` : ''}
+      ${l.max_guests     ? `<span class="badge">Up to ${x(l.max_guests)} guests</span>` : ''}
+      ${l.rooms_available? `<span class="badge badge-green">${x(l.rooms_available)} available</span>` : ''}
+    </div>
+    ${l.amenities ? `<div class="badges">${l.amenities.split(', ').filter(Boolean).slice(0,5).map(a=>`<span class="badge badge-blue">${x(a)}</span>`).join('')}</div>` : ''}
+    ${l.description ? `<div class="card-desc">${x(l.description)}</div>` : ''}
+    <div class="card-foot">
+      <div><div class="card-price">${l.price_per_night ? '₹'+fmt(l.price_per_night) : '—'} <span class="price-unit">/ night</span></div></div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('hotel',${idx})">Check availability</button>
+    </div>
+  </div>`;
+}
+
+function beautyCard(l, idx) {
+  return `<div class="card">
+    <div class="card-name">${x(l.service_name || 'Service')}</div>
+    <div class="badges">
+      ${l.category ? `<span class="badge badge-blue">${x(l.category)}</span>` : ''}
+      ${l.gender   ? `<span class="badge">${x(l.gender)}</span>` : ''}
+    </div>
+    <div class="card-details">
+      ${l.duration   ? detail(clockSvg, l.duration + ' mins')  : ''}
+      ${l.specialist ? detail(personSvg, l.specialist)          : ''}
+    </div>
+    ${l.description ? `<div class="card-desc">${x(l.description)}</div>` : ''}
+    <div class="card-foot">
+      <div class="card-price">${l.price ? '₹'+fmt(l.price) : 'Contact'}</div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('beauty',${idx})">Book appointment</button>
+    </div>
+  </div>`;
+}
+
+function servicesCard(l, idx) {
+  return `<div class="card">
+    <div class="card-name">${x(l.service_name || 'Service')}</div>
+    <div class="badges">
+      ${l.category     ? `<span class="badge badge-blue">${x(l.category)}</span>` : ''}
+      ${l.pricing_type ? `<span class="badge">${x(l.pricing_type)}</span>` : ''}
+    </div>
+    <div class="card-details">
+      ${l.duration     ? detail(clockSvg, l.duration)      : ''}
+      ${l.availability ? detail(calSvg, l.availability)    : ''}
+    </div>
+    ${l.description ? `<div class="card-desc">${x(l.description)}</div>` : ''}
+    <div class="card-foot">
+      <div class="card-price">${l.price ? 'From ₹'+fmt(l.price) : 'Custom quote'}</div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('services',${idx})">Get a quote</button>
+    </div>
+  </div>`;
+}
+
+function freelancerCard(l, idx) {
+  return `<div class="card">
+    <div class="card-name">${x(l.project_title || 'Project')}</div>
+    <div class="badges">
+      ${l.category     ? `<span class="badge badge-blue">${x(l.category)}</span>` : ''}
+      ${l.budget_range ? `<span class="badge">${x(l.budget_range)}</span>` : ''}
+    </div>
+    <div class="card-details">
+      ${l.timeline    ? detail(clockSvg, 'Timeline: ' + l.timeline) : ''}
+      ${l.skills_used ? detail(codeSvg,  l.skills_used)             : ''}
+    </div>
+    ${l.description ? `<div class="card-desc">${x(l.description)}</div>` : ''}
+    <div class="card-foot">
+      <div>${l.project_link ? `<a href="${x(l.project_link)}" target="_blank" class="btn btn-light btn-sm">View ↗</a>` : ''}</div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('freelancer',${idx})">Send proposal</button>
+    </div>
+  </div>`;
+}
+
+function realEstateCard(l, idx) {
+  return `<div class="card">
+    <div class="card-name">${x(l.property_name || 'Property')}</div>
+    <div class="badges">
+      ${l.property_type ? `<span class="badge">${x(l.property_type)}</span>` : ''}
+      ${l.listing_for   ? `<span class="badge badge-blue">${x(l.listing_for)}</span>` : ''}
+      ${l.bhk           ? `<span class="badge">${x(l.bhk)}</span>` : ''}
+    </div>
+    <div class="card-details">
+      ${l.area_sqft  ? detail(boxSvg,    l.area_sqft + ' sq. ft.') : ''}
+      ${l.furnishing ? detail(homeSvg,   l.furnishing)             : ''}
+      ${l.possession ? detail(checkSvg,  l.possession)             : ''}
+      ${l.location   ? detail(pinSvg,    l.location)               : ''}
+    </div>
+    <div class="card-foot">
+      <div class="card-price">${l.price ? '₹'+fmt(l.price) : 'Contact'}</div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('real-estate',${idx})">Schedule viewing</button>
+    </div>
+  </div>`;
+}
+
+function eventsCard(l, idx) {
+  const isFree = !l.ticket_price || l.ticket_price === '0';
+  return `<div class="card">
+    <div class="card-name">${x(l.event_name || 'Event')}</div>
+    <div class="badges">
+      ${l.event_type ? `<span class="badge badge-blue">${x(l.event_type)}</span>` : ''}
+      ${isFree       ? '<span class="badge badge-green">Free</span>'               : ''}
+    </div>
+    <div class="card-details">
+      ${l.event_date ? detail(calSvg,    fmtDate(l.event_date) + (l.event_time ? ' · ' + fmtTime(l.event_time) : '')) : ''}
+      ${l.venue      ? detail(pinSvg,    l.venue)     : ''}
+      ${l.capacity   ? detail(peopleSvg, l.capacity + ' seats') : ''}
+    </div>
+    ${l.description ? `<div class="card-desc">${x(l.description)}</div>` : ''}
+    <div class="card-foot">
+      <div class="card-price">${isFree ? 'Free' : '₹'+fmt(l.ticket_price)} <span class="price-unit">${isFree ? '' : '/ ticket'}</span></div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('events',${idx})">Get tickets</button>
+    </div>
+  </div>`;
+}
+
+function educationCard(l, idx) {
+  const isFree = !l.price || l.price === '0';
+  return `<div class="card">
+    <div class="card-name">${x(l.course_name || 'Course')}</div>
+    <div class="badges">
+      ${l.subject ? `<span class="badge badge-blue">${x(l.subject)}</span>` : ''}
+      ${l.level   ? `<span class="badge">${x(l.level)}</span>` : ''}
+      ${l.mode    ? `<span class="badge">${x(l.mode)}</span>`  : ''}
+    </div>
+    <div class="card-details">
+      ${l.duration   ? detail(clockSvg,  l.duration)              : ''}
+      ${l.batch_size ? detail(peopleSvg, 'Batch of ' + l.batch_size) : ''}
+      ${l.start_date ? detail(calSvg,    'Starts ' + fmtDate(l.start_date)) : ''}
+    </div>
+    ${l.description ? `<div class="card-desc">${x(l.description)}</div>` : ''}
+    <div class="card-foot">
+      <div class="card-price">${isFree ? 'Free' : '₹'+fmt(l.price)}</div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('education',${idx})">Enroll now</button>
+    </div>
+  </div>`;
+}
+
+function techCard(l, idx) {
+  const isFree = !l.price || l.price === '0';
+  return `<div class="card">
+    <div class="card-name">${x(l.product_name || 'Product')}</div>
+    <div class="badges">
+      ${l.category      ? `<span class="badge badge-blue">${x(l.category)}</span>` : ''}
+      ${l.pricing_model ? `<span class="badge">${x(l.pricing_model)}</span>` : ''}
+    </div>
+    <div class="card-details">
+      ${l.target_audience ? detail(peopleSvg, l.target_audience) : ''}
+      ${l.tech_stack      ? detail(codeSvg,   l.tech_stack)      : ''}
+    </div>
+    ${l.description ? `<div class="card-desc">${x(l.description)}</div>` : ''}
+    <div class="card-foot">
+      <div>
+        <div class="card-price">${isFree ? 'Free' : '₹'+fmt(l.price)} <span class="price-unit">${isFree ? '' : '/mo'}</span></div>
+        ${l.demo_link ? `<a href="${x(l.demo_link)}" target="_blank" class="btn btn-light btn-sm" style="margin-top:6px">Try demo ↗</a>` : ''}
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('technology',${idx})">Request demo</button>
+    </div>
+  </div>`;
+}
+
+function retailCard(l, idx) {
+  const discount = l.mrp && l.price && +l.mrp > +l.price ? Math.round((1 - +l.price / +l.mrp) * 100) + '% off' : null;
+  return `<div class="card">
+    <div class="card-name">${x(l.product_name || 'Product')}</div>
+    <div class="badges">
+      ${l.category ? `<span class="badge badge-blue">${x(l.category)}</span>` : ''}
+      ${discount   ? `<span class="badge badge-green">${discount}</span>` : ''}
+    </div>
+    ${l.sizes ? `<div class="badges">${l.sizes.split(', ').filter(Boolean).map(s=>`<span class="badge">${x(s)}</span>`).join('')}</div>` : ''}
+    ${l.colours ? `<div class="card-details">${detail(dotSvg, l.colours)}</div>` : ''}
+    ${l.description ? `<div class="card-desc">${x(l.description)}</div>` : ''}
+    <div class="card-foot">
+      <div>
+        <div class="card-price">₹${l.price ? fmt(l.price) : '—'}${discount ? `<span class="price-strike">₹${fmt(l.mrp)}</span>` : ''}</div>
+        ${l.stock_qty ? `<div style="font-size:12px;color:var(--muted)">Stock: ${x(l.stock_qty)}</div>` : ''}
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('retail',${idx})">Contact to buy</button>
+    </div>
+  </div>`;
+}
+
+function genericCard(l, idx) {
+  return `<div class="card">
+    <div class="card-name">${x(l.listing_name || l._name || 'Listing')}</div>
+    ${l.category    ? `<div class="badges"><span class="badge badge-blue">${x(l.category)}</span></div>` : ''}
+    ${l.description ? `<div class="card-desc">${x(l.description)}</div>` : ''}
+    <div class="card-foot">
+      <div class="card-price">${l.price && l.price !== '0' ? '₹'+fmt(l.price) : ''}</div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('other',${idx})">Contact</button>
+    </div>
+  </div>`;
+}
+
+// ─── Modal ────────────────────────────────────────────────────────────────────
+function openModal(sector, idxOrTitle) {
+  const cfg = MODAL_CFG[sector] || MODAL_CFG.other;
+
+  // idxOrTitle can be a number (listing index) or a string (fallback title)
+  if (typeof idxOrTitle === 'number') {
+    const l = items[idxOrTitle];
+    activeName = l ? (l.room_type || l.service_name || l.item_name || l.event_name || l.course_name || l.product_name || l.project_title || l.property_name || l.listing_name || l._name || 'Item') : cfg.title;
+  } else {
+    activeName = idxOrTitle;
+  }
+
+  // Build field HTML, pairing adjacent half:true fields
+  let fhtml = '';
+  const fs = cfg.fields;
+  let i = 0;
+  while (i < fs.length) {
+    if (fs[i].half && fs[i+1]?.half) {
+      fhtml += `<div class="field-pair">${fld(fs[i])}${fld(fs[i+1])}</div>`;
+      i += 2;
+    } else {
+      fhtml += fld(fs[i]);
+      i++;
+    }
+  }
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-header">
+      <span class="modal-title">${x(cfg.title)}</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-item">📌 ${x(activeName)}</div>
+    <div class="modal-fields">${fhtml}</div>
+    <div class="modal-foot">
+      <button class="btn btn-light" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitModal('${x(cfg.submit)}')">${x(cfg.submit)}</button>
+    </div>`;
+
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function fld(f) {
+  const el = f.type === 'textarea'
+    ? `<textarea id="mf-${f.id}"></textarea>`
+    : `<input id="mf-${f.id}" type="${f.type}">`;
+  return `<div class="field-row"><label>${x(f.label)}</label>${el}</div>`;
+}
+
+function submitModal() {
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-success">
+      <div class="success-icon">✓</div>
+      <h3>Request received!</h3>
+      <p>Your request for <strong>${x(activeName)}</strong> has been sent. The business will get back to you shortly.</p>
+      <button class="btn btn-primary" onclick="closeModal()">Done</button>
+    </div>`;
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function overlayClick(e) { if (e.target === document.getElementById('overlay')) closeModal(); }
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function x(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmt(n) { return Number(n).toLocaleString('en-IN'); }
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+function tags(t) { return (t||'').split(', ').filter(Boolean).map(v=>`<span class="badge">${x(v)}</span>`).join(''); }
+function detail(svg, text) { return `<div class="card-detail">${svg}${x(text)}</div>`; }
+function fmtDate(d) { try { return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}); } catch { return d; } }
+function fmtTime(t) { try { const [h,m]=t.split(':'); const dt=new Date(); dt.setHours(h,m); return dt.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}); } catch { return t; } }
+function renderNotFound(msg) {
+  document.getElementById('main').innerHTML = `<div class="container not-found"><h2 style="font-size:28px;font-weight:900;margin:0 0 12px">Business not found</h2><p style="color:var(--muted);margin:0 0 24px">${x(msg)}</p><a href="explore.html" class="btn btn-primary">Browse all businesses</a></div>`;
+}
+
+// SVG icons
+const clockSvg   = `<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+const calSvg     = `<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+const pinSvg     = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.1 7-11a7 7 0 10-14 0c0 5.9 7 11 7 11z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.8"/></svg>`;
+const personSvg  = `<svg viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="1.8"/></svg>`;
+const peopleSvg  = `<svg viewBox="0 0 24 24" fill="none"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="1.8"/></svg>`;
+const codeSvg    = `<svg viewBox="0 0 24 24" fill="none"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+const boxSvg     = `<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/></svg>`;
+const homeSvg    = `<svg viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.8"/></svg>`;
+const checkSvg   = `<svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.8"/></svg>`;
+const dotSvg     = `<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/></svg>`;
+
+init();
+</script>
+</body>
+</html>
