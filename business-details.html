@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketly - Business Details</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --navy: #0a3160; --navy-dark: #062142; --blue: #1669c9; --blue-dark: #0f4fa0;
+      --ink: #132339; --muted: #5b6b80; --border: #dbe3ec; --soft: #f3f6fa; --ice: #e8f1fc;
+      --yellow: #ffb300; --white: #ffffff; --green: #0f9f6e;
+      --shadow: 0 10px 24px rgba(10, 49, 96, 0.09); --shadow-strong: 0 20px 48px rgba(10, 49, 96, 0.16);
+      --container: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--white); color: var(--ink); font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(var(--container), calc(100% - 48px)); margin: 0 auto; }
+
+    .site-header { position: sticky; top: 0; z-index: 50; background: var(--navy); border-bottom: 1px solid var(--navy-dark); }
+    .navbar { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 900; letter-spacing: -0.03em; color: var(--white); }
+    .brand-icon { width: 39px; height: 39px; display: grid; place-items: center; border-radius: 9px; background: var(--yellow); color: var(--navy-dark); }
+    .brand-icon svg { width: 21px; height: 21px; }
+    .nav-links { display: flex; align-items: center; gap: 26px; color: rgba(255,255,255,0.82); font-size: 14px; font-weight: 600; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 20px; border: 1px solid transparent; border-radius: 6px; font-weight: 800; font-size: 14px; cursor: pointer; background: transparent; transition: filter .15s ease; }
+    .btn:hover { filter: brightness(1.05); }
+    .btn-light { background: var(--white); color: var(--navy); }
+    .btn-primary { background: var(--blue); color: var(--white); box-shadow: 0 8px 18px rgba(22,105,201,.28); }
+    .btn-primary:hover { background: var(--blue-dark); }
+    .btn-outline { background: transparent; border-color: var(--border); color: var(--ink); }
+    .btn-full { width: 100%; }
+
+    .details-page { padding: 24px 0 70px; }
+    .breadcrumb { margin: 0 0 18px; color: var(--muted); font-size: 13px; }
+    .breadcrumb a:hover { color: var(--blue); }
+
+    .details-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 18px; }
+    .details-top h1 { margin: 0 0 8px; font-size: clamp(24px, 3.2vw, 32px); letter-spacing: -0.03em; font-weight: 900; }
+    .details-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .rating-group { display: inline-flex; align-items: center; gap: 8px; }
+    .rating-word { font-size: 13px; font-weight: 700; }
+    .rating-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; padding: 5px 8px; border-radius: 6px; background: var(--navy); color: #fff; font-weight: 900; font-size: 14px; }
+    .review-count { color: var(--muted); font-size: 13px; }
+    .location-line { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
+    .location-line svg { width: 15px; height: 15px; }
+
+    .save-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid var(--border); border-radius: 6px; background: #fff; font-weight: 800; font-size: 14px; cursor: pointer; color: var(--ink); }
+    .save-btn svg { width: 18px; height: 18px; }
+    .save-btn.saved { border-color: rgba(207,46,46,.4); color: #b91c1c; }
+    .save-btn.saved svg { fill: #b91c1c; stroke: #b91c1c; }
+
+    .gallery { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; height: 340px; border-radius: 14px; overflow: hidden; margin-bottom: 32px; }
+    .gallery img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-main { grid-row: 1 / 3; }
+
+    .details-layout { display: grid; grid-template-columns: 1.6fr 1fr; gap: 36px; align-items: start; }
+
+    .details-section { padding: 26px 0; border-bottom: 1px solid var(--border); }
+    .details-section:first-child { padding-top: 0; }
+    .details-section h2 { margin: 0 0 12px; font-size: 19px; letter-spacing: -0.02em; }
+    .details-section p { margin: 0; color: #334155; }
+
+    .highlights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; }
+    .highlight-item { display: flex; align-items: center; gap: 10px; color: #334155; font-size: 14px; }
+    .highlight-item svg { width: 18px; height: 18px; flex: 0 0 auto; color: var(--green); }
+
+    .rating-summary { display: flex; align-items: center; gap: 20px; padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--soft); margin-bottom: 20px; }
+    .rating-summary .big-score { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; }
+    .rating-summary .stars { color: var(--yellow); font-size: 15px; letter-spacing: 1px; }
+    .rating-summary .summary-meta { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+    .review-item { padding: 16px 0; border-top: 1px solid var(--border); }
+    .review-item:first-child { border-top: 0; padding-top: 0; }
+    .review-top { display: flex; justify-content: space-between; gap: 12px; }
+    .review-top strong { font-size: 14px; }
+    .review-top span { color: var(--muted); font-size: 12px; }
+    .review-stars { color: var(--yellow); font-size: 13px; letter-spacing: 1px; margin: 4px 0; }
+    .review-text { margin: 0; color: #334155; font-size: 13px; }
+
+    .booking-box { position: sticky; top: 96px; padding: 24px; border: 1px solid var(--border); border-radius: 14px; background: #fff; box-shadow: var(--shadow); }
+    .booking-price { font-size: 26px; font-weight: 900; letter-spacing: -0.03em; }
+    .booking-price span { color: var(--muted); font-size: 13px; font-weight: 700; }
+    .booking-sub { margin: 4px 0 18px; color: var(--muted); font-size: 13px; }
+    .booking-box form { display: grid; gap: 10px; margin-top: 16px; }
+    .booking-box label { font-size: 12px; font-weight: 800; }
+    .booking-box input, .booking-box textarea { width: 100%; min-height: 42px; border: 1px solid var(--border); border-radius: 8px; padding: 0 12px; outline: none; }
+    .booking-box textarea { min-height: 80px; padding: 10px 12px; resize: vertical; }
+    .booking-box input:focus, .booking-box textarea:focus { border-color: rgba(22,105,201,.6); box-shadow: 0 0 0 3px rgba(22,105,201,.12); }
+    .hidden { display: none !important; }
+    .success { padding: 12px 14px; border-radius: 8px; background: #ecfdf5; color: #047857; font-weight: 700; font-size: 12px; margin-top: 12px; }
+
+    .site-footer { padding: 36px 0; background: var(--navy-dark); color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 20px; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; }
+
+    @media (max-width: 1040px) {
+      .nav-links { display: none; }
+      .details-layout { grid-template-columns: 1fr; }
+      .booking-box { position: static; }
+    }
+    @media (max-width: 760px) {
+      .container { width: min(100% - 28px, var(--container)); }
+      .navbar { min-height: 64px; }
+      .brand { font-size: 17px; }
+      .nav-actions .btn-light { display: none; }
+      .details-top { flex-direction: column; }
+      .gallery { grid-template-columns: 1fr 1fr; height: auto; }
+      .gallery-main { grid-column: 1 / 3; height: 220px; }
+      .highlights-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="Marketly home">
+        <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/><path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        Marketly
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="explore.html">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a href="add-business.html">List your business</a>
+        <a href="about.html">About</a>
+        <a href="support.html">Help</a>
+      </nav>
+      <div class="nav-actions" id="navActions">
+        <a href="login.html" class="btn btn-light">Sign in</a>
+        <a href="owner-login.html" class="btn btn-primary">For business</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="details-page">
+    <div class="container">
+      <p class="breadcrumb"><a href="index.html">Home</a> / <a href="explore.html">Explore</a> / <span data-name></span></p>
+
+      <div class="details-top">
+        <div>
+          <h1 data-name></h1>
+          <div class="details-meta">
+            <span class="rating-group"><span class="rating-word" data-rating-word></span><span class="rating-badge" data-rating></span></span>
+            <span class="review-count" data-review-count></span>
+            <span class="location-line"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg><span data-location></span></span>
+          </div>
+        </div>
+        <button class="save-btn" id="saveBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 20.5s-7.5-4.7-9.8-9.4C.8 7.8 2.3 4.5 5.6 4c2-.3 3.8.6 4.9 2.2M12 20.5s7.5-4.7 9.8-9.4c1.4-3.3-.1-6.6-3.4-7.1-2-.3-3.8.6-4.9 2.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="saveLabel">Save</span>
+        </button>
+      </div>
+
+      <div class="gallery">
+        <img class="gallery-main" data-img="0" alt="">
+        <img data-img="1" alt="">
+        <img data-img="2" alt="">
+        <img data-img="0" alt="">
+        <img data-img="1" alt="">
+      </div>
+
+      <div class="details-layout">
+        <div>
+          <section class="details-section">
+            <h2>About</h2>
+            <p data-description></p>
+          </section>
+
+          <section class="details-section">
+            <h2>Highlights</h2>
+            <div class="highlights-grid" id="highlightsGrid"></div>
+          </section>
+
+          <section class="details-section">
+            <h2>Reviews</h2>
+            <div class="rating-summary">
+              <div><div class="big-score" data-rating-big></div><div class="summary-meta">out of 5</div></div>
+              <div><div class="stars">★★★★★</div><div class="summary-meta" data-review-count-2></div></div>
+            </div>
+            <div id="reviewList"></div>
+          </section>
+        </div>
+
+        <aside class="booking-box">
+          <div class="booking-price" data-price></div>
+          <p class="booking-sub">Response usually within a few hours</p>
+          <a class="btn btn-primary btn-full" data-website-link href="#" target="_blank" rel="noopener">Visit website</a>
+          <form id="enquiryForm">
+            <div id="enquiryMessage" class="hidden"></div>
+            <label for="enq-name">Your name</label>
+            <input id="enq-name" name="name" type="text" placeholder="Full name" required>
+            <label for="enq-email">Email</label>
+            <input id="enq-email" name="email" type="email" placeholder="you@example.com" required>
+            <label for="enq-message">Message</label>
+            <textarea id="enq-message" name="message" placeholder="I'd like to know more about..." required></textarea>
+            <button class="btn btn-outline btn-full" type="submit">Send enquiry</button>
+          </form>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 Marketly. All rights reserved.</span>
+      <span>✉ support@marketly.app &nbsp;&nbsp; ☎ +1 (555) 010-2200</span>
+    </div>
+  </footer>
+
+  <script>
+    const listings = {
+      'azure-bay': {
+        name: 'Azure Bay Hotel & Spa', category: 'Hotels', location: 'Calangute, Goa',
+        rating: 4.8, ratingWord: 'Exceptional', reviews: 87, price: '₹19,999', priceUnit: '/ night',
+        website: 'https://example.com',
+        image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=85',
+        images: ['https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=700&q=85','https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=700&q=85'],
+        description: 'Azure Bay Hotel & Spa is a boutique beachfront hotel in Goa offering ocean-view rooms, a full-service spa, and an on-site restaurant serving fresh Portuguese cuisine. Perfect for a relaxed getaway or a romantic weekend.',
+        highlights: ['Free WiFi', 'Ocean-view rooms', 'Spa & wellness centre', 'Breakfast included', 'Free cancellation up to 24 hours', 'Pet friendly'],
+        reviewList: [
+          { name: 'Sofia M.', stars: 5, time: '3 days ago', text: 'Booked our anniversary stay in two minutes. The listing photos and reviews matched exactly, no surprises.' },
+          { name: 'Daniel R.', stars: 5, time: '2 weeks ago', text: 'The spa alone is worth the trip. Staff were attentive from check-in to check-out.' },
+          { name: 'Marta L.', stars: 4, time: '1 month ago', text: 'Lovely stay overall, breakfast could have a bit more variety.' }
+        ]
+      },
+      'north-loop': {
+        name: 'North Loop Coffee Co.', category: 'Restaurants', location: 'Indiranagar, Bengaluru',
+        rating: 4.9, ratingWord: 'Exceptional', reviews: 974, price: '₹799', priceUnit: 'avg for two',
+        website: 'https://example.com',
+        image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=85',
+        images: ['https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=700&q=85','https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=700&q=85'],
+        description: 'A cozy neighborhood cafe known for single-origin coffee, weekend brunch, and communal seating. North Loop Coffee Co. roasts in small batches and sources beans directly from growers.',
+        highlights: ['Free WiFi', 'Weekend brunch menu', 'Vegan options', 'Outdoor seating', 'Dog friendly patio', 'Table booking available'],
+        reviewList: [
+          { name: 'Jake T.', stars: 5, time: '1 week ago', text: 'Best flat white in the neighborhood, hands down. Great spot to work from too.' },
+          { name: 'Priya R.', stars: 5, time: '3 weeks ago', text: 'Weekend brunch is worth the queue. Friendly staff every time.' }
+        ]
+      },
+      'atelier-marin': {
+        name: 'Atelier Marin Tailoring', category: 'Retail Stores', location: 'Bandra, Mumbai',
+        rating: 4.7, ratingWord: 'Excellent', reviews: 156, price: 'Custom', priceUnit: 'quote',
+        website: 'https://example.com',
+        image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1200&q=85',
+        images: ['https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=700&q=85','https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=700&q=85'],
+        description: 'A bespoke tailoring atelier specializing in made-to-measure suits, alterations, and fine fabric sourcing. Atelier Marin has been dressing Mumbaikars for over a decade.',
+        highlights: ['Made-to-measure suits', 'Alterations', 'Fabric sourcing', 'By-appointment fittings', 'Rush orders available', 'English spoken'],
+        reviewList: [
+          { name: 'Hugo B.', stars: 5, time: '2 weeks ago', text: 'Exceptional craftsmanship. My suit fit perfectly on the first fitting.' },
+          { name: 'Claire D.', stars: 4, time: '1 month ago', text: 'Great quality, a little pricier than expected but worth it.' }
+        ]
+      },
+      'cedar-co': {
+        name: 'Cedar & Co. Real Estate', category: 'Real Estate', location: 'Gurugram, Haryana',
+        rating: 4.6, ratingWord: 'Excellent', reviews: 412, price: 'Free', priceUnit: 'consultation',
+        website: 'https://example.com',
+        image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=85',
+        images: ['https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=700&q=85','https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=700&q=85'],
+        description: 'A residential and commercial real estate agency helping buyers, sellers, and renters across Gurugram and the NCR. Cedar & Co. offers free initial consultations for all new clients.',
+        highlights: ['Residential & commercial', 'Free consultation', 'Rental management', 'Local market reports', 'Multilingual agents', 'Virtual tours available'],
+        reviewList: [
+          { name: 'Wei C.', stars: 5, time: '1 week ago', text: 'Found our first home within a month. Responsive and knowledgeable team.' },
+          { name: 'Amelia F.', stars: 4, time: '2 months ago', text: 'Great communication throughout the whole process.' }
+        ]
+      },
+      'ironfix': {
+        name: 'IronFix Plumbing & Heating', category: 'Services', location: 'Kothrud, Pune',
+        rating: 4.7, ratingWord: 'Excellent', reviews: 802, price: '₹1,499', priceUnit: 'call-out',
+        website: 'https://example.com',
+        image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=85',
+        images: ['https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=700&q=85','https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=700&q=85'],
+        description: 'A licensed plumbing and heating service covering Pune and the surrounding area, including emergency call-outs, boiler repairs, and full installations.',
+        highlights: ['24/7 emergency call-out', 'Licensed & insured', 'Boiler repairs', 'Free quotes', 'Same-day service', '1 year guarantee on repairs'],
+        reviewList: [
+          { name: 'Tom H.', stars: 5, time: '4 days ago', text: 'Came out within the hour for a burst pipe. Fair pricing too.' },
+          { name: 'Grace P.', stars: 4, time: '3 weeks ago', text: 'Solid work on our boiler install, tidy and professional.' }
+        ]
+      },
+      'lumen-studio': {
+        name: 'Lumen Studio Branding', category: 'Freelancers', location: 'Remote, Bengaluru',
+        rating: 5.0, ratingWord: 'Exceptional', reviews: 87, price: '₹34,999', priceUnit: '/ project',
+        website: 'https://example.com',
+        image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85',
+        images: ['https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=700&q=85','https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=700&q=85'],
+        description: 'A branding and identity studio working with startups and small businesses worldwide. Lumen Studio designs logos, brand systems, and websites, fully remote.',
+        highlights: ['Logo & identity design', 'Brand guidelines', 'Website design', 'Remote collaboration', 'Fast turnaround', 'Unlimited revisions on select packages'],
+        reviewList: [
+          { name: 'Owen K.', stars: 5, time: '1 week ago', text: 'Transformed our brand completely. Communication was excellent throughout.' },
+          { name: 'Nadia S.', stars: 5, time: '1 month ago', text: 'Delivered exactly what we needed, ahead of schedule.' }
+        ]
+      },
+      'verde-wellness': {
+        name: 'Verde Wellness Spa', category: 'Health & Beauty', location: 'Rishikesh, Uttarakhand',
+        rating: 4.9, ratingWord: 'Exceptional', reviews: 321, price: 'From ₹1,299', priceUnit: '/ session',
+        website: 'https://example.com',
+        image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85',
+        images: ['https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=700&q=85','https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=700&q=85'],
+        description: 'A tranquil wellness spa offering massage, facials, and holistic treatments in a garden setting. Verde Wellness Spa is a favourite for both locals and travellers.',
+        highlights: ['Massage therapy', 'Facials', 'Garden setting', 'Couples packages', 'Home visits available', 'Certified therapists'],
+        reviewList: [
+          { name: 'Isabelle T.', stars: 5, time: '5 days ago', text: 'The most relaxing spa experience I have had. Beautiful setting too.' },
+          { name: 'Ravi N.', stars: 5, time: '3 weeks ago', text: 'Booked a couples massage, staff were wonderful and very professional.' }
+        ]
+      },
+      'harbor-events': {
+        name: 'Harbor Events Co.', category: 'Events', location: 'Marine Drive, Mumbai',
+        rating: 4.8, ratingWord: 'Exceptional', reviews: 208, price: 'Enquire', priceUnit: 'for pricing',
+        website: 'https://example.com',
+        image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=85',
+        images: ['https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=85','https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=700&q=85','https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=700&q=85'],
+        description: 'A harborside events venue and planning service for weddings, corporate functions, and celebrations, with in-house catering and full event coordination.',
+        highlights: ['Harbor views', 'In-house catering', 'Full event coordination', 'Capacity up to 300', 'On-site parking', 'AV equipment included'],
+        reviewList: [
+          { name: 'Chloe W.', stars: 5, time: '2 weeks ago', text: 'Our wedding reception was flawless. The team handled everything.' },
+          { name: 'Marco V.', stars: 4, time: '1 month ago', text: 'Great venue for our corporate event, would book again.' }
+        ]
+      }
+    };
+
+    function qs(name){ return new URLSearchParams(location.search).get(name); }
+    function escapeHtml(str){ const div = document.createElement('div'); div.textContent = str == null ? '' : String(str); return div.innerHTML; }
+
+    const id = qs('id') && listings[qs('id')] ? qs('id') : 'azure-bay';
+    const biz = listings[id];
+
+    document.title = 'Marketly - ' + biz.name;
+    document.querySelectorAll('[data-name]').forEach(el => el.textContent = biz.name);
+    document.querySelector('[data-rating-word]').textContent = biz.ratingWord;
+    document.querySelector('[data-rating]').textContent = biz.rating.toFixed(1);
+    document.querySelector('[data-rating-big]').textContent = biz.rating.toFixed(1);
+    document.querySelector('[data-review-count]').textContent = biz.reviews + ' reviews';
+    document.querySelector('[data-review-count-2]').textContent = 'Based on ' + biz.reviews + ' reviews';
+    document.querySelector('[data-location]').textContent = biz.location;
+    document.querySelector('[data-description]').textContent = biz.description;
+    document.querySelector('[data-price]').innerHTML = escapeHtml(biz.price) + ' <span>' + escapeHtml(biz.priceUnit) + '</span>';
+    document.querySelector('[data-website-link]').href = biz.website;
+
+    document.querySelectorAll('.gallery img').forEach(img => {
+      const idx = Number(img.dataset.img);
+      img.src = biz.images[idx] || biz.image;
+      img.alt = biz.name;
+    });
+
+    document.querySelector('#highlightsGrid').innerHTML = biz.highlights.map(h =>
+      `<div class="highlight-item"><svg viewBox="0 0 24 24" fill="none"><path d="m5 13 4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>${escapeHtml(h)}</div>`
+    ).join('');
+
+    document.querySelector('#reviewList').innerHTML = biz.reviewList.map(r =>
+      `<div class="review-item"><div class="review-top"><strong>${escapeHtml(r.name)}</strong><span>${escapeHtml(r.time)}</span></div><div class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div><p class="review-text">${escapeHtml(r.text)}</p></div>`
+    ).join('');
+
+    // Save / favourites
+    const saveBtn = document.querySelector('#saveBtn');
+    const saveLabel = document.querySelector('#saveLabel');
+    function getFavorites(){ return JSON.parse(localStorage.getItem('marketlyFavorites') || '[]'); }
+    function setFavorites(list){ localStorage.setItem('marketlyFavorites', JSON.stringify(list)); }
+    function refreshSaveButton(){
+      const favs = getFavorites();
+      const isSaved = favs.includes(id);
+      saveBtn.classList.toggle('saved', isSaved);
+      saveLabel.textContent = isSaved ? 'Saved' : 'Save';
+    }
+    refreshSaveButton();
+    saveBtn.addEventListener('click', () => {
+      const loggedIn = localStorage.getItem('marketlyCustomerLoggedIn') === 'true';
+      if(!loggedIn){ location.href = 'login.html'; return; }
+      let favs = getFavorites();
+      if(favs.includes(id)) favs = favs.filter(f => f !== id);
+      else favs.push(id);
+      setFavorites(favs);
+      refreshSaveButton();
+    });
+
+    // Enquiry form
+    const customer = JSON.parse(localStorage.getItem('marketlyCustomer') || 'null');
+    if(customer){
+      document.querySelector('#enq-name').value = (customer.firstName || '') + ' ' + (customer.lastName || '');
+      document.querySelector('#enq-email').value = customer.email || '';
+    }
+    function getEnquiries(){ return JSON.parse(localStorage.getItem('marketlyEnquiries') || '[]'); }
+    function setEnquiries(list){ localStorage.setItem('marketlyEnquiries', JSON.stringify(list)); }
+
+    document.querySelector('#enquiryForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.querySelector('#enq-name').value;
+      const email = document.querySelector('#enq-email').value;
+      const message = document.querySelector('#enq-message').value;
+      const enquiries = getEnquiries();
+      enquiries.unshift({
+        listingId: id, listingName: biz.name, name, email, message,
+        date: new Date().toISOString()
+      });
+      setEnquiries(enquiries);
+      const el = document.querySelector('#enquiryMessage');
+      el.className = 'success';
+      el.textContent = 'Your enquiry has been sent to ' + biz.name + '. They typically reply within a few hours.';
+      el.classList.remove('hidden');
+      this.querySelector('textarea').value = '';
+    });
+  </script>
+  <script>
+    (function () {
+      var loggedIn = localStorage.getItem('marketlyCustomerLoggedIn') === 'true';
+      if (!loggedIn) return;
+      var customer = JSON.parse(localStorage.getItem('marketlyCustomer') || 'null');
+      var nav = document.getElementById('navActions');
+      if (!nav) return;
+      var signInLink = nav.querySelector('a[href="login.html"]');
+      if (signInLink) {
+        signInLink.href = 'my-account.html';
+        signInLink.textContent = (customer && customer.firstName) ? customer.firstName : 'My account';
+      }
+    })();
+  </script>
+</body>
+
+</html>

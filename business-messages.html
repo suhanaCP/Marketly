@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Marketly - Messages</title><link rel="stylesheet" href="business.css"></head><body><header class="site-header"><div class="container navbar"><a href="business-home.html" class="brand"><span class="brand-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/><path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>Marketly</a><nav class="nav-links"><a href="business-home.html">Dashboard</a><a href="business-listing.html">Listing</a><a href="business-bookings.html">Bookings</a><a href="business-messages.html" class="active">Messages</a><a href="business-analytics.html">Analytics</a></nav><div class="nav-actions"><a href="index.html" class="btn btn-light">View site</a><button class="btn btn-primary" onclick="logout()">Logout</button></div></div></header><main class="page"><div class="container dashboard-layout"><aside class="sidebar"><h3>Business menu</h3><a href="business-home.html">Home</a><a href="business-listing.html">My listing</a><a href="business-bookings.html#bookings">Bookings</a><a href="business-bookings.html#enquiries">Enquiries</a><a href="business-reviews.html">Reviews</a><a href="business-analytics.html">Analytics</a><a href="business-subscription.html">Subscription</a><a href="business-settings.html">Settings</a></aside><section>
+
+<div class="dashboard-top"><div><p class="eyebrow">Messages</p><h1>Messages for <span data-company></span></h1></div></div>
+
+<div class="inbox-layout">
+  <div class="inbox-list" id="inboxList"></div>
+  <div class="inbox-thread">
+    <div class="thread-header hidden" id="threadHeader">
+      <span class="message-avatar" data-thread-avatar></span>
+      <div><strong data-thread-name></strong><span data-thread-sub>Customer</span></div>
+    </div>
+    <div class="thread-messages hidden" id="threadMessages"></div>
+    <div class="inbox-empty" id="inboxEmpty">Select a conversation to view messages.</div>
+    <form class="thread-input-row hidden" id="threadInputForm">
+      <input type="text" name="reply" placeholder="Type a message..." autocomplete="off">
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </div>
+</div>
+
+</section></div></main><script src="business.js"></script></body></html>

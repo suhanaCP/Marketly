@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketly - My Account</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --navy: #0a3160; --navy-dark: #062142; --blue: #1669c9; --blue-dark: #0f4fa0;
+      --ink: #132339; --muted: #5b6b80; --border: #dbe3ec; --soft: #f3f6fa; --ice: #e8f1fc;
+      --yellow: #ffb300; --white: #ffffff; --red: #b91c1c;
+      --shadow: 0 10px 24px rgba(10, 49, 96, 0.09);
+      --container: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--soft); color: var(--ink); font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; line-height: 1.5; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(var(--container), calc(100% - 48px)); margin: 0 auto; }
+
+    .site-header { position: sticky; top: 0; z-index: 50; background: var(--navy); border-bottom: 1px solid var(--navy-dark); }
+    .navbar { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 900; letter-spacing: -0.03em; color: var(--white); }
+    .brand-icon { width: 39px; height: 39px; display: grid; place-items: center; border-radius: 9px; background: var(--yellow); color: var(--navy-dark); }
+    .brand-icon svg { width: 21px; height: 21px; }
+    .nav-links { display: flex; align-items: center; gap: 26px; color: rgba(255,255,255,0.82); font-size: 14px; font-weight: 600; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 20px; border: 1px solid transparent; border-radius: 6px; font-weight: 800; font-size: 14px; cursor: pointer; background: transparent; transition: filter .15s ease; }
+    .btn:hover { filter: brightness(1.05); }
+    .btn-light { background: var(--white); color: var(--navy); }
+    .btn-primary { background: var(--blue); color: var(--white); }
+    .btn-primary:hover { background: var(--blue-dark); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--ink); }
+
+    .account-page { padding: 36px 0 70px; }
+    .account-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 28px; flex-wrap: wrap; }
+    .eyebrow { margin: 0 0 6px; color: var(--blue); font-size: 14px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
+    .account-header h1 { margin: 0; font-size: clamp(24px, 3.2vw, 32px); letter-spacing: -0.03em; font-weight: 900; }
+
+    .profile-card { display: flex; align-items: center; gap: 16px; padding: 22px; border-radius: 14px; background: var(--white); border: 1px solid var(--border); box-shadow: var(--shadow); margin-bottom: 32px; }
+    .avatar { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--navy); color: var(--white); font-weight: 900; font-size: 20px; flex: 0 0 auto; }
+    .profile-info h2 { margin: 0 0 4px; font-size: 18px; }
+    .profile-info p { margin: 0; color: var(--muted); font-size: 13px; }
+    .profile-actions { margin-left: auto; display: flex; gap: 10px; }
+
+    .section-title { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.02em; font-weight: 900; }
+    .section-subtitle { margin: 0 0 18px; color: var(--muted); font-size: 13px; }
+    .account-section { margin-bottom: 40px; }
+
+    .fav-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+    .fav-card { position: relative; display: block; border-radius: 12px; overflow: hidden; background: var(--white); border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .fav-image { position: relative; height: 140px; }
+    .fav-image img { width: 100%; height: 100%; object-fit: cover; }
+    .fav-remove { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; border: none; background: rgba(255,255,255,0.92); display: grid; place-items: center; cursor: pointer; }
+    .fav-remove svg { width: 18px; height: 18px; fill: var(--red); stroke: var(--red); }
+    .fav-body { padding: 14px 16px 16px; }
+    .fav-body h3 { margin: 0 0 6px; font-size: 15px; }
+    .fav-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; }
+
+    .empty-state { padding: 40px 24px; text-align: center; border: 1px dashed var(--border); border-radius: 12px; background: var(--white); color: var(--muted); font-size: 13px; }
+    .empty-state a { color: var(--blue); font-weight: 800; }
+    .hidden { display: none !important; }
+
+    .table-card { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: var(--white); box-shadow: var(--shadow); }
+    .table-row { display: grid; grid-template-columns: 1.2fr 1.6fr 1fr; gap: 16px; padding: 14px 18px; align-items: center; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .table-row:last-child { border-bottom: 0; }
+    .table-row.head { background: var(--soft); font-weight: 800; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .table-row strong { font-size: 13px; }
+    .table-row .muted { color: var(--muted); }
+
+    .site-footer { padding: 36px 0; background: var(--navy-dark); color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 20px; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; }
+
+    @media (max-width: 1040px) { .nav-links { display: none; } }
+    @media (max-width: 760px) {
+      .container { width: min(100% - 28px, var(--container)); }
+      .navbar { min-height: 64px; }
+      .brand { font-size: 17px; }
+      .nav-actions .btn-light { display: none; }
+      .profile-card { flex-wrap: wrap; }
+      .profile-actions { margin-left: 0; }
+      .table-row { grid-template-columns: 1fr; gap: 4px; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="Marketly home">
+        <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/><path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        Marketly
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="explore.html">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a href="add-business.html">List your business</a>
+        <a href="about.html">About</a>
+        <a href="support.html">Help</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="my-account.html" class="btn btn-light">My account</a>
+        <a href="owner-login.html" class="btn btn-primary">For business</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="account-page">
+    <div class="container">
+      <div class="account-header">
+        <div>
+          <p class="eyebrow">Your account</p>
+          <h1 id="welcomeName">My account</h1>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="avatar" id="avatarInitial">M</div>
+        <div class="profile-info">
+          <h2 id="profileName">-</h2>
+          <p id="profileEmail">-</p>
+        </div>
+        <div class="profile-actions">
+          <button class="btn btn-outline" id="signOutBtn" type="button">Sign out</button>
+        </div>
+      </div>
+
+      <section class="account-section">
+        <h2 class="section-title">Saved businesses</h2>
+        <p class="section-subtitle">Listings you've favourited while browsing.</p>
+        <div class="fav-grid" id="favGrid"></div>
+        <div class="empty-state hidden" id="favEmpty">No saved businesses yet. <a href="explore.html">Browse listings</a> and tap the heart to save one.</div>
+      </section>
+
+      <section class="account-section">
+        <h2 class="section-title">Enquiry history</h2>
+        <p class="section-subtitle">Messages you've sent to businesses through Marketly.</p>
+        <div class="table-card" id="enquiryTable">
+          <div class="table-row head"><span>Business</span><span>Message</span><span>Sent</span></div>
+        </div>
+        <div class="empty-state hidden" id="enquiryEmpty">No enquiries sent yet. When you contact a business from their listing page, it'll show up here.</div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 Marketly. All rights reserved.</span>
+      <span>✉ support@marketly.app &nbsp;&nbsp; ☎ +1 (555) 010-2200</span>
+    </div>
+  </footer>
+
+  <script>
+    const loggedIn = localStorage.getItem('marketlyCustomerLoggedIn') === 'true';
+    if (!loggedIn) { location.href = 'login.html'; }
+
+    const customer = JSON.parse(localStorage.getItem('marketlyCustomer') || 'null') || {};
+
+    function escapeHtml(str){ const div = document.createElement('div'); div.textContent = str == null ? '' : String(str); return div.innerHTML; }
+
+    const fullName = [customer.firstName, customer.lastName].filter(Boolean).join(' ') || 'Marketly member';
+    document.querySelector('#welcomeName').textContent = 'Welcome back, ' + (customer.firstName || 'there');
+    document.querySelector('#profileName').textContent = fullName;
+    document.querySelector('#profileEmail').textContent = customer.email || '-';
+    document.querySelector('#avatarInitial').textContent = (customer.firstName ? customer.firstName[0] : 'M').toUpperCase();
+
+    document.querySelector('#signOutBtn').addEventListener('click', () => {
+      localStorage.removeItem('marketlyCustomerLoggedIn');
+      location.href = 'index.html';
+    });
+
+    // Shared listing data (mirrors business-details.html)
+    const listings = {
+      'azure-bay': { name: 'Azure Bay Hotel & Spa', location: 'Calangute, Goa', rating: 4.8, price: '₹19,999 / night', image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=500&q=80' },
+      'north-loop': { name: 'North Loop Coffee Co.', location: 'Indiranagar, Bengaluru', rating: 4.9, price: '₹799 avg for two', image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=500&q=80' },
+      'atelier-marin': { name: 'Atelier Marin Tailoring', location: 'Bandra, Mumbai', rating: 4.7, price: 'Custom quote', image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80' },
+      'cedar-co': { name: 'Cedar & Co. Real Estate', location: 'Gurugram, Haryana', rating: 4.6, price: 'Free consultation', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=500&q=80' },
+      'ironfix': { name: 'IronFix Plumbing & Heating', location: 'Kothrud, Pune', rating: 4.7, price: '₹1,499 call-out', image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=500&q=80' },
+      'lumen-studio': { name: 'Lumen Studio Branding', location: 'Remote, Bengaluru', rating: 5.0, price: '₹34,999 / project', image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=500&q=80' },
+      'verde-wellness': { name: 'Verde Wellness Spa', location: 'Rishikesh, Uttarakhand', rating: 4.9, price: 'From ₹1,299 / session', image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=500&q=80' },
+      'harbor-events': { name: 'Harbor Events Co.', location: 'Marine Drive, Mumbai', rating: 4.8, price: 'Enquire for pricing', image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=500&q=80' }
+    };
+
+    function getFavorites(){ return JSON.parse(localStorage.getItem('marketlyFavorites') || '[]'); }
+    function setFavorites(list){ localStorage.setItem('marketlyFavorites', JSON.stringify(list)); }
+
+    function renderFavorites(){
+      const favs = getFavorites().filter(id => listings[id]);
+      const grid = document.querySelector('#favGrid');
+      const empty = document.querySelector('#favEmpty');
+      if (!favs.length) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+      grid.innerHTML = favs.map(id => {
+        const b = listings[id];
+        return `<a class="fav-card" href="business-details.html?id=${encodeURIComponent(id)}">
+          <div class="fav-image">
+            <img src="${b.image}" alt="${escapeHtml(b.name)}">
+            <button class="fav-remove" type="button" data-remove="${id}" aria-label="Remove from saved">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 20.5s-7.5-4.7-9.8-9.4C.8 7.8 2.3 4.5 5.6 4c2-.3 3.8.6 4.9 2.2M12 20.5s7.5-4.7 9.8-9.4c1.4-3.3-.1-6.6-3.4-7.1-2-.3-3.8.6-4.9 2.2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <div class="fav-body">
+            <h3>${escapeHtml(b.name)}</h3>
+            <div class="fav-meta"><span>${escapeHtml(b.location)}</span><span>★ ${b.rating.toFixed(1)}</span></div>
+          </div>
+        </a>`;
+      }).join('');
+
+      grid.querySelectorAll('[data-remove]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const id = btn.dataset.remove;
+          setFavorites(getFavorites().filter(f => f !== id));
+          renderFavorites();
+        });
+      });
+    }
+    renderFavorites();
+
+    function getEnquiries(){ return JSON.parse(localStorage.getItem('marketlyEnquiries') || '[]'); }
+    function renderEnquiries(){
+      const all = getEnquiries();
+      const mine = customer.email ? all.filter(e => e.email === customer.email) : all;
+      const table = document.querySelector('#enquiryTable');
+      const empty = document.querySelector('#enquiryEmpty');
+      if (!mine.length) {
+        table.classList.add('hidden');
+        empty.classList.remove('hidden');
+        return;
+      }
+      table.classList.remove('hidden');
+      empty.classList.add('hidden');
+      table.innerHTML = '<div class="table-row head"><span>Business</span><span>Message</span><span>Sent</span></div>' +
+        mine.map(e => {
+          const d = new Date(e.date);
+          const dateStr = isNaN(d) ? '' : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+          return `<div class="table-row">
+            <strong>${escapeHtml(e.listingName)}</strong>
+            <span class="muted">${escapeHtml((e.message || '').slice(0, 80))}${(e.message || '').length > 80 ? '...' : ''}</span>
+            <span class="muted">${dateStr}</span>
+          </div>`;
+        }).join('');
+    }
+    renderEnquiries();
+  </script>
+</body>
+</html>

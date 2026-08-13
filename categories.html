@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marketly — Categories</title>
+  <title>Marketly - Categories</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
     :root {
-      --blue: #075fc9;
-      --blue-dark: #034ea9;
-      --ink: #050b16;
-      --muted: #536173;
-      --border: #dfe7f1;
-      --soft: #f6f9fc;
-      --ice: #e9f5ff;
+      --navy: #0a3160;
+      --navy-dark: #062142;
+      --blue: #1669c9;
+      --blue-dark: #0f4fa0;
+      --ink: #132339;
+      --muted: #5b6b80;
+      --border: #dbe3ec;
+      --soft: #f3f6fa;
+      --ice: #e8f1fc;
+      --yellow: #ffb300;
       --white: #ffffff;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
-      --shadow-strong: 0 22px 55px rgba(15, 23, 42, 0.13);
+      --shadow: 0 10px 24px rgba(10, 49, 96, 0.09);
+      --shadow-strong: 0 20px 48px rgba(10, 49, 96, 0.16);
       --container: 1180px;
     }
 
@@ -34,6 +37,7 @@
       background: #ffffff;
       color: var(--ink);
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
       line-height: 1.5;
     }
 
@@ -57,13 +61,12 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255, 255, 255, 0.96);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(18px);
+      background: var(--navy);
+      border-bottom: 1px solid var(--navy-dark);
     }
 
     .navbar {
-      min-height: 78px;
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -73,40 +76,40 @@
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      font-size: 25px;
+      gap: 10px;
+      font-size: 20px;
       font-weight: 900;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.03em;
+      color: var(--white);
     }
 
     .brand-icon {
-      width: 43px;
-      height: 43px;
+      width: 39px;
+      height: 39px;
       display: grid;
       place-items: center;
-      border-radius: 14px;
-      background: var(--blue);
-      color: var(--white);
-      box-shadow: 0 12px 28px rgba(7, 95, 201, 0.28);
+      border-radius: 9px;
+      background: var(--yellow);
+      color: var(--navy-dark);
     }
 
     .brand-icon svg {
-      width: 23px;
-      height: 23px;
+      width: 21px;
+      height: 21px;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 30px;
-      color: #364354;
-      font-size: 16px;
+      gap: 28px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
       font-weight: 600;
     }
 
     .nav-links a:hover,
     .nav-links .active {
-      color: var(--blue);
+      color: var(--white);
     }
 
     .nav-actions {
@@ -116,30 +119,30 @@
     }
 
     .btn {
-      min-height: 46px;
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       padding: 0 20px;
       border: 1px solid transparent;
-      border-radius: 14px;
+      border-radius: 6px;
       background: transparent;
       font-weight: 800;
       line-height: 1;
       white-space: nowrap;
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      transition: filter 0.15s ease, background 0.15s ease, border-color 0.15s ease;
     }
 
     .btn:hover {
-      transform: translateY(-2px);
+      filter: brightness(1.05);
     }
 
     .btn-primary {
       background: var(--blue);
       color: var(--white);
-      box-shadow: 0 12px 24px rgba(7, 95, 201, 0.24);
+      box-shadow: 0 8px 18px rgba(22, 105, 201, 0.28);
     }
 
     .btn-primary:hover {
@@ -148,8 +151,8 @@
 
     .btn-light {
       background: var(--white);
-      border-color: var(--border);
-      color: var(--ink);
+      border-color: transparent;
+      color: var(--navy);
     }
 
     .categories-page {
@@ -163,16 +166,16 @@
     .page-title h1 {
       margin: 0 0 8px;
       color: var(--ink);
-      font-size: clamp(38px, 5vw, 50px);
-      line-height: 1.05;
-      letter-spacing: -0.06em;
-      font-weight: 700;
+      font-size: clamp(26px, 3.5vw, 36px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      font-weight: 800;
     }
 
     .page-title p {
       margin: 0;
       color: #3f4c5f;
-      font-size: 18px;
+      font-size: 15px;
     }
 
     .category-grid {
@@ -189,23 +192,23 @@
       gap: 20px;
       padding: 24px;
       border: 1px solid var(--border);
-      border-radius: 22px;
+      border-radius: 12px;
       background: var(--white);
       transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
     }
 
     .category-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(7, 95, 201, 0.25);
+      transform: translateY(-4px);
+      border-color: rgba(22, 105, 201, 0.3);
       box-shadow: var(--shadow);
     }
 
     .category-icon {
-      width: 58px;
-      height: 58px;
+      width: 56px;
+      height: 56px;
       display: grid;
       place-items: center;
-      border-radius: 20px;
+      border-radius: 10px;
       background: var(--ice);
       color: var(--blue);
     }
@@ -218,16 +221,16 @@
     .category-content h2 {
       margin: 0 0 2px;
       color: var(--ink);
-      font-size: 17px;
-      line-height: 1.2;
-      letter-spacing: -0.045em;
+      font-size: 16px;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
       font-weight: 900;
     }
 
     .category-content .description {
-      margin: 0 0 8px;
+      margin: 0 0 6px;
       color: #435064;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .category-content .count {
@@ -256,7 +259,7 @@
       }
 
       .brand {
-        font-size: 16px;
+        font-size: 17px;
       }
 
       .nav-actions .btn-light {
@@ -314,7 +317,7 @@
         <a href="support.html">Help</a>
       </nav>
 
-      <div class="nav-actions">
+      <div class="nav-actions" id="navActions">
         <a href="login.html" class="btn btn-light">Sign in</a>
         <a href="owner-login.html" class="btn btn-primary">For business</a>
       </div>
@@ -430,5 +433,20 @@
       </section>
     </div>
   </main>
+  <script>
+    (function () {
+      var loggedIn = localStorage.getItem('marketlyCustomerLoggedIn') === 'true';
+      if (!loggedIn) return;
+      var customer = JSON.parse(localStorage.getItem('marketlyCustomer') || 'null');
+      var nav = document.getElementById('navActions');
+      if (!nav) return;
+      var signInLink = nav.querySelector('a[href="login.html"]');
+      if (signInLink) {
+        signInLink.href = 'my-account.html';
+        signInLink.textContent = (customer && customer.firstName) ? customer.firstName : 'My account';
+      }
+    })();
+  </script>
 </body>
+
 </html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Marketly - Settings</title><link rel="stylesheet" href="business.css"></head><body><header class="site-header"><div class="container navbar"><a href="business-home.html" class="brand"><span class="brand-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/><path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>Marketly</a><nav class="nav-links"><a href="business-home.html">Dashboard</a><a href="business-listing.html">Listing</a><a href="business-bookings.html">Bookings</a><a href="business-messages.html">Messages</a><a href="business-analytics.html">Analytics</a></nav><div class="nav-actions"><a href="index.html" class="btn btn-light">View site</a><button class="btn btn-primary" onclick="logout()">Logout</button></div></div></header><main class="page"><div class="container dashboard-layout"><aside class="sidebar"><h3>Business menu</h3><a href="business-home.html">Home</a><a href="business-listing.html">My listing</a><a href="business-bookings.html#bookings">Bookings</a><a href="business-bookings.html#enquiries">Enquiries</a><a href="business-reviews.html">Reviews</a><a href="business-analytics.html">Analytics</a><a href="business-subscription.html">Subscription</a><a href="business-settings.html" class="active">Settings</a></aside><section><div class="dashboard-top"><div><p class="eyebrow">Settings</p><h1>Account settings</h1><p>Update your business profile, password and notification preferences.</p></div><a href="business-home.html" class="btn btn-outline">Back to dashboard</a></div>
+
+<form id="settingsForm" class="panel">
+<div id="settingsMessage" class="hidden"></div>
+
+<section class="form-section"><h2>Business profile</h2>
+<div class="form-grid">
+<div class="form-row"><label for="set-company">Business name</label><input id="set-company" name="company_name" type="text" required></div>
+<div class="form-row"><label for="set-first">First name</label><input id="set-first" name="first_name" type="text" required></div>
+<div class="form-row"><label for="set-last">Last name</label><input id="set-last" name="last_name" type="text" required></div>
+<div class="form-row"><label for="set-email">Email address</label><input id="set-email" name="email" type="email" required></div>
+<div class="form-row"><label for="set-location">Location</label><input id="set-location" name="location" type="text" required></div>
+<div class="form-row"><label for="set-website">Website link</label><input id="set-website" name="website" type="url" placeholder="https://yourbusiness.com"></div>
+</div>
+</section>
+
+<section class="form-section"><h2>Password</h2>
+<div class="form-grid">
+<div class="form-row"><label for="set-current-pw">Current password</label><input id="set-current-pw" name="current_password" type="password" placeholder="Leave blank to keep current password"></div>
+<div class="form-row"><label for="set-new-pw">New password</label><input id="set-new-pw" name="new_password" type="password" placeholder="Leave blank to keep current password"></div>
+</div>
+<p class="help-text">To change your password, enter your current password and a new password. Otherwise leave both fields blank.</p>
+</section>
+
+<section class="form-section"><h2>Notifications</h2>
+<div class="settings-row"><div><strong>Email notifications</strong><p>New bookings, enquiries and messages by email.</p></div><label class="switch"><input type="checkbox" name="notify_email" checked><span class="switch-track"></span></label></div>
+<div class="settings-row"><div><strong>SMS notifications</strong><p>Text alerts for urgent booking requests.</p></div><label class="switch"><input type="checkbox" name="notify_sms"><span class="switch-track"></span></label></div>
+</section>
+
+<div class="submit-row"><button class="btn btn-primary" type="submit">Save changes</button></div>
+</form>
+
+<section class="panel"><div class="danger-zone"><h3>Delete business account</h3><p>This permanently removes your business listing and account from this prototype session.</p><button id="deleteAccount" class="btn btn-danger" type="button">Delete business account</button></div></section>
+
+</section></div></main><script src="business.js"></script></body></html>

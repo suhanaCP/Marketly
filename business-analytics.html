@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Marketly - Analytics</title><link rel="stylesheet" href="business.css"></head><body><header class="site-header"><div class="container navbar"><a href="business-home.html" class="brand"><span class="brand-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/><path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>Marketly</a><nav class="nav-links"><a href="business-home.html">Dashboard</a><a href="business-listing.html">Listing</a><a href="business-bookings.html">Bookings</a><a href="business-messages.html">Messages</a><a href="business-analytics.html" class="active">Analytics</a></nav><div class="nav-actions"><a href="index.html" class="btn btn-light">View site</a><button class="btn btn-primary" onclick="logout()">Logout</button></div></div></header><main class="page"><div class="container dashboard-layout"><aside class="sidebar"><h3>Business menu</h3><a href="business-home.html">Home</a><a href="business-listing.html">My listing</a><a href="business-bookings.html#bookings">Bookings</a><a href="business-bookings.html#enquiries">Enquiries</a><a href="business-reviews.html">Reviews</a><a href="business-analytics.html" class="active">Analytics</a><a href="business-subscription.html">Subscription</a><a href="business-settings.html">Settings</a></aside><section><div class="dashboard-top"><div><p class="eyebrow">Analytics</p><h1>Performance for <span data-company></span></h1><p>How customers are finding and engaging with your listing.</p></div></div>
+
+<div class="stats-grid">
+<article class="dashboard-card"><h3>Profile views</h3><span class="stat-number">2,480</span><p>Last 30 days, up 14%</p></article>
+<article class="dashboard-card"><h3>Enquiry rate</h3><span class="stat-number">6.2%</span><p>Views that led to an enquiry</p></article>
+<article class="dashboard-card"><h3>Avg response time</h3><span class="stat-number">3h</span><p>To customer messages</p></article>
+<article class="dashboard-card"><h3>Search appearances</h3><span class="stat-number">9,140</span><p>Times shown in results</p></article>
+</div>
+
+<section class="panel"><div class="panel-header"><div><h2>Views this week</h2><p>Profile views by day, last 7 days.</p></div></div>
+<div class="bar-chart">
+<div class="bar-col"><div class="bar" style="height:40%"></div><span class="bar-label">Mon</span></div>
+<div class="bar-col"><div class="bar" style="height:55%"></div><span class="bar-label">Tue</span></div>
+<div class="bar-col"><div class="bar" style="height:70%"></div><span class="bar-label">Wed</span></div>
+<div class="bar-col"><div class="bar" style="height:50%"></div><span class="bar-label">Thu</span></div>
+<div class="bar-col"><div class="bar" style="height:85%"></div><span class="bar-label">Fri</span></div>
+<div class="bar-col"><div class="bar" style="height:100%"></div><span class="bar-label">Sat</span></div>
+<div class="bar-col"><div class="bar" style="height:65%"></div><span class="bar-label">Sun</span></div>
+</div>
+</section>
+
+<section class="panel"><div class="panel-header"><div><h2>Top search keywords</h2><p>What customers searched before finding you.</p></div></div>
+<div class="table-card">
+<div class="table-row header"><span>Keyword</span><span>Searches</span><span>Trend</span></div>
+<div class="table-row"><span>hotels near me</span><span>420</span><span class="status-pill">↑ 12%</span></div>
+<div class="table-row"><span>best rated in the area</span><span>310</span><span class="status-pill">↑ 8%</span></div>
+<div class="table-row"><span>book a table tonight</span><span>180</span><span class="status-pill cancelled">↓ 3%</span></div>
+<div class="table-row"><span>top rated near me</span><span>145</span><span class="status-pill">↑ 20%</span></div>
+</div>
+</section>
+
+</section></div></main><script src="business.js"></script></body></html>

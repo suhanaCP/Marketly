@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketly - Terms & Conditions</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --navy: #0a3160; --navy-dark: #062142; --blue: #1669c9; --blue-dark: #0f4fa0;
+      --ink: #132339; --muted: #5b6b80; --border: #dbe3ec; --soft: #f3f6fa; --ice: #e8f1fc;
+      --yellow: #ffb300; --white: #ffffff; --container: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--white); color: var(--ink); font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; line-height: 1.6; }
+    a { color: var(--blue); text-decoration: none; font-weight: 700; }
+    .container { width: min(var(--container), calc(100% - 48px)); margin: 0 auto; }
+
+    .site-header { position: sticky; top: 0; z-index: 50; background: var(--navy); border-bottom: 1px solid var(--navy-dark); }
+    .navbar { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 900; letter-spacing: -0.03em; color: var(--white); text-decoration: none; }
+    .brand-icon { width: 39px; height: 39px; display: grid; place-items: center; border-radius: 9px; background: var(--yellow); color: var(--navy-dark); }
+    .brand-icon svg { width: 21px; height: 21px; }
+    .nav-links { display: flex; align-items: center; gap: 26px; color: rgba(255,255,255,0.82); font-size: 14px; font-weight: 600; }
+    .nav-links a { color: inherit; font-weight: 600; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 20px; border: 1px solid transparent; border-radius: 6px; font-weight: 800; font-size: 14px; text-decoration: none; }
+    .btn-light { background: var(--white); color: var(--navy); }
+    .btn-primary { background: var(--blue); color: var(--white); }
+
+    .legal-page { padding: 48px 0 80px; }
+    .legal-header { max-width: 720px; margin: 0 auto 40px; text-align: center; }
+    .legal-header p.eyebrow { margin: 0 0 10px; color: var(--blue); font-size: 14px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
+    .legal-header h1 { margin: 0 0 10px; font-size: clamp(26px, 3.5vw, 36px); letter-spacing: -0.03em; font-weight: 900; }
+    .legal-header p { color: var(--muted); font-size: 14px; }
+
+    .legal-body { max-width: 760px; margin: 0 auto; }
+    .legal-body section { padding: 22px 0; border-bottom: 1px solid var(--border); }
+    .legal-body section:last-child { border-bottom: 0; }
+    .legal-body h2 { margin: 0 0 10px; font-size: 18px; letter-spacing: -0.02em; }
+    .legal-body p { margin: 0 0 12px; color: #334155; }
+    .legal-body p:last-child { margin-bottom: 0; }
+    .legal-body ul { margin: 0 0 12px; padding-left: 20px; color: #334155; }
+    .legal-body li { margin: 6px 0; }
+
+    .site-footer { padding: 36px 0; background: var(--navy-dark); color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 40px; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; }
+
+    @media (max-width: 1040px) { .nav-links { display: none; } }
+    @media (max-width: 760px) {
+      .container { width: min(100% - 28px, var(--container)); }
+      .navbar { min-height: 64px; }
+      .brand { font-size: 17px; }
+      .nav-actions .btn-light { display: none; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="Marketly home">
+        <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/><path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        Marketly
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="explore.html">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a href="add-business.html">List your business</a>
+        <a href="about.html">About</a>
+        <a href="support.html">Help</a>
+      </nav>
+      <div class="nav-actions" id="navActions">
+        <a href="login.html" class="btn btn-light">Sign in</a>
+        <a href="owner-login.html" class="btn btn-primary">For business</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="legal-page">
+    <div class="container">
+      <div class="legal-header">
+        <p class="eyebrow">Legal</p>
+        <h1>Terms & Conditions</h1>
+        <p>Last updated August 2026. Please read these terms carefully before using Marketly.</p>
+      </div>
+
+      <div class="legal-body">
+        <section>
+          <h2>1. Acceptance of terms</h2>
+          <p>By creating an account, browsing listings, or registering a business on Marketly, you agree to be bound by these Terms & Conditions and our verification policy. If you do not agree, please do not use the platform.</p>
+        </section>
+
+        <section>
+          <h2>2. Using the marketplace</h2>
+          <p>Marketly connects customers with businesses across hotels, restaurants, retail, services, events, real estate, and more. Browsing, searching, and contacting businesses is free for customers. Marketly is a discovery platform: bookings, payments, and service delivery happen directly between you and the business.</p>
+          <ul>
+            <li>You must provide accurate information when creating an account.</li>
+            <li>You are responsible for keeping your login details secure.</li>
+            <li>Misuse of the platform, including fake listings or fraudulent reviews, may result in account suspension.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>3. Business listings and subscriptions</h2>
+          <p>Business accounts require a paid subscription (Starter, Growth, or Premium) billed monthly or yearly. Listings may be reviewed before publishing. Businesses are responsible for the accuracy of their profile, pricing, and availability information.</p>
+          <p>Subscriptions renew automatically at the end of each billing period unless cancelled. Cancelled subscriptions remain active until the end of the current billing period.</p>
+        </section>
+
+        <section>
+          <h2>4. Reviews and content</h2>
+          <p>Reviews must reflect a genuine interaction with a business. Marketly may remove reviews or content that violate this policy. Businesses may publicly respond to reviews left on their profile.</p>
+        </section>
+
+        <section>
+          <h2>5. Limitation of liability</h2>
+          <p>Marketly is not a party to any transaction between a customer and a business. We do our best to verify listings but cannot guarantee the accuracy of every profile. Marketly is not liable for losses arising from bookings, purchases, or interactions made through the platform.</p>
+        </section>
+
+        <section>
+          <h2>6. Changes to these terms</h2>
+          <p>We may update these terms from time to time. Continued use of Marketly after changes are posted means you accept the updated terms.</p>
+        </section>
+
+        <section>
+          <h2>7. Contact</h2>
+          <p>Questions about these terms? Reach out any time at <a href="mailto:support@marketly.app">support@marketly.app</a> or visit our <a href="contact.html">contact page</a>.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 Marketly. All rights reserved.</span>
+      <span>✉ support@marketly.app &nbsp;&nbsp; ☎ +1 (555) 010-2200</span>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var loggedIn = localStorage.getItem('marketlyCustomerLoggedIn') === 'true';
+      if (!loggedIn) return;
+      var customer = JSON.parse(localStorage.getItem('marketlyCustomer') || 'null');
+      var nav = document.getElementById('navActions');
+      if (!nav) return;
+      var signInLink = nav.querySelector('a[href="login.html"]');
+      if (signInLink) {
+        signInLink.href = 'my-account.html';
+        signInLink.textContent = (customer && customer.firstName) ? customer.firstName : 'My account';
+      }
+    })();
+  </script>
+</body>
+
+</html>

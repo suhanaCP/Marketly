@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marketly — Business Registration</title>
+  <title>Marketly - Business Registration</title>
 
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
     :root {
-      --blue: #075fc9;
-      --blue-dark: #034ea9;
-      --ink: #050b16;
-      --muted: #536173;
-      --border: #dfe7f1;
-      --soft: #f6f9fc;
-      --ice: #e9f5ff;
+      --navy: #0a3160;
+      --navy-dark: #062142;
+      --blue: #1669c9;
+      --blue-dark: #0f4fa0;
+      --ink: #132339;
+      --muted: #5b6b80;
+      --border: #dbe3ec;
+      --soft: #f3f6fa;
+      --ice: #e8f1fc;
+      --yellow: #ffb300;
       --white: #ffffff;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+      --shadow: 0 10px 24px rgba(10, 49, 96, 0.09);
       --container: 1180px;
     }
 
@@ -26,7 +29,6 @@
     }
 
     html {
-      font-size: 75%;
       scroll-behavior: smooth;
     }
 
@@ -35,6 +37,7 @@
       background: var(--white);
       color: var(--ink);
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
       line-height: 1.5;
     }
 
@@ -59,13 +62,12 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255, 255, 255, 0.96);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(18px);
+      background: var(--navy);
+      border-bottom: 1px solid var(--navy-dark);
     }
 
     .navbar {
-      min-height: 78px;
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -75,40 +77,40 @@
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      font-size: 25px;
+      gap: 10px;
+      font-size: 20px;
       font-weight: 900;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.03em;
+      color: var(--white);
     }
 
     .brand-icon {
-      width: 43px;
-      height: 43px;
+      width: 39px;
+      height: 39px;
       display: grid;
       place-items: center;
-      border-radius: 14px;
-      background: var(--blue);
-      color: var(--white);
-      box-shadow: 0 12px 28px rgba(7, 95, 201, 0.28);
+      border-radius: 9px;
+      background: var(--yellow);
+      color: var(--navy-dark);
     }
 
     .brand-icon svg {
-      width: 23px;
-      height: 23px;
+      width: 21px;
+      height: 21px;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 30px;
-      color: #364354;
-      font-size: 16px;
+      gap: 28px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
       font-weight: 600;
     }
 
     .nav-links a:hover,
     .nav-links .active {
-      color: var(--blue);
+      color: var(--white);
     }
 
     .nav-actions {
@@ -118,31 +120,31 @@
     }
 
     .btn {
-      min-height: 46px;
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       padding: 0 20px;
       border: 1px solid transparent;
-      border-radius: 14px;
+      border-radius: 6px;
       background: transparent;
       color: var(--ink);
       font-weight: 800;
       line-height: 1;
       white-space: nowrap;
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      transition: filter 0.15s ease, background 0.15s ease, border-color 0.15s ease;
     }
 
     .btn:hover {
-      transform: translateY(-2px);
+      filter: brightness(1.05);
     }
 
     .btn-primary {
       background: var(--blue);
       color: var(--white);
-      box-shadow: 0 12px 24px rgba(7, 95, 201, 0.24);
+      box-shadow: 0 8px 18px rgba(22, 105, 201, 0.28);
     }
 
     .btn-primary:hover {
@@ -151,8 +153,8 @@
 
     .btn-light {
       background: var(--white);
-      border-color: var(--border);
-      color: var(--ink);
+      border-color: transparent;
+      color: var(--navy);
     }
 
     .page {
@@ -168,7 +170,7 @@
     .eyebrow {
       margin: 0 0 12px;
       color: var(--blue);
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 900;
       letter-spacing: 0.09em;
       text-transform: uppercase;
@@ -177,17 +179,17 @@
     .page-header h1 {
       margin: 0 0 10px;
       color: var(--ink);
-      font-size: clamp(38px, 5vw, 52px);
-      line-height: 1.05;
-      letter-spacing: -0.06em;
+      font-size: clamp(26px, 3.5vw, 36px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
       font-weight: 900;
     }
 
     .page-header p {
-      max-width: 720px;
+      max-width: 680px;
       margin: 0 auto;
       color: #3f4c5f;
-      font-size: 20px;
+      font-size: 15px;
     }
 
     .form-card {
@@ -195,7 +197,7 @@
       margin: 0 auto;
       padding: 38px;
       border: 1px solid var(--border);
-      border-radius: 24px;
+      border-radius: 14px;
       background: var(--white);
       box-shadow: var(--shadow);
     }
@@ -209,11 +211,11 @@
     }
 
     .form-section h2 {
-      margin: 0 0 24px;
+      margin: 0 0 22px;
       color: var(--ink);
-      font-size: 24px;
-      line-height: 1.2;
-      letter-spacing: -0.045em;
+      font-size: 18px;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
       font-weight: 900;
     }
 
@@ -234,7 +236,7 @@
 
     label {
       color: var(--ink);
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 800;
     }
 
@@ -242,9 +244,9 @@
     select,
     textarea {
       width: 100%;
-      min-height: 52px;
+      min-height: 50px;
       border: 1px solid var(--border);
-      border-radius: 13px;
+      border-radius: 8px;
       background: var(--white);
       color: var(--ink);
       padding: 0 16px;
@@ -266,8 +268,8 @@
     input:focus,
     select:focus,
     textarea:focus {
-      border-color: rgba(7, 95, 201, 0.65);
-      box-shadow: 0 0 0 4px rgba(7, 95, 201, 0.12);
+      border-color: rgba(22, 105, 201, 0.65);
+      box-shadow: 0 0 0 4px rgba(22, 105, 201, 0.12);
     }
 
     .help-text {
@@ -278,12 +280,12 @@
 
     .info-box {
       margin-bottom: 32px;
-      padding: 20px 22px;
-      border: 1px solid rgba(7, 95, 201, 0.18);
-      border-radius: 18px;
+      padding: 18px 20px;
+      border: 1px solid rgba(22, 105, 201, 0.18);
+      border-radius: 10px;
       background: var(--ice);
-      color: #16345f;
-      font-size: 16px;
+      color: #0f3a66;
+      font-size: 14px;
     }
 
     .terms-check {
@@ -291,7 +293,7 @@
       align-items: flex-start;
       gap: 12px;
       color: var(--muted);
-      font-size: 16px;
+      font-size: 13px;
       font-weight: 600;
       line-height: 1.5;
     }
@@ -317,8 +319,8 @@
 
     .submit-row .btn {
       width: 100%;
-      min-height: 54px;
-      font-size: 16px;
+      min-height: 50px;
+      font-size: 15px;
     }
 
     .secure-note {
@@ -344,7 +346,7 @@
       }
 
       .brand {
-        font-size: 21px;
+        font-size: 17px;
       }
 
       .nav-actions .btn-light {
@@ -384,7 +386,7 @@
 
       .form-card {
         padding: 20px;
-        border-radius: 20px;
+        border-radius: 10px;
       }
     }
   </style>
@@ -406,12 +408,12 @@
       <nav class="nav-links" aria-label="Main navigation">
         <a href="explore.html">Explore</a>
         <a href="categories.html">Categories</a>
-        <a href="list-business.html" class="active">List your business</a>
+        <a href="add-business.html" class="active">List your business</a>
         <a href="about.html">About</a>
         <a href="support.html">Help</a>
       </nav>
 
-      <div class="nav-actions">
+      <div class="nav-actions" id="navActions">
         <a href="login.html" class="btn btn-light">Sign in</a>
         <a href="bus-sign.html" class="btn btn-primary">Business sign in</a>
       </div>
@@ -448,17 +450,6 @@
             <div class="form-row full">
               <label for="email">Email address</label>
               <input id="email" name="email" type="email" placeholder="you@example.com" required />
-            </div>
-
-            <div class="form-row">
-              <label for="password">Password</label>
-              <input id="password" name="password" type="password" placeholder="Create a password" required minlength="8" />
-              <p class="help-text">Minimum 8 characters.</p>
-            </div>
-
-            <div class="form-row">
-              <label for="confirm-password">Confirm password</label>
-              <input id="confirm-password" name="confirm_password" type="password" placeholder="Repeat your password" required />
             </div>
           </div>
         </section>
@@ -524,44 +515,32 @@
         </section>
 
         <section class="form-section">
-          <h2>Payment method</h2>
+          <h2>Bank details</h2>
 
           <div class="form-grid">
-            <div class="form-row full">
-              <label for="payment-method">Preferred payment method</label>
-              <select id="payment-method" name="payment_method" required>
-                <option value="">Choose payment method</option>
-                <option value="card">Card payment (Credit / Debit)</option>
-                <option value="upi">UPI (Google Pay, PhonePe, Paytm)</option>
-                <option value="netbanking">Net banking</option>
-                <option value="emi">EMI</option>
-                <option value="cash">Cash on delivery</option>
-              </select>
-            </div>
-
-            <div class="form-row">
-              <label for="upi-id">UPI ID <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
-              <input id="upi-id" name="upi_id" type="text" placeholder="yourname@upi" />
-            </div>
-
             <div class="form-row">
               <label for="account-name">Account holder name</label>
-              <input id="account-name" name="account_name" type="text" placeholder="As per bank records" required />
+              <input id="account-name" name="account_name" type="text" placeholder="Account holder name" required />
             </div>
 
             <div class="form-row">
-              <label for="account-number">Bank account number</label>
-              <input id="account-number" name="account_number" type="text" placeholder="Enter account number" required />
+              <label for="bank-name">Bank name</label>
+              <input id="bank-name" name="bank_name" type="text" placeholder="Bank name" required />
             </div>
 
             <div class="form-row">
-              <label for="ifsc">IFSC code</label>
-              <input id="ifsc" name="ifsc_code" type="text" placeholder="e.g. SBIN0001234" required />
+              <label for="sort-code">Sort code</label>
+              <input id="sort-code" name="sort_code" type="text" placeholder="00-00-00" required />
+            </div>
+
+            <div class="form-row">
+              <label for="account-number">Account number</label>
+              <input id="account-number" name="account_number" type="text" placeholder="12345678" required />
             </div>
           </div>
 
           <p class="help-text">
-            Payment details are used for receiving payouts. For a live product, these should be handled via a verified Indian payment gateway (e.g. Razorpay, Cashfree).
+            For a live website, bank details should be handled securely through a verified payment provider.
           </p>
         </section>
 
@@ -591,54 +570,19 @@
     </div>
   </main>
   <script>
-    document.querySelector('form').addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      const pw = document.getElementById('password');
-      const cpw = document.getElementById('confirm-password');
-
-      if (pw.value !== cpw.value) {
-        cpw.setCustomValidity('Passwords do not match.');
-        cpw.reportValidity();
-        return;
+    (function () {
+      var loggedIn = localStorage.getItem('marketlyCustomerLoggedIn') === 'true';
+      if (!loggedIn) return;
+      var customer = JSON.parse(localStorage.getItem('marketlyCustomer') || 'null');
+      var nav = document.getElementById('navActions');
+      if (!nav) return;
+      var signInLink = nav.querySelector('a[href="login.html"]');
+      if (signInLink) {
+        signInLink.href = 'my-account.html';
+        signInLink.textContent = (customer && customer.firstName) ? customer.firstName : 'My account';
       }
-      cpw.setCustomValidity('');
-
-      const data = {};
-      new FormData(this).forEach((val, key) => { data[key] = val; });
-
-      // Assign a unique id to this business
-      data.id = Date.now().toString();
-
-      localStorage.setItem('marketly_business', JSON.stringify(data));
-      localStorage.setItem('marketly_logged_in', 'true');
-
-      // Push to the public business directory (used by index & explore pages)
-      const allBiz = JSON.parse(localStorage.getItem('marketly_all_businesses') || '[]');
-      const others = allBiz.filter(b => b.email !== data.email); // replace on re-register
-      others.push({
-        id: data.id,
-        company_name: data.company_name,
-        sector: data.sector,
-        location: data.location,
-        mode_service: data.mode_service,
-        website: data.website,
-        email: data.email,
-      });
-      localStorage.setItem('marketly_all_businesses', JSON.stringify(others));
-
-      // Save the full record (with password) for login verification
-      const allRecords = JSON.parse(localStorage.getItem('marketly_all_business_records') || '[]');
-      const otherRecords = allRecords.filter(r => r.email !== data.email);
-      otherRecords.push(data);
-      localStorage.setItem('marketly_all_business_records', JSON.stringify(otherRecords));
-
-      window.location.href = 'business-dashboard.html';
-    });
-
-    document.getElementById('confirm-password').addEventListener('input', function () {
-      this.setCustomValidity('');
-    });
+    })();
   </script>
 </body>
+
 </html>

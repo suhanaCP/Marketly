@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Marketly — About</title>
+  <title>Marketly - About</title>
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
     :root {
-      --blue: #075fc9;
-      --blue-dark: #034ea9;
+      --navy: #0a3160;
+      --navy-dark: #062142;
+      --blue: #1669c9;
+      --blue-dark: #0f4fa0;
       --black: #02070f;
-      --ink: #050b16;
-      --muted: #536173;
-      --border: #dfe7f1;
-      --soft: #f6f9fc;
-      --ice: #e9f5ff;
+      --ink: #132339;
+      --muted: #5b6b80;
+      --border: #dbe3ec;
+      --soft: #f3f6fa;
+      --ice: #e8f1fc;
+      --yellow: #ffb300;
       --white: #ffffff;
-      --shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+      --shadow: 0 10px 24px rgba(10, 49, 96, 0.09);
       --container: 1180px;
     }
 
@@ -28,6 +31,7 @@
       background: var(--white);
       color: var(--ink);
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
       line-height: 1.5;
     }
 
@@ -43,13 +47,12 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255, 255, 255, 0.96);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(18px);
+      background: var(--navy);
+      border-bottom: 1px solid var(--navy-dark);
     }
 
     .navbar {
-      min-height: 78px;
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -59,36 +62,36 @@
     .brand {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.04em;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--white);
     }
 
     .brand-icon {
-      width: 43px;
-      height: 43px;
+      width: 39px;
+      height: 39px;
       display: grid;
       place-items: center;
-      border-radius: 14px;
-      background: var(--blue);
-      color: var(--white);
-      box-shadow: 0 12px 28px rgba(7, 95, 201, 0.28);
+      border-radius: 9px;
+      background: var(--yellow);
+      color: var(--navy-dark);
     }
 
-    .brand-icon svg { width: 23px; height: 23px; }
+    .brand-icon svg { width: 21px; height: 21px; }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 30px;
-      color: #364354;
-      font-size: 16px;
+      gap: 28px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
       font-weight: 600;
     }
 
     .nav-links a:hover,
-    .nav-links .active { color: var(--blue); }
+    .nav-links .active { color: var(--white); }
 
     .nav-actions {
       display: flex;
@@ -97,37 +100,37 @@
     }
 
     .btn {
-      min-height: 46px;
+      min-height: 44px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       padding: 0 20px;
       border: 1px solid transparent;
-      border-radius: 14px;
+      border-radius: 6px;
       background: transparent;
       color: var(--ink);
       font-weight: 800;
       line-height: 1;
       white-space: nowrap;
       cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      transition: filter 0.15s ease, background 0.15s ease, border-color 0.15s ease;
     }
 
-    .btn:hover { transform: translateY(-2px); }
+    .btn:hover { filter: brightness(1.05); }
 
     .btn-primary {
       background: var(--blue);
       color: var(--white);
-      box-shadow: 0 12px 24px rgba(7, 95, 201, 0.24);
+      box-shadow: 0 8px 18px rgba(22, 105, 201, 0.28);
     }
 
     .btn-primary:hover { background: var(--blue-dark); }
 
     .btn-light {
       background: var(--white);
-      border-color: var(--border);
-      color: var(--ink);
+      border-color: transparent;
+      color: var(--navy);
     }
 
     .about-hero {
@@ -145,21 +148,21 @@
     }
 
     .about-hero h1 {
-      max-width: 760px;
-      margin: 0 auto 22px;
+      max-width: 700px;
+      margin: 0 auto 18px;
       color: var(--ink);
-      font-size: clamp(44px, 6.3vw, 70px);
-      line-height: 1.05;
-      letter-spacing: -0.075em;
+      font-size: clamp(26px, 3.5vw, 36px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
       font-weight: 900;
     }
 
     .about-hero p {
-      max-width: 870px;
+      max-width: 700px;
       margin: 0 auto;
       color: #3f4c5f;
-      font-size: clamp(20px, 2.3vw, 25px);
-      line-height: 1.45;
+      font-size: 15px;
+      line-height: 1.55;
     }
 
     .value-grid {
@@ -174,24 +177,24 @@
       min-height: 165px;
       padding: 26px 24px;
       border: 1px solid var(--border);
-      border-radius: 22px;
+      border-radius: 12px;
       background: var(--white);
       transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
     }
 
     .value-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(7, 95, 201, 0.25);
+      transform: translateY(-4px);
+      border-color: rgba(22, 105, 201, 0.3);
       box-shadow: var(--shadow);
     }
 
     .value-icon {
-      width: 52px;
-      height: 52px;
+      width: 50px;
+      height: 50px;
       display: grid;
       place-items: center;
       margin-bottom: 24px;
-      border-radius: 17px;
+      border-radius: 10px;
       background: var(--ice);
       color: var(--blue);
     }
@@ -202,18 +205,18 @@
     }
 
     .value-card h2 {
-      margin: 0 0 8px;
+      margin: 0 0 6px;
       color: var(--ink);
       font-size: 16px;
-      line-height: 1.2;
-      letter-spacing: -0.045em;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
       font-weight: 900;
     }
 
     .value-card p {
       margin: 0;
       color: #435064;
-      font-size: 16px;
+      font-size: 13px;
     }
 
     .dark-panel-section {
@@ -226,17 +229,17 @@
       gap: 60px;
       align-items: center;
       padding: 74px 54px;
-      border-radius: 28px;
-      background: var(--black);
+      border-radius: 14px;
+      background: linear-gradient(160deg, var(--navy) 0%, var(--navy-dark) 100%);
       color: var(--white);
     }
 
     .dark-panel p {
-      max-width: 560px;
-      margin: 0 0 28px;
+      max-width: 520px;
+      margin: 0 0 26px;
       color: rgba(255, 255, 255, 0.82);
-      font-size: 16px;
-      line-height: 1.45;
+      font-size: 14px;
+      line-height: 1.55;
     }
 
     .dark-panel .btn-light {
@@ -257,11 +260,11 @@
       display: flex;
       align-items: center;
       padding: 0 20px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
       color: rgba(255, 255, 255, 0.9);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
     }
 
@@ -274,13 +277,13 @@
     @media (max-width: 760px) {
       .container { width: min(100% - 28px, var(--container)); }
       .navbar { min-height: 68px; }
-      .brand { font-size: 16px; }
+      .brand { font-size: 17px; }
       .nav-actions .btn-light { display: none; }
       .about-hero { padding: 34px 0 58px; }
       .value-grid { grid-template-columns: 1fr; margin-top: 44px; }
       .dark-panel-section { padding-bottom: 64px; }
       .dark-panel { padding: 40px 24px; border-radius: 24px; }
-      .dark-panel p { font-size: 16px; }
+      .dark-panel p { font-size: 14px; }
       .pill-grid { grid-template-columns: 1fr; }
     }
 
@@ -306,12 +309,12 @@
       <nav class="nav-links" aria-label="Main navigation">
         <a href="explore.html">Explore</a>
         <a href="categories.html">Categories</a>
-        <a href="list-business.html">List your business</a>
+        <a href="add-business.html">List your business</a>
         <a href="about.html" class="active">About</a>
         <a href="support.html">Help</a>
       </nav>
 
-      <div class="nav-actions">
+      <div class="nav-actions" id="navActions">
         <a href="login.html" class="btn btn-light">Sign in</a>
         <a href="owner-login.html" class="btn btn-primary">For business</a>
       </div>
@@ -323,7 +326,7 @@
       <div class="container">
         <p class="eyebrow">About Marketly</p>
         <h1>One marketplace for every business</h1>
-        <p>We believe customers deserve a single, trustworthy place to discover and book any business — and that every business, no matter the size, deserves a fair shot at being found.</p>
+        <p>We believe customers deserve a single, trustworthy place to discover and book any business, and that every business, no matter the size, deserves a fair shot at being found.</p>
 
         <div class="value-grid">
           <article class="value-card">
@@ -339,7 +342,7 @@
               <svg viewBox="0 0 24 24" fill="none"><path d="M8.5 12.5 12 16l6-6a3 3 0 0 0-4.2-4.2L12 7.6l-1.8-1.8A3 3 0 0 0 6 10l2.5 2.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M7 14.5 4 17.5M10 17.5 8 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </span>
             <h2>Fair for all</h2>
-            <p>From solo founders to enterprises — equal tools.</p>
+            <p>From solo founders to enterprises, equal tools.</p>
           </article>
 
           <article class="value-card">
@@ -365,8 +368,8 @@
       <div class="container">
         <div class="dark-panel">
           <div>
-            <p>Whether you run a beachfront hotel, a corner cafe, a freelance studio, or a national chain — Marketly gives you a beautiful profile, booking tools and the audience to grow.</p>
-            <a href="list-business.html" class="btn btn-light">List your business</a>
+            <p>Whether you run a beachfront hotel, a corner cafe, a freelance studio, or a national chain, Marketly gives you a beautiful profile, booking tools and the audience to grow.</p>
+            <a href="add-business.html" class="btn btn-light">List your business</a>
           </div>
 
           <div class="pill-grid" aria-label="Marketly business types">
@@ -383,5 +386,20 @@
       </div>
     </section>
   </main>
+  <script>
+    (function () {
+      var loggedIn = localStorage.getItem('marketlyCustomerLoggedIn') === 'true';
+      if (!loggedIn) return;
+      var customer = JSON.parse(localStorage.getItem('marketlyCustomer') || 'null');
+      var nav = document.getElementById('navActions');
+      if (!nav) return;
+      var signInLink = nav.querySelector('a[href="login.html"]');
+      if (signInLink) {
+        signInLink.href = 'my-account.html';
+        signInLink.textContent = (customer && customer.firstName) ? customer.firstName : 'My account';
+      }
+    })();
+  </script>
 </body>
+
 </html>

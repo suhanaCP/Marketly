@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketly - Help & Support</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --navy: #0a3160;
+      --navy-dark: #062142;
+      --blue: #1669c9;
+      --blue-dark: #0f4fa0;
+      --ink: #132339;
+      --muted: #5b6b80;
+      --border: #dbe3ec;
+      --soft: #f3f6fa;
+      --ice: #e8f1fc;
+      --yellow: #ffb300;
+      --white: #ffffff;
+      --shadow: 0 10px 24px rgba(10, 49, 96, 0.09);
+      --shadow-strong: 0 20px 48px rgba(10, 49, 96, 0.16);
+      --container: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--white);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+
+    .container {
+      width: min(var(--container), calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--navy);
+      border-bottom: 1px solid var(--navy-dark);
+    }
+
+    .navbar {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--white);
+    }
+
+    .brand-icon {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--yellow);
+      color: var(--navy-dark);
+    }
+
+    .brand-icon svg { width: 21px; height: 21px; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover,
+    .nav-links .active { color: var(--white); }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: filter 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover { filter: brightness(1.05); }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 8px 18px rgba(22, 105, 201, 0.28);
+    }
+
+    .btn-primary:hover { background: var(--blue-dark); }
+
+    .btn-light {
+      background: var(--white);
+      border-color: transparent;
+      color: var(--navy);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--ink);
+    }
+
+    /* Help hero + search */
+    .help-hero {
+      padding: 56px 0 84px;
+      background: linear-gradient(160deg, var(--navy) 0%, var(--navy-dark) 100%);
+      color: var(--white);
+      text-align: center;
+    }
+
+    .help-hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(26px, 3.5vw, 36px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .help-hero p {
+      max-width: 560px;
+      margin: 0 auto;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 15px;
+    }
+
+    .help-search {
+      max-width: 640px;
+      margin: 28px auto 0;
+      display: flex;
+      gap: 8px;
+      padding: 8px;
+      background: var(--white);
+      border-radius: 10px;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .help-search-field {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 14px;
+      border-radius: 6px;
+      background: var(--soft);
+      color: var(--muted);
+    }
+
+    .help-search-field svg { width: 18px; height: 18px; flex: 0 0 auto; }
+
+    .help-search-field input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    /* Sections */
+    .section {
+      padding: 64px 0;
+    }
+
+    .section-head {
+      max-width: 640px;
+      margin: 0 auto 30px;
+      text-align: center;
+    }
+
+    .section-head h2 {
+      margin: 0 0 8px;
+      font-size: clamp(20px, 2.4vw, 26px);
+      letter-spacing: -0.02em;
+      font-weight: 900;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Topics grid */
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .topic-card {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--white);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .topic-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(22, 105, 201, 0.3);
+      box-shadow: var(--shadow);
+    }
+
+    .topic-icon {
+      width: 44px;
+      height: 44px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--ice);
+      color: var(--blue);
+    }
+
+    .topic-icon svg { width: 22px; height: 22px; }
+
+    .topic-card h3 {
+      margin: 0 0 3px;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .topic-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* FAQ */
+    .section-soft { background: var(--soft); }
+
+    .faq-list {
+      max-width: 780px;
+      margin: 0 auto;
+      display: grid;
+      gap: 10px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--white);
+      overflow: hidden;
+    }
+
+    .faq-item summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-item summary::after {
+      content: "+";
+      flex: 0 0 auto;
+      color: var(--blue);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .faq-item[open] summary::after { content: "–"; }
+
+    .faq-item p {
+      margin: 0;
+      padding: 0 20px 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .contact-card {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--white);
+      text-align: center;
+    }
+
+    .contact-icon {
+      width: 46px;
+      height: 46px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--ice);
+      color: var(--blue);
+    }
+
+    .contact-icon svg { width: 22px; height: 22px; }
+
+    .contact-card h3 {
+      margin: 0 0 4px;
+      font-size: 16px;
+    }
+
+    .contact-card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Footer */
+    .site-footer {
+      padding: 48px 0 26px;
+      background: var(--navy-dark);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.7);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 22px;
+      margin-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+    }
+
+    @media (max-width: 1040px) {
+      .nav-links { display: none; }
+      .topics-grid, .contact-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 760px) {
+      .container { width: min(100% - 28px, var(--container)); }
+      .navbar { min-height: 64px; }
+      .brand { font-size: 17px; }
+      .nav-actions .btn-light { display: none; }
+      .help-hero { padding: 40px 0 64px; }
+      .help-search { flex-direction: column; }
+      .section { padding: 44px 0; }
+      .topics-grid, .contact-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
+
+    @media (max-width: 430px) {
+      .container { width: min(100% - 20px, var(--container)); }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="Marketly home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/><path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        Marketly
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="explore.html">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a href="add-business.html">List your business</a>
+        <a href="about.html">About</a>
+        <a href="support.html" class="active">Help</a>
+      </nav>
+
+      <div class="nav-actions" id="navActions">
+        <a href="login.html" class="btn btn-light">Sign in</a>
+        <a href="owner-login.html" class="btn btn-primary">For business</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="help-hero">
+      <div class="container">
+        <h1>How can we help?</h1>
+        <p>Search our help center or browse popular topics below, for customers and business owners.</p>
+
+        <form class="help-search" action="support.html">
+          <label class="help-search-field">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.2-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input type="search" name="q" placeholder="Search for help, e.g. “reset password”" />
+          </label>
+          <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Browse by topic</h2>
+          <p>Jump straight to the area you need help with.</p>
+        </div>
+
+        <div class="topics-grid">
+          <a href="#faq" class="topic-card">
+            <span class="topic-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5h14v14H5V5Z" stroke="currentColor" stroke-width="1.8"/><path d="M8 3v4M16 3v4M5 10h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <span><h3>Bookings & enquiries</h3><p>Contacting businesses and managing requests</p></span>
+          </a>
+          <a href="#faq" class="topic-card">
+            <span class="topic-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-3.9 3.6-7 8-7s8 3.1 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <span><h3>Account & profile</h3><p>Sign-in, passwords and account settings</p></span>
+          </a>
+          <a href="#faq" class="topic-card">
+            <span class="topic-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8h16v11H4V8Z" stroke="currentColor" stroke-width="1.8"/><path d="M4 11h16M8 15h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <span><h3>Payments & billing</h3><p>Subscriptions, invoices and refunds</p></span>
+          </a>
+          <a href="#faq" class="topic-card">
+            <span class="topic-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M4 8h16v11H4V8Z" stroke="currentColor" stroke-width="1.8"/><path d="M4 13h16" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <span><h3>For business owners</h3><p>Listing setup, plans and dashboards</p></span>
+          </a>
+          <a href="#faq" class="topic-card">
+            <span class="topic-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.7-2.9 8-7 10-4.1-2-7-5.3-7-10V6l7-3Z" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <span><h3>Listings & reviews</h3><p>Editing listings and how reviews work</p></span>
+          </a>
+          <a href="#faq" class="topic-card">
+            <span class="topic-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.7-2.9 8-7 10-4.1-2-7-5.3-7-10V6l7-3Z" stroke="currentColor" stroke-width="1.8"/><path d="m8.7 12 2.1 2.1 4.7-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span><h3>Trust & safety</h3><p>Verification, reporting and your data</p></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="faq">
+      <div class="container">
+        <div class="section-head">
+          <h2>Popular questions</h2>
+          <p>Quick answers to what people ask us most.</p>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary>How do I create a Marketly account?</summary>
+            <p>Select "Sign in" in the top menu, then "Create an account" on the sign-in page. You'll need an email address and a password. No payment details are required for a customer account.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do I contact or book a business?</summary>
+            <p>Open any listing from Explore or Categories to see contact details, booking links and opening hours provided directly by the business. Marketly connects you to the business; availability and confirmation are handled by them.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do I list my business on Marketly?</summary>
+            <p>Choose "List your business" from the menu, fill in your business and sector details, then pick a subscription plan. Your profile is reviewed before it goes live.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Is Marketly free to use for customers?</summary>
+            <p>Yes. Browsing, searching and contacting businesses is always free for customers. Only business owners pay a subscription to list and manage a profile.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do reviews work?</summary>
+            <p>Reviews are left by customers after an interaction with a business. We look out for unusual patterns to keep ratings genuine, and businesses can publicly respond to reviews on their profile.</p>
+          </details>
+          <details class="faq-item">
+            <summary>I forgot my password, what do I do?</summary>
+            <p>On the sign-in page, use the link below the form to reset your password. You'll get an email with instructions to set a new one.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What subscription plans are available for businesses?</summary>
+            <p>We offer Starter, Growth and Premium plans, billed monthly or yearly, based on business size and features needed. You can compare and choose a plan during business registration.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do I cancel my business subscription?</summary>
+            <p>Go to your business dashboard settings and select "Manage subscription." Your listing stays active until the end of the current billing period.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Still need help?</h2>
+          <p>Our support team is happy to help with anything else.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4V6Z" stroke="currentColor" stroke-width="1.8"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <h3>Email support</h3>
+            <p>We reply within one business day.</p>
+            <a class="btn btn-outline" href="mailto:support@marketly.app">support@marketly.app</a>
+          </div>
+          <div class="contact-card">
+            <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2C10.5 21 3 13.5 3 6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+            <h3>Call us</h3>
+            <p>Mon–Fri, 9am–6pm.</p>
+            <a class="btn btn-outline" href="tel:+15550102200">+1 (555) 010-2200</a>
+          </div>
+          <div class="contact-card">
+            <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M4 8h16v11H4V8Z" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <h3>Business support</h3>
+            <p>Help with listings, billing and plans.</p>
+            <a class="btn btn-outline" href="add-business.html">Visit business help</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© 2026 Marketly. All rights reserved.</span>
+        <span>✉ support@marketly.app &nbsp;&nbsp; ☎ +1 (555) 010-2200</span>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var loggedIn = localStorage.getItem('marketlyCustomerLoggedIn') === 'true';
+      if (!loggedIn) return;
+      var customer = JSON.parse(localStorage.getItem('marketlyCustomer') || 'null');
+      var nav = document.getElementById('navActions');
+      if (!nav) return;
+      var signInLink = nav.querySelector('a[href="login.html"]');
+      if (signInLink) {
+        signInLink.href = 'my-account.html';
+        signInLink.textContent = (customer && customer.firstName) ? customer.firstName : 'My account';
+      }
+    })();
+  </script>
+</body>
+
+</html>

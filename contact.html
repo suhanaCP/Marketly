@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketly - Contact</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --navy: #0a3160;
+      --navy-dark: #062142;
+      --blue: #1669c9;
+      --blue-dark: #0f4fa0;
+      --ink: #132339;
+      --muted: #5b6b80;
+      --border: #dbe3ec;
+      --soft: #f3f6fa;
+      --ice: #e8f1fc;
+      --yellow: #ffb300;
+      --white: #ffffff;
+      --shadow: 0 10px 24px rgba(10, 49, 96, 0.09);
+      --shadow-strong: 0 20px 48px rgba(10, 49, 96, 0.16);
+      --container: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--white);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+
+    .container {
+      width: min(var(--container), calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--navy);
+      border-bottom: 1px solid var(--navy-dark);
+    }
+
+    .navbar {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--white);
+    }
+
+    .brand-icon {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--yellow);
+      color: var(--navy-dark);
+    }
+
+    .brand-icon svg { width: 21px; height: 21px; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover,
+    .nav-links .active { color: var(--white); }
+
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+    .btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: filter 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover { filter: brightness(1.05); }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 8px 18px rgba(22, 105, 201, 0.28);
+    }
+
+    .btn-primary:hover { background: var(--blue-dark); }
+
+    .btn-light { background: var(--white); border-color: transparent; color: var(--navy); }
+    .btn-full { width: 100%; }
+
+    .page-hero {
+      padding: 48px 0 40px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .page-hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(26px, 3.5vw, 36px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .page-hero p {
+      max-width: 520px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      padding-bottom: 72px;
+      align-items: start;
+    }
+
+    .contact-form-card {
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-row { display: grid; gap: 7px; }
+    .form-row.full { grid-column: 1 / -1; }
+
+    label { font-size: 13px; font-weight: 800; }
+
+    input, select, textarea {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--white);
+      color: var(--ink);
+      padding: 0 14px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    textarea { min-height: 110px; padding: 12px 14px; resize: vertical; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(22, 105, 201, 0.65);
+      box-shadow: 0 0 0 4px rgba(22, 105, 201, 0.12);
+    }
+
+    .contact-form-card .submit-row { margin-top: 18px; }
+
+    .contact-side { display: grid; gap: 16px; }
+
+    .contact-card {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--white);
+    }
+
+    .contact-icon {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--ice);
+      color: var(--blue);
+    }
+
+    .contact-icon svg { width: 20px; height: 20px; }
+
+    .contact-card h3 { margin: 0 0 3px; font-size: 16px; }
+    .contact-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    .contact-card a { color: var(--blue); font-weight: 700; font-size: 13px; }
+
+    .hidden { display: none !important; }
+    .success { padding: 14px 16px; border-radius: 10px; background: #ecfdf5; color: #047857; font-weight: 700; font-size: 13px; margin-bottom: 16px; }
+
+    .site-footer {
+      padding: 40px 0 24px;
+      background: var(--navy-dark);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.7);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+    }
+
+    @media (max-width: 1040px) { .nav-links { display: none; } }
+
+    @media (max-width: 760px) {
+      .container { width: min(100% - 28px, var(--container)); }
+      .navbar { min-height: 64px; }
+      .brand { font-size: 17px; }
+      .nav-actions .btn-light { display: none; }
+      .contact-layout { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .contact-form-card { padding: 22px; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand" aria-label="Marketly home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/><path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </span>
+        Marketly
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="explore.html">Explore</a>
+        <a href="categories.html">Categories</a>
+        <a href="add-business.html">List your business</a>
+        <a href="about.html">About</a>
+        <a href="support.html">Help</a>
+      </nav>
+      <div class="nav-actions" id="navActions">
+        <a href="login.html" class="btn btn-light">Sign in</a>
+        <a href="owner-login.html" class="btn btn-primary">For business</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p class="eyebrow">Contact us</p>
+        <h1>Get in touch</h1>
+        <p>Questions about your account, a listing, or a business subscription? Send us a message and we'll get back to you.</p>
+      </div>
+    </section>
+
+    <section class="container contact-layout">
+      <form class="contact-form-card" id="contactForm">
+        <div id="contactMessage" class="hidden"></div>
+        <div class="form-grid">
+          <div class="form-row"><label for="c-name">Your name</label><input id="c-name" name="name" type="text" placeholder="Full name" required></div>
+          <div class="form-row"><label for="c-email">Email address</label><input id="c-email" name="email" type="email" placeholder="you@example.com" required></div>
+          <div class="form-row full"><label for="c-topic">Topic</label>
+            <select id="c-topic" name="topic">
+              <option>General question</option>
+              <option>Customer account help</option>
+              <option>Business listing help</option>
+              <option>Billing and subscriptions</option>
+              <option>Report an issue</option>
+            </select>
+          </div>
+          <div class="form-row full"><label for="c-message">Message</label><textarea id="c-message" name="message" placeholder="How can we help?" required></textarea></div>
+        </div>
+        <div class="submit-row"><button class="btn btn-primary btn-full" type="submit">Send message</button></div>
+      </form>
+
+      <div class="contact-side">
+        <div class="contact-card">
+          <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4V6Z" stroke="currentColor" stroke-width="1.8"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <div><h3>Email</h3><p>We reply within one business day.</p><a href="mailto:support@marketly.app">support@marketly.app</a></div>
+        </div>
+        <div class="contact-card">
+          <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2C10.5 21 3 13.5 3 6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+          <div><h3>Phone</h3><p>Mon-Fri, 9am-6pm.</p><a href="tel:+15550102200">+1 (555) 010-2200</a></div>
+        </div>
+        <div class="contact-card">
+          <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="2"/></svg></span>
+          <div><h3>Office</h3><p>Need more help? Visit our <a href="support.html">help center</a> for common questions.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 Marketly. All rights reserved.</span>
+      <span>✉ support@marketly.app &nbsp;&nbsp; ☎ +1 (555) 010-2200</span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const el = document.getElementById('contactMessage');
+      el.className = 'success';
+      el.textContent = "Thanks, " + this.name.value.split(' ')[0] + "! Your message has been sent, we'll reply by email shortly.";
+      el.classList.remove('hidden');
+      this.reset();
+    });
+  </script>
+  <script>
+    (function () {
+      var loggedIn = localStorage.getItem('marketlyCustomerLoggedIn') === 'true';
+      if (!loggedIn) return;
+      var customer = JSON.parse(localStorage.getItem('marketlyCustomer') || 'null');
+      var nav = document.getElementById('navActions');
+      if (!nav) return;
+      var signInLink = nav.querySelector('a[href="login.html"]');
+      if (signInLink) {
+        signInLink.href = 'my-account.html';
+        signInLink.textContent = (customer && customer.firstName) ? customer.firstName : 'My account';
+      }
+    })();
+  </script>
+</body>
+
+</html>
