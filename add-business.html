@@ -627,6 +627,12 @@
       });
       localStorage.setItem('marketly_all_businesses', JSON.stringify(others));
 
+      // Save the full record (with password) for login verification
+      const allRecords = JSON.parse(localStorage.getItem('marketly_all_business_records') || '[]');
+      const otherRecords = allRecords.filter(r => r.email !== data.email);
+      otherRecords.push(data);
+      localStorage.setItem('marketly_all_business_records', JSON.stringify(otherRecords));
+
       window.location.href = 'business-dashboard.html';
     });
 
