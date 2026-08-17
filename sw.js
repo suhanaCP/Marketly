@@ -2,7 +2,7 @@
 // Strategy: network-first for page navigations (fresh content when online, cached
 // fallback + offline page when not), cache-first for same-origin static assets.
 
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `marketly-${CACHE_VERSION}`;
 
 const PRECACHE_URLS = [
@@ -46,6 +46,7 @@ const PRECACHE_URLS = [
 ];
 
 self.addEventListener('install', (event) => {
+  console.log('[sw] installing', CACHE_NAME, 'scope:', self.registration.scope);
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       // Cache what we can; don't let one missing file abort the whole install.
@@ -66,7 +67,9 @@ self.addEventListener('activate', (event) => {
           .filter((key) => key.startsWith('marketly-') && key !== CACHE_NAME)
           .map((key) => caches.delete(key))
       )
-    ).then(() => self.clients.claim())
+    )
+      .then(() => self.clients.claim())
+      .then(() => console.log('[sw] activated and claimed clients, scope:', self.registration.scope))
   );
 });
 

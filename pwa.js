@@ -1,18 +1,35 @@
 // Marketly PWA bootstrap: registers the service worker and shows a lightweight
 // install banner when the browser signals the app can be installed.
 (function () {
+  var manifestLink = document.querySelector('link[rel="manifest"]');
+  console.log('[pwa] manifest href (resolved):', manifestLink ? manifestLink.href : 'NOT FOUND');
+  console.log('[pwa] display-mode standalone at load:', isStandaloneNow());
+
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
       // Relative path + explicit relative scope so this resolves correctly whether the
       // site is served from a domain root or a GitHub Pages project subpath like
       // https://<user>.github.io/Marketly/ — never register with a leading "/".
-      navigator.serviceWorker.register('sw.js', { scope: './' })
+      navigator.serviceWorker.register('./sw.js', { scope: './' })
         .then(function (registration) {
-          console.log('[pwa] service worker registered, scope:', registration.scope);
+          console.log('[pwa] service worker registered. scope:', registration.scope);
+          console.log('[pwa] controller right after register:', navigator.serviceWorker.controller);
+
+          registration.addEventListener('updatefound', function () {
+            var installing = registration.installing;
+            if (!installing) return;
+            installing.addEventListener('statechange', function () {
+              console.log('[pwa] service worker state changed to:', installing.state);
+            });
+          });
         })
         .catch(function (err) {
           console.error('[pwa] service worker registration FAILED:', err);
         });
+
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        console.log('[pwa] controllerchange fired. controller:', navigator.serviceWorker.controller);
+      });
     });
   } else {
     console.warn('[pwa] service workers are not supported in this browser.');
@@ -21,9 +38,10 @@
   var deferredPrompt = null;
   var DISMISS_KEY = 'marketlyInstallDismissed';
 
-  function isStandalone() {
-    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  function isStandaloneNow() {
+    return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
   }
+  var isStandalone = isStandaloneNow;
 
   function buildBanner() {
     if (document.getElementById('pwaInstallBanner')) return;
@@ -78,6 +96,7 @@
   }
 
   window.addEventListener('beforeinstallprompt', function (e) {
+    console.log('[pwa] beforeinstallprompt fired — browser considers the app installable.');
     e.preventDefault();
     deferredPrompt = e;
     if (isStandalone() || localStorage.getItem(DISMISS_KEY) === '1') return;
@@ -86,7 +105,12 @@
   });
 
   window.addEventListener('appinstalled', function () {
+    console.log('[pwa] appinstalled fired — Marketly was installed successfully.');
     deferredPrompt = null;
     hideBanner();
   });
+
+  if (isStandalone()) {
+    console.log('[pwa] running in standalone (installed) mode — install prompt will not be offered.');
+  }
 })();
