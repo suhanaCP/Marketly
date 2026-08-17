@@ -684,12 +684,18 @@
       }
 
       .sort-select {
-        flex: 1 1 auto;
+        flex: 0 1 auto;
+        width: auto;
         min-width: 0;
+        max-width: 58%;
+        padding: 0 28px 0 12px;
+        font-size: 13px;
       }
 
       .filter-toggle-btn {
         flex: 0 0 auto;
+        padding: 0 14px;
+        font-size: 13px;
       }
 
       .explore-page {
@@ -791,10 +797,10 @@
             </div>
             <div class="results-controls">
               <select class="sort-select" id="sortSelect" aria-label="Sort results">
-                <option value="recommended">Sort: Recommended</option>
-                <option value="rating-desc">Highest rated</option>
-                <option value="price-asc">Lowest price</option>
-                <option value="newest">Newest listings</option>
+                <option value="recommended" data-full="Sort: Recommended" data-short="Recommended">Sort: Recommended</option>
+                <option value="rating-desc" data-full="Highest rated" data-short="Highest rated">Highest rated</option>
+                <option value="price-asc" data-full="Lowest price" data-short="Lowest price">Lowest price</option>
+                <option value="newest" data-full="Newest listings" data-short="Newest listings">Newest listings</option>
               </select>
               <button type="button" class="filter-toggle-btn" id="filterToggleBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="filterPanel" title="Filters" aria-label="Filters">
                 <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M7 12h10M10 17h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -1026,6 +1032,27 @@
       var filterPanel = document.getElementById('filterPanel');
       var filterBadge = document.getElementById('filterBadge');
       var applyFiltersBtn = document.getElementById('applyFiltersBtn');
+
+      // Shorten the sort option labels on narrow screens (e.g. "Sort: Recommended" -> "Recommended")
+      // so the dropdown stays compact next to the Filters button. Values and the select's
+      // aria-label ("Sort results") are untouched, so sorting logic and accessibility are unaffected.
+      var mobileSortQuery = window.matchMedia ? window.matchMedia('(max-width: 760px)') : null;
+      function applySortLabelWidth(isMobile) {
+        Array.prototype.forEach.call(sortSelect.options, function (opt) {
+          var full = opt.getAttribute('data-full');
+          var short = opt.getAttribute('data-short');
+          if (!full) return;
+          opt.textContent = (isMobile && short) ? short : full;
+        });
+      }
+      if (mobileSortQuery) {
+        applySortLabelWidth(mobileSortQuery.matches);
+        if (mobileSortQuery.addEventListener) {
+          mobileSortQuery.addEventListener('change', function (e) { applySortLabelWidth(e.matches); });
+        } else if (mobileSortQuery.addListener) {
+          mobileSortQuery.addListener(function (e) { applySortLabelWidth(e.matches); });
+        }
+      }
 
       var noResultsEl = document.createElement('div');
       noResultsEl.className = 'no-results';
