@@ -684,10 +684,9 @@
       }
 
       .sort-select {
-        flex: 0 1 auto;
-        width: auto;
+        flex: 1 1 0;
+        width: 0;
         min-width: 0;
-        max-width: 58%;
         height: 48px;
         padding: 0 30px 0 12px;
         font-size: 13px;
@@ -1224,12 +1223,11 @@
       sortSelect.addEventListener('change', render);
       if (clearBtn) {
         clearBtn.addEventListener('click', function () {
+          // "Clear all filters" lives inside the advanced Filters panel, so it must only
+          // reset the advanced filter checkboxes (rating/price/size/availability). The main
+          // search controls (keyword, location, category) and the sort order are a separate
+          // group and must be left exactly as the user set them.
           filterInputs.forEach(function (i) { i.checked = false; });
-          sortSelect.value = 'recommended';
-          searchQInput.value = '';
-          searchLocationInput.value = '';
-          searchCategorySelect.value = '';
-          updateUrl();
           render();
         });
       }
