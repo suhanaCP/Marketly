@@ -21,6 +21,22 @@
     { "src": "icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
     { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot-wide.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Marketly home page on desktop"
+    },
+    {
+      "src": "screenshots/screenshot-narrow.png",
+      "sizes": "720x1120",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Marketly home page on mobile"
+    }
+  ],
   "shortcuts": [
     {
       "name": "Explore businesses",
