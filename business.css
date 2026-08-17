@@ -82,6 +82,8 @@ input:focus,select:focus,textarea:focus{border-color:rgba(22,105,201,.65);box-sh
 .plan-card p{margin:0;color:var(--muted);font-size:13px}
 .plan-price{display:block;margin-top:14px;font-size:24px;font-weight:900;letter-spacing:-.03em}
 .plan-price small{color:var(--muted);font-size:14px;font-weight:700}
+.plan-yearly-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.save-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;background:#ecfdf5;color:#047857;font-size:11px;font-weight:900;letter-spacing:.02em}
 .payment-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
 .mini-card{padding:18px;border:1px solid var(--border);border-radius:var(--radius);background:var(--soft)}
 .mini-card span{display:block;color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}

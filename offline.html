@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketly - You're offline</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0a3160" />
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #0a3160 0%, #062142 100%);
+      color: #fff;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      text-align: center;
+      padding: 24px;
+    }
+    .card { max-width: 420px; }
+    .brand-icon {
+      width: 64px; height: 64px; margin: 0 auto 24px; display: grid; place-items: center;
+      border-radius: 16px; background: #ffb300; color: #062142;
+    }
+    .brand-icon svg { width: 34px; height: 34px; }
+    h1 { margin: 0 0 12px; font-size: 24px; font-weight: 900; letter-spacing: -0.02em; }
+    p { margin: 0 0 24px; color: rgba(255,255,255,0.78); font-size: 14px; line-height: 1.6; }
+    button {
+      min-height: 46px; padding: 0 24px; border: none; border-radius: 8px; background: #1669c9;
+      color: #fff; font-weight: 800; font-size: 14px; cursor: pointer; font-family: inherit;
+    }
+    button:hover { background: #0f4fa0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 20V7.4C4 6.1 5.1 5 6.4 5h11.2C18.9 5 20 6.1 20 7.4V20" stroke="currentColor" stroke-width="1.8"/><path d="M8 20v-6h8v6M8.5 9h2m3 0h2m-7 3h2m3 0h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <h1>You're offline</h1>
+    <p>It looks like there's no internet connection right now. Pages you've already visited are still available. Reconnect and try again to load new content.</p>
+    <button type="button" onclick="location.reload()">Try again</button>
+  </div>
+</body>
+</html>
