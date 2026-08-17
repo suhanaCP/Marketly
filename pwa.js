@@ -3,10 +3,19 @@
 (function () {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('sw.js').catch(function (err) {
-        console.warn('[pwa] service worker registration failed:', err);
-      });
+      // Relative path + explicit relative scope so this resolves correctly whether the
+      // site is served from a domain root or a GitHub Pages project subpath like
+      // https://<user>.github.io/Marketly/ — never register with a leading "/".
+      navigator.serviceWorker.register('sw.js', { scope: './' })
+        .then(function (registration) {
+          console.log('[pwa] service worker registered, scope:', registration.scope);
+        })
+        .catch(function (err) {
+          console.error('[pwa] service worker registration FAILED:', err);
+        });
     });
+  } else {
+    console.warn('[pwa] service workers are not supported in this browser.');
   }
 
   var deferredPrompt = null;
