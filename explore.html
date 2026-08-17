@@ -195,27 +195,119 @@
     }
 
     .layout {
-      display: grid;
-      grid-template-columns: 270px 1fr;
-      gap: 30px;
-      align-items: start;
+      display: block;
     }
 
-    .filters {
-      position: sticky;
-      top: 96px;
+    /* Compact filter toggle button, placed beside the sort control */
+    .results-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filter-toggle-btn {
+      position: relative;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px;
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 8px;
       background: #ffffff;
-      padding: 24px;
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      color: var(--ink);
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .filter-toggle-btn:hover,
+    .filter-toggle-btn[aria-expanded="true"] {
+      border-color: var(--blue);
+      background: var(--ice);
+    }
+
+    .filter-toggle-btn svg {
+      width: 18px;
+      height: 18px;
+      color: var(--blue);
+    }
+
+    .filter-badge {
+      display: none;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .filter-badge.visible {
+      display: inline-flex;
+    }
+
+    /* Filter overlay + panel (drawer on mobile, modal on desktop) */
+    .filter-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: rgba(6, 20, 40, 0.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .filter-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .filter-panel {
+      position: fixed;
+      z-index: 91;
+      top: 50%;
+      left: 50%;
+      width: min(420px, calc(100% - 40px));
+      max-height: min(640px, calc(100vh - 64px));
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: var(--shadow-strong);
+      transform: translate(-50%, calc(-50% + 16px));
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+    }
+
+    .filter-panel.open {
+      transform: translate(-50%, -50%);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .filter-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--border);
+      flex: 0 0 auto;
     }
 
     .filters-title {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin: 0 0 22px;
+      margin: 0;
       color: var(--ink);
       font-size: 18px;
       letter-spacing: -0.04em;
@@ -226,6 +318,41 @@
       width: 22px;
       height: 22px;
       color: var(--blue);
+    }
+
+    .filter-close-btn {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border: none;
+      border-radius: 8px;
+      background: var(--soft);
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .filter-close-btn:hover {
+      background: var(--border);
+    }
+
+    .filter-panel-body {
+      padding: 20px 22px;
+      overflow-y: auto;
+      flex: 1 1 auto;
+    }
+
+    .filter-panel-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 22px;
+      border-top: 1px solid var(--border);
+      flex: 0 0 auto;
     }
 
     .filter-group {
@@ -515,13 +642,6 @@
         grid-column: span 2;
       }
 
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .filters {
-        position: static;
-      }
     }
 
     @media (max-width: 760px) {
@@ -555,16 +675,40 @@
       }
 
       .results-top {
-        display: block;
+        flex-wrap: wrap;
       }
 
-      .sort-select {
+      .results-controls {
         width: 100%;
         margin-top: 18px;
       }
 
+      .sort-select {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .filter-toggle-btn {
+        flex: 0 0 auto;
+      }
+
       .explore-page {
         padding: 38px 0 64px;
+      }
+
+      /* Bottom sheet treatment for the filter panel on small screens */
+      .filter-panel {
+        top: auto;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: min(80vh, 640px);
+        border-radius: 16px 16px 0 0;
+        transform: translateY(100%);
+      }
+
+      .filter-panel.open {
+        transform: translateY(0);
       }
     }
 
@@ -639,70 +783,25 @@
 
     <section class="explore-page">
       <div class="container layout">
-        <aside class="filters">
-          <h2 class="filters-title">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M7 12h10M10 17h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            Filters
-          </h2>
-
-          <div class="filter-group">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-              <strong class="filter-heading" style="margin:0;">Category</strong>
-              <button type="button" id="clearFilters" class="clear-filters-btn">Clear all</button>
-            </div>
-            <div class="check-row"><label><input type="checkbox" data-filter="category" value="Hotels" /> Hotels</label><span class="check-count" data-count="Hotels">0</span></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="category" value="Retail Stores" /> Retail Stores</label><span class="check-count" data-count="Retail Stores">0</span></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="category" value="Restaurants" /> Restaurants</label><span class="check-count" data-count="Restaurants">0</span></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="category" value="Services" /> Services</label><span class="check-count" data-count="Services">0</span></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="category" value="Health & Beauty" /> Health & Beauty</label><span class="check-count" data-count="Health & Beauty">0</span></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="category" value="Events" /> Events</label><span class="check-count" data-count="Events">0</span></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="category" value="Real Estate" /> Real Estate</label><span class="check-count" data-count="Real Estate">0</span></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="category" value="Freelancers" /> Freelancers</label><span class="check-count" data-count="Freelancers">0</span></div>
-          </div>
-
-          <div class="filter-group">
-            <strong class="filter-heading">Rating</strong>
-            <div class="check-row"><label><input type="checkbox" data-filter="rating" value="5" /> 5★ & up</label></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="rating" value="4" /> 4★ & up</label></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="rating" value="3" /> 3★ & up</label></div>
-          </div>
-
-          <div class="filter-group">
-            <strong class="filter-heading">Price</strong>
-            <div class="check-row"><label><input type="checkbox" data-filter="price" value="1" /> $</label></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="price" value="2" /> $$</label></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="price" value="3" /> $$$</label></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="price" value="4" /> $$$$</label></div>
-          </div>
-
-          <div class="filter-group">
-            <strong class="filter-heading">Business size</strong>
-            <div class="check-row"><label><input type="checkbox" data-filter="size" value="Micro" /> Micro</label></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="size" value="Small" /> Small</label></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="size" value="Medium" /> Medium</label></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="size" value="Enterprise" /> Enterprise</label></div>
-          </div>
-
-          <div class="filter-group">
-            <strong class="filter-heading">Availability</strong>
-            <div class="check-row"><label><input type="checkbox" data-filter="open-now" /> Open now</label></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="open-weekends" /> Open weekends</label></div>
-            <div class="check-row"><label><input type="checkbox" data-filter="available-today" /> Available today</label></div>
-          </div>
-        </aside>
-
         <section class="results-section" aria-label="Business results">
           <div class="results-top">
             <div>
               <h1>All businesses</h1>
               <p id="resultsCount">8 results</p>
             </div>
-            <select class="sort-select" id="sortSelect" aria-label="Sort results">
-              <option value="recommended">Sort: Recommended</option>
-              <option value="rating-desc">Highest rated</option>
-              <option value="price-asc">Lowest price</option>
-              <option value="newest">Newest listings</option>
-            </select>
+            <div class="results-controls">
+              <select class="sort-select" id="sortSelect" aria-label="Sort results">
+                <option value="recommended">Sort: Recommended</option>
+                <option value="rating-desc">Highest rated</option>
+                <option value="price-asc">Lowest price</option>
+                <option value="newest">Newest listings</option>
+              </select>
+              <button type="button" class="filter-toggle-btn" id="filterToggleBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="filterPanel" title="Filters" aria-label="Filters">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M7 12h10M10 17h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                Filters
+                <span class="filter-badge" id="filterBadge">0</span>
+              </button>
+            </div>
           </div>
 
           <div class="results-grid" id="resultsGrid">
@@ -820,6 +919,54 @@
           </div>
         </section>
       </div>
+
+      <div class="filter-overlay" id="filterOverlay"></div>
+      <div class="filter-panel" id="filterPanel" role="dialog" aria-modal="true" aria-labelledby="filterPanelTitle">
+        <div class="filter-panel-header">
+          <h2 class="filters-title" id="filterPanelTitle">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M7 12h10M10 17h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Filters
+          </h2>
+          <button type="button" class="filter-close-btn" id="filterCloseBtn" aria-label="Close filters">✕</button>
+        </div>
+
+        <div class="filter-panel-body">
+          <div class="filter-group">
+            <strong class="filter-heading">Rating</strong>
+            <div class="check-row"><label><input type="checkbox" data-filter="rating" value="5" /> 5★ & up</label></div>
+            <div class="check-row"><label><input type="checkbox" data-filter="rating" value="4" /> 4★ & up</label></div>
+            <div class="check-row"><label><input type="checkbox" data-filter="rating" value="3" /> 3★ & up</label></div>
+          </div>
+
+          <div class="filter-group">
+            <strong class="filter-heading">Price</strong>
+            <div class="check-row"><label><input type="checkbox" data-filter="price" value="1" /> $</label></div>
+            <div class="check-row"><label><input type="checkbox" data-filter="price" value="2" /> $$</label></div>
+            <div class="check-row"><label><input type="checkbox" data-filter="price" value="3" /> $$$</label></div>
+            <div class="check-row"><label><input type="checkbox" data-filter="price" value="4" /> $$$$</label></div>
+          </div>
+
+          <div class="filter-group">
+            <strong class="filter-heading">Business size</strong>
+            <div class="check-row"><label><input type="checkbox" data-filter="size" value="Micro" /> Micro</label></div>
+            <div class="check-row"><label><input type="checkbox" data-filter="size" value="Small" /> Small</label></div>
+            <div class="check-row"><label><input type="checkbox" data-filter="size" value="Medium" /> Medium</label></div>
+            <div class="check-row"><label><input type="checkbox" data-filter="size" value="Enterprise" /> Enterprise</label></div>
+          </div>
+
+          <div class="filter-group">
+            <strong class="filter-heading">Availability</strong>
+            <div class="check-row"><label><input type="checkbox" data-filter="open-now" /> Open now</label></div>
+            <div class="check-row"><label><input type="checkbox" data-filter="open-weekends" /> Open weekends</label></div>
+            <div class="check-row"><label><input type="checkbox" data-filter="available-today" /> Available today</label></div>
+          </div>
+        </div>
+
+        <div class="filter-panel-footer">
+          <button type="button" class="clear-filters-btn" id="clearFilters">Clear all</button>
+          <button type="button" class="btn btn-primary" id="applyFiltersBtn">Show results</button>
+        </div>
+      </div>
     </section>
   </main>
   <script>
@@ -873,16 +1020,12 @@
       var searchQInput = document.getElementById('searchQ');
       var searchLocationInput = document.getElementById('searchLocation');
       var searchCategorySelect = document.getElementById('searchCategory');
-
-      // Populate real category counts from the demo dataset
-      var categoryCounts = {};
-      cards.forEach(function (card) {
-        var cat = card.dataset.category;
-        categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
-      });
-      document.querySelectorAll('[data-count]').forEach(function (el) {
-        el.textContent = categoryCounts[el.dataset.count] || 0;
-      });
+      var filterToggleBtn = document.getElementById('filterToggleBtn');
+      var filterCloseBtn = document.getElementById('filterCloseBtn');
+      var filterOverlay = document.getElementById('filterOverlay');
+      var filterPanel = document.getElementById('filterPanel');
+      var filterBadge = document.getElementById('filterBadge');
+      var applyFiltersBtn = document.getElementById('applyFiltersBtn');
 
       var noResultsEl = document.createElement('div');
       noResultsEl.className = 'no-results';
@@ -907,9 +1050,6 @@
 
         var searchCat = searchCategorySelect.value;
         if (searchCat && card.dataset.category !== searchCat) return false;
-
-        var categories = getChecked('category');
-        if (categories.length && categories.indexOf(card.dataset.category) === -1) return false;
 
         var ratings = getChecked('rating').map(Number);
         if (ratings.length) {
@@ -965,6 +1105,41 @@
         resultsHeading.textContent = hasSearch ? 'Search results' : 'All businesses';
       }
 
+      function updateFilterBadge() {
+        var activeCount = filterInputs.filter(function (i) { return i.checked; }).length;
+        if (activeCount > 0) {
+          filterBadge.textContent = activeCount;
+          filterBadge.classList.add('visible');
+        } else {
+          filterBadge.classList.remove('visible');
+        }
+      }
+
+      function openFilterPanel() {
+        filterOverlay.classList.add('open');
+        filterPanel.classList.add('open');
+        filterToggleBtn.setAttribute('aria-expanded', 'true');
+      }
+
+      function closeFilterPanel() {
+        filterOverlay.classList.remove('open');
+        filterPanel.classList.remove('open');
+        filterToggleBtn.setAttribute('aria-expanded', 'false');
+      }
+
+      if (filterToggleBtn) filterToggleBtn.addEventListener('click', openFilterPanel);
+      if (filterCloseBtn) filterCloseBtn.addEventListener('click', closeFilterPanel);
+      if (filterOverlay) filterOverlay.addEventListener('click', closeFilterPanel);
+      if (applyFiltersBtn) {
+        applyFiltersBtn.addEventListener('click', function () {
+          render();
+          closeFilterPanel();
+        });
+      }
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && filterPanel.classList.contains('open')) closeFilterPanel();
+      });
+
       function render() {
         var visible = cards.filter(passesFilters);
         var ordered = sortCards(visible);
@@ -982,6 +1157,7 @@
 
         resultsCount.textContent = ordered.length + (ordered.length === 1 ? ' result' : ' results');
         updateHeading();
+        updateFilterBadge();
       }
 
       // Pre-fill search fields from the URL (e.g. arriving from the homepage search or a category tile)
